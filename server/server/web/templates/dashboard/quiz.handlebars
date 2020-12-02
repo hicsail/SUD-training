@@ -1,0 +1,70 @@
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    {{>dashboardNav}}
+    <div class="col-sm-9 col-md-10">
+      <div style="padding: 30px">
+        {{#if user.quizCompleted}}
+        <h2>Congratulations {{user.name}}, you have successfully completed your quiz!</h2>
+        <br>
+        <h3>You got {{score}} out of {{questions.length}}.</h3>
+        <div class="row">
+          <div class="col">
+            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#details">View your score details</button>
+            <button type="button" class="btn btn-info">View and download your certificate</button>       
+          </div>           
+        </div>
+        <div id="details" class="collapse">                
+        {{#each questions as |q|}}
+            <div class="card" id={{q.id}} style="margin-bottom:10px;">
+              <div class="card-body">
+                <h4>{{q.id}}-{{q.text}}</h4>
+                <br>
+                {{#each q.choices as |choice|}}                  
+                  <div class="form-check" style="margin-left:20px;">                    
+                    <input type="checkbox" class="form=check-input" onchange="updateAnswer({{q.id}}, {{@index}})" {{checkRadioBtn @index q.answer}} disabled>
+                    <label class='{{radioBtnClass @index q.answer q.keyIndex}}'>{{choice}}</label>
+                  </div>
+                {{/each}}
+              </div>
+            </div>                      
+        {{/each}}
+        </div>
+        {{else}}       
+        <h3>Quiz</h3>        
+        {{#each questions as |q|}}
+            <div class="card" id={{q.id}} style="margin-bottom:10px;">
+              <div class="card-body">
+                <h4>{{q.id}}-{{q.text}}</h4>
+                <br>
+                {{#each q.choices as |choice|}}                  
+                  <div class="form-check" style="margin-left:20px;">
+                    <input type="radio" class="form-check-input" name={{q.id}} onchange="updateAnswer({{q.id}}, {{@index}})" {{checkRadioBtn @index q.answer}}>
+                    <label class="form-check-label">{{choice}}</label>
+                  </div>
+                {{/each}}
+              </div>
+            </div>                      
+        {{/each}}
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-primary" onclick="submit('{{user._id}}')">Submit and see your test results</button>
+          </div>          
+        </div>
+        {{/if}}        
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="/public/scripts/dashboard/quiz.js"></script>
+
+<style>
+.wrong {  
+  text-decoration: line-through;
+  text-decoration-color: red;
+}
+
+.right {  
+  text-decoration: underline;
+  text-decoration-color: green;  
+}
+</style>

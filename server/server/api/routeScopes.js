@@ -1,5 +1,5 @@
 'use strict';
-const Fs = require('fs');
+//const Fs = require('fs');
 const PermissionConfigTable = require('../permission-config.json');
 const RouteScope = require('../models/route-scope');
 
@@ -54,7 +54,7 @@ const register = function (server, options) {
       PermissionConfigTable[request.payload.method][request.payload.path] = scopesArray;
       //console.log("scopesArray", scopesArray)
 
-      Fs.writeFileSync('server/permission-config.json', JSON.stringify(PermissionConfigTable, null, 2));
+      //Fs.writeFileSync('server/permission-config.json', JSON.stringify(PermissionConfigTable, null, 2));
 
 
       /*const injectOptions = {

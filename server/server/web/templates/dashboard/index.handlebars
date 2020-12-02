@@ -3,9 +3,57 @@
     {{>dashboardNav}}
     <div class="col-sm-9 col-md-10">
       <div style="padding: 30px">
-        <h3>Dashboard</h3>
+        <h3>Please read the training material carefully and then start the quiz.</h3>
+        <h5>Please note once you start the quiz you won't be able to review the training materials again!</h5>
         <hr>
+        <p>
+        	People with a brain tumor may experience the following symptoms or signs. Sometimes, people with a brain tumor do not have any of these changes. Or, the cause of a symptom may be a different medical condition that is not a brain tumor.
+
+			Symptoms of a brain tumor can be general or specific. A general symptom is caused by the pressure of the tumor on the brain or spinal cord. Specific symptoms are caused when a specific part of the brain is not working well because of the tumor. For many people with a brain tumor, they were diagnosed when they went to the doctor after experiencing a problem, such as a headache or other changes.
+
+			General symptoms include:
+		</p>
+
+		<p>
+			People with a brain tumor may experience the following symptoms or signs. Sometimes, people with a brain tumor do not have any of these changes. Or, the cause of a symptom may be a different medical condition that is not a brain tumor.
+
+			Symptoms of a brain tumor can be general or specific. A general symptom is caused by the pressure of the tumor on the brain or spinal cord. Specific symptoms are caused when a specific part of the brain is not working well because of the tumor. For many people with a brain tumor, they were diagnosed when they went to the doctor after experiencing a problem, such as a headache or other changes.
+
+			General symptoms include:
+
+			<ul>
+				<li>
+					Headaches, which may be severe and worsen with activity or in the early morning
+				</li>
+				<li>
+					Seizures. People may experience different types of seizures. Certain drugs can help prevent or control them. Motor seizures, also called convulsions, are sudden involuntary movements of a person’s muscles. The different types of seizures and what they look like are listed below:
+					<ul>
+						<li>Myoclonic</li>
+						<li>Tonic-Clonic (Grand Mal)</li>
+						<li>Tonic-Clonic (Grand Mal)</li>
+						<li>Complex partial</li>
+					</ul>
+				</li>
+				<li>Personality or memory changes</li>
+				<li>Nausea or vomiting</li>
+				<li>Fatigue</li>
+				<li>Drowsiness</li>
+				<li>Sleep problems</li>
+				<li>Memory problems</li>
+				<li>Changes in ability to walk or perform daily activities</li>
+			</ul>
+
+		</p>
+		<p>
+			<iframe width="420" height="315" src="https://www.youtube.com/embed/MnOITHXlW6U" frameborder="0"></iframe>
+		</p>
+
+	  	{{#if user.quizCompleted}}
+	  	{{else}}
+      		<button class="btn btn-primary" onclick="startQuiz('{{user._id}}')">Start Quiz</button>
+      	{{/if}}        
       </div>
     </div>
   </div>
 </div>
+<script type="text/javascript" src="/public/scripts/dashboard/index.js"></script>

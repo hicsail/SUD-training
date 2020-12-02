@@ -495,6 +495,65 @@ const register = function (server, options) {
 
   server.route({
     method: 'PUT',
+    path: '/api/users/trainingCompleted/{id}',
+    options: {
+      auth: {
+        strategies: ['simple', 'session']
+      },
+      validate: {
+        payload: {
+          trainingCompleted: Joi.boolean().required()
+        }
+      }
+    },
+    handler: async function (request, h) {
+
+      const id = request.params.id;
+      const update = {
+        $set: {
+          trainingCompleted: request.payload.trainingCompleted
+        }
+      };
+
+      const user = await User.findByIdAndUpdate(id, update);
+
+      if (!user) {
+        throw Boom.notFound('Document not found.');
+      }
+
+      return user;
+    }
+  });
+
+  server.route({
+    method: 'PUT',
+    path: '/api/users/quizCompleted/{id}',
+    options: {
+      auth: {
+        strategies: ['simple', 'session']
+      }
+    },
+    handler: async function (request, h) {
+
+      const id = request.params.id;
+      const update = {
+        $set: {
+          quizCompleted: request.payload.quizCompleted
+        }
+      };
+
+      const user = await User.findByIdAndUpdate(id, update);
+
+      if (!user) {
+        throw Boom.notFound('Document not found.');
+      }
+
+      return user;
+    }
+  });
+
+  server.route({
+    method: 'PUT',
     path: '/api/users/{role}/{id}',
     options: {
       auth: {

@@ -34,7 +34,7 @@ const register  = function (server, options) {
     path: '/logout',
     options: {
       auth: {
-        strategies: ['simple'],
+        strategies: ['session'],
         mode: 'try'
       }
     },
@@ -44,7 +44,7 @@ const register  = function (server, options) {
       const session = credentials.session;
 
       try {
-        await Session.findByIdAndDelete(session._id);
+        await Session.findByIdAndDelete(session._id.toString());
       }
       catch (err) {
         return err;

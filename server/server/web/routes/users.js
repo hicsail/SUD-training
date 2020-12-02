@@ -70,9 +70,9 @@ const register = function (server, options) {
     path: '/scopes',
     options: {
       auth: {
-        strategy: 'session',
-        scope: ['root']
-        //scope: ScopeArray('/scopes', 'GET', DefaultScopes)
+        strategies: ['simple', 'session']
+        //scope: ['root']
+        //scope: ScopeArrayscopes('/scopes', 'GET', DefaultScopes)
       }
     },
     handler: function (request, h) {
