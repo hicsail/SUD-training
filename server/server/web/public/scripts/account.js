@@ -1,7 +1,7 @@
 const schema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().lowercase().required(),
-  username: Joi.string().token().lowercase().required(),
+  firstname: Joi.string().required(),
+  lastname: Joi.string().required(),
+  email: Joi.string().email().lowercase().required()  
 });
 joiToForm('formFields',schema);
 $('#update').click((event) => {

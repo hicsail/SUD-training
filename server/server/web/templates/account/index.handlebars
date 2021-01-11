@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-body">
       <h4 class="card-title">
-        {{user.name}}        
+        {{user.firstname}} {{user.lastname}}       
       </h4>
       <h6 class="card-subtitle mb-2 text-muted"><b>Joined On: </b>{{user.timeCreated}}</h6>     
       {{#if user.roles.clinician}}
@@ -30,7 +30,7 @@
 </div>
 <script type="text/javascript" src="/public/scripts/account.js"></script>
 <script>
-  joiFormValue('name', '{{user.name}}');
-  joiFormValue('email', '{{user.email}}');
-  joiFormValue('username', '{{user.username}}');
+  joiFormValue('firstname', '{{user.firstname}}');
+  joiFormValue('lastname', '{{user.lastname}}');
+  joiFormValue('email', '{{user.email}}');  
 </script>

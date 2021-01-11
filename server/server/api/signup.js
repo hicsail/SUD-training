@@ -20,19 +20,6 @@ const register = function (server, options) {
         payload: User.payload
       },
       pre: [{
-        assign: 'usernameCheck',
-        method: async function (request, h) {
-
-          const user = await User.findByUsername(request.payload.username);
-
-          if (user) {
-
-            throw Boom.conflict('Username already in use.');
-          }
-
-          return h.continue;
-        }
-      }, {
         assign: 'emailCheck',
         method: async function (request, h) {
 
@@ -64,13 +51,13 @@ const register = function (server, options) {
     },
     handler: async function (request, h) {
 
-      const username = request.payload.username;
       const password = request.payload.password;
       const email = request.payload.email;
-      const name = request.payload.name;
+      const firstname = request.payload.firstname;
+      const lastname = request.payload.lastname;
 
       // create and link account and user documents
-      const user = await User.create(username, password, email, name);
+      const user = await User.create(firstname, lastname, email, password);
       const emailOptions = {
         subject: 'Your ' + Config.get('/projectName') + ' account',
         to: {
@@ -98,7 +85,6 @@ const register = function (server, options) {
       const result = {
         user: {
           _id: user._id,
-          username: user.username,
           email: user.email,
           roles: user.roles
         },

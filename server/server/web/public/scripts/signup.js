@@ -1,7 +1,7 @@
 'use strict';
-const signUpSchema = Joi.object({
-  name: Joi.string().required(),
-  username: Joi.string().lowercase().invalid('root').required(),
+const signUpSchema = Joi.object({   
+  firstname: Joi.string().required(),
+  lastname: Joi.string().required(),  
   email: Joi.string().email().required(),
   password: Joi.string().required().min(8).regex(/^[A-Z]+[a-z]+[0-9]+$/, '1 Uppercase, 1 lowercase, 1 number'),
   confirmPassword: Joi.string().required().min(8).regex(/^[A-Z]+[a-z]+[0-9]+$/, '1 Uppercase, 1 lowercase, 1 number')

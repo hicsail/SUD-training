@@ -250,53 +250,29 @@ const register = function (server, options) {
       },
       validate: {
         payload: {
-          username: Joi.string().token().lowercase().required(),
           email: Joi.string().email().lowercase().required(),
-          name: Joi.string().required(),
-          gender: Joi.string().allow('male', 'female'),
-          dob: Joi.date(),
-          address: Joi.string().allow('').optional(),
-          phone: Joi.string().allow('').optional(),
-          height: Joi.number().optional(),
-          weight: Joi.number().optional()
+          firstname: Joi.string().required(),
+          lastname: Joi.string().required()
         }
       },
-      pre: [
-        {
-          assign: 'usernameCheck',
-          method: async function (request, h) {
+      pre: [{
+        assign: 'emailCheck',
+        method: async function (request, h) {
 
-            const conditions = {
-              username: request.payload.username,
-              _id: { $ne: request.auth.credentials.user._id }
-            };
+          const conditions = {
+            email: request.payload.email,
+            _id: { $ne: request.auth.credentials.user._id }
+          };
 
-            const user = await User.findOne(conditions);
+          const user = await User.findOne(conditions);
 
-            if (user) {
-              throw Boom.conflict('Username already in use.');
-            }
-
-            return h.continue;
+          if (user) {
+            throw Boom.conflict('Email already in use.');
           }
-        }, {
-          assign: 'emailCheck',
-          method: async function (request, h) {
 
-            const conditions = {
-              email: request.payload.email,
-              _id: { $ne: request.auth.credentials.user._id }
-            };
-
-            const user = await User.findOne(conditions);
-
-            if (user) {
-              throw Boom.conflict('Email already in use.');
-            }
-
-            return h.continue;
-          }
+          return h.continue;
         }
+      }
       ]
     },
     handler: async function (request, h) {
@@ -304,23 +280,13 @@ const register = function (server, options) {
       const id = request.auth.credentials.user._id.toString();
       const update = {
         $set: {
-          username: request.payload.username,
           email: request.payload.email,
-          name: request.payload.name,
-          gender: request.payload.gender,
-          dob: request.payload.dob,
-          address: request.payload.address,
-          phone: request.payload.phone,
-          height: request.payload.height,
-          weight: request.payload.weight
+          firstname: request.payload.firstname,
+          lastname: request.payload.lastname
         }
       };
-      const findOptions = {
-        fields: User.fieldsAdapter('username email roles gender dob address phone height weight')
-      };
 
-
-      const user = await User.findByIdAndUpdate(id, update, findOptions);
+      const user = await User.findByIdAndUpdate(id, update);
 
       return user;
     }
