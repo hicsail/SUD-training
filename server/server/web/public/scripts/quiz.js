@@ -65,8 +65,12 @@ function retake(userId, moduleId) {
   });   
 }
 
-function downloadCertificate() {
+function Ucfirst(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
+function downloadCertificate(firstname, lastname) {
+  
   let docDefinition = {
     content: [
       {
@@ -74,8 +78,8 @@ function downloadCertificate() {
         fit: [200, 200],
         style: "center"      
       }, 
-      { text: "This is to certify that\n\n", style: ["gray", "size", "center", "italics", "bold"] },    
-      { text: "Arezoo Sadeghi\n\n", style: ["name", "center", "italics"] },       
+      { text: "This is to specify that\n\n", style: ["gray", "size", "center", "italics", "bold"] },    
+      { text: Ucfirst(firstname) + " " + Ucfirst(lastname) + "\n\n", style: ["name", "center", "italics"] },       
       { text: "has successfully completed\n\n", style: ["gray", "size", "center", "italics", "bold"] },      
       { text: "Enhanced Training for Clinical Mental Health Counselors in Substance Use Disorder Assessment and Treatment\n\n", style: ["title", "center", "italics"] },
       { text: new Date().toDateString(), style: ["center", "italics", "date", "gray"] }

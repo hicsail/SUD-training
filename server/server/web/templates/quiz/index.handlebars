@@ -20,7 +20,7 @@
             <div class="col">              
               <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#details">View your score details</button>             
               {{#if certificateEligible}}              
-                <button type="button" class="btn btn-info" onclick="downloadCertificate()">Download certificate of completion.</button>              
+                <button type="button" class="btn btn-info" onclick="downloadCertificate('{{user.firstname}}', '{{user.lastname}}')">Download certificate of completion.</button>              
               {{/if}}       
             </div>           
           </div>
