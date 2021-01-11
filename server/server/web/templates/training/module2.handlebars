@@ -1,0 +1,27 @@
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    {{>dashboardNav}}
+    <div class="col-sm-9 col-md-10">
+      <div style="padding: 30px">
+      <h3>Training Module 2: Assessment of Substance Use</h3>
+      <hr>
+      <h4>Intro blurb</h4>
+      <p>In the second module, you will learn how to assess substance use. You will learn to use single item drug use questions, conduct a functional analysis and substance use, and administer and interpret brief screening measures for assessing substances such as alcohol, marijuana, stimulants, and opioids. You will also consider effective screening of substance use in adolescent populations.</p>
+
+      <h4>User Guidance:</h4>
+      <p>Please note that you will need to keep track of your progress. We advise you to write down your training module progress (e.g., video 2.3, 10:00 minutes) before you exit this screen. The webpage will not keep track of your progress for you.</p>				
+
+	   <h4>content:</h4>
+	   <p><iframe width="420" height="315" src="https://www.youtube.com/embed/MnOITHXlW6U" frameborder="0"></iframe></p>
+
+	  	<button class="btn btn-primary" onclick="startQuiz('{{user._id}}', '{{moduleId}}')">Start Quiz</button>
+
+      <!-- {{#if user.quizCompleted}}
+      {{else}}
+          <button class="btn btn-primary" onclick="startQuiz('{{user._id}}', '{{moduleId}}')">Start Quiz</button>
+      {{/if}} -->          
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="/public/scripts/training.js"></script>
