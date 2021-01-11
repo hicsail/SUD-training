@@ -17,6 +17,7 @@ class Answer extends AnchorModel {
       questionId: doc.questionId,
       sessionId: doc.sessionId,
       answerIndex: doc.answerIndex,
+      active: true,
       createdAt: new Date(),
       lastUpdated: new Date()
     };
@@ -31,13 +32,13 @@ Answer.collectionName = 'answers';
 
 Answer.schema = Joi.object({
   _id: Joi.object(),
+  active: Joi.boolean().default(true).required(),
   userId: Joi.string().required(),
   sessionId: Joi.string().required(),
   answerIndex: Joi.number().required(),
   questionId:  Joi.number().required(),
   createdAt: Joi.date().required(),
   lastUpdated: Joi.date().required()
-
 });
 
 Answer.indexes = [

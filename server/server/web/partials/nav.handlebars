@@ -10,16 +10,8 @@
       <li class="nav-item">
         <a class="nav-link" href="../">Home</a>
       </li>
-      <li class="nav-item">
-        {{#if user.trainingCompleted}}
-          {{#if user.quizCompleted}}
-            <a class="nav-link text-light" href="../dashboard/quiz">Review Quiz Scores</a>
-          {{else}}
-            <a class="nav-link text-light" href="../dashboard/quiz">Complete Quiz</a>
-          {{/if}}
-        {{else}}
-          <a class="nav-link text-light" href="../dashboard">Complete Training</a>
-        {{/if}}
+      <li class="nav-item">        
+        <a class="nav-link text-light" href="../dashboard">Dashboard</a>          
       </li>
     </ul>
     {{#if user}}

@@ -44,16 +44,18 @@ class User extends AnchorModel {
 
     const passwordHash = await this.generatePasswordHash(password);
     const document =  new this({
-      isActive: true,
-      trainingCompleted: false,
-      quizCompleted: false,
-      inStudy: true,
       username: username.toLowerCase(),
       password: passwordHash.hash,
       email: email.toLowerCase(),
       name,
       roles: {},
-      studyID: null,
+      isActive: true,
+      trainingCompleted: false,
+      quizCompleted: {
+        '1': { moduleCompleted:false, score: 0 },
+        '2': { moduleCompleted:false, score: 0 },
+        '3': { moduleCompleted:false, score: 0 }
+      },
       timeCreated: new Date()
     });
 
@@ -155,11 +157,23 @@ User.schema = Joi.object({
   _id: Joi.object(),
   isActive: Joi.boolean().default(true),
   trainingCompleted: Joi.boolean().default(false),
-  quizCompleted: Joi.boolean().default(false),
+  quizCompleted: Joi.object({
+    1: Joi.object({
+      moduleCompleted: Joi.boolean().default(false).required(),
+      score: Joi.number()
+    }).required(),
+    2: Joi.object({
+      moduleCompleted: Joi.boolean().default(false).required(),
+      score: Joi.number()
+    }).required(),
+    3: Joi.object({
+      moduleCompleted: Joi.boolean().default(false).required(),
+      score: Joi.number()
+    }).required()
+  }),
   username: Joi.string().token().lowercase().required(),
   password: Joi.string(),
   name: Joi.string(),
-  inStudy: Joi.boolean().default(true),
   email: Joi.string().email().lowercase().required(),
   roles: Joi.object(getRolesValidator()),
   resetPassword: Joi.object({

@@ -5,17 +5,6 @@
       <span class="badge badge-dark">Root</span>
     {{/if}}
     </h6>    
-    <li class="nav-item">
-      {{#if user.trainingCompleted}}
-        {{#if user.quizCompleted}}
-          <a class="nav-link text-light" href="../dashboard/quiz">Review Quiz Scores</a>
-        {{else}}
-          <a class="nav-link text-light" href="../dashboard/quiz">Complete Quiz</a>
-        {{/if}}
-      {{else}}
-        <a class="nav-link text-light" href="../dashboard">Complete Training</a>
-      {{/if}}      
-    </li>
   </ul>
   {{#if user.roles.root}}
     <ul class="nav nav-pills flex-column" style="padding-top: 20px">
@@ -52,20 +41,53 @@
       </li>
     </ul>
   {{else}}
-    {{#if user.trainingCompleted}}
-      {{#if user.quizCompleted}}
-        <ul class="nav nav-pills flex-column" style="padding-top: 20px">
-          <li class="nav-item"><a class="nav-link text-light" href="../dashboard">Training material</a></li>
-        </ul>
-      {{else}}
-        <ul class="nav nav-pills flex-column" style="padding-top: 20px">      
-          <li class="nav-item">
-            {{#each questions as |q|}}
-              <a class="nav-link text-light" href="#{{q.id}}">Question {{q.id}}</a>
-            {{/each}}
-          </li>      
-        </ul>
-      {{/if}}
-    {{/if}}
+    <ul class="nav nav-pills flex-column" style="padding-top: 20px">
+    <h6 class="text-dark">Training Module 1</h6>
+      <li class="nav-item">      
+        <a class="nav-link text-light" href="../training-module/1">Training Material</a>
+        <a class="nav-link text-light" href="../quiz/1">
+          Quiz 1
+          {{#if user.quizCompleted.1.moduleCompleted}}
+            {{#iff user.quizCompleted.1.score '>=' 80}}
+              <i class="fa fa-check" aria-hidden="true" style="color:green">{{../user.quizCompleted.1.score}}%</i>
+            {{else}}
+              <i class="fa fa-times" aria-hidden="true" style="color:red">{{../user.quizCompleted.1.score}}%</i>
+            {{/iff}}
+          {{/if}}
+        </a>
+      </li>
+    </ul>
+    <ul class="nav nav-pills flex-column" style="padding-top: 20px">
+    <h6 class="text-dark">Training Module 2</h6>
+      <li class="nav-item">      
+        <a class="nav-link text-light" href="../training-module/2">Training Material</a>
+        <a class="nav-link text-light" href="../quiz/2">
+          Quiz 2
+          {{#if user.quizCompleted.2.moduleCompleted}}
+            {{#iff user.quizCompleted.2.score '>=' 80}}
+              <i class="fa fa-check" aria-hidden="true" style="color:green">{{../user.quizCompleted.2.score}}%</i>
+            {{else}}
+              <i class="fa fa-times" aria-hidden="true" style="color:red">{{../user.quizCompleted.2.score}}%</i>
+            {{/iff}}
+          {{/if}}
+        </a>
+      </li>
+    </ul>
+    <ul class="nav nav-pills flex-column" style="padding-top: 20px">
+    <h6 class="text-dark">Training Module 3</h6>
+      <li class="nav-item">      
+        <a class="nav-link text-light" href="../training-module/3">Training Material</a>
+        <a class="nav-link text-light" href="../quiz/3">
+          Quiz 3
+          {{#if user.quizCompleted.3.moduleCompleted}}
+            {{#iff user.quizCompleted.3.score '>=' 80}}
+              <i class="fa fa-check" aria-hidden="true" style="color:green">{{../user.quizCompleted.3.score}}%</i>
+            {{else}}
+              <i class="fa fa-times" aria-hidden="true" style="color:red">{{../user.quizCompleted.3.score}}%</i>
+            {{/iff}}
+          {{/if}}
+        </a>
+      </li>
+    </ul>
   {{/if}} 
 </nav>

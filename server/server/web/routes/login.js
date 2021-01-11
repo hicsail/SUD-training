@@ -34,8 +34,7 @@ const register  = function (server, options) {
     path: '/logout',
     options: {
       auth: {
-        strategies: ['session'],
-        mode: 'try'
+        strategies: ['session']
       }
     },
     handler: async function (request, h) {

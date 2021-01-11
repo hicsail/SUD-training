@@ -1,7 +1,9 @@
 'use strict';
+const Questions = require('../questions');
 const Boom = require('boom');
 const GroupAdmin = require('../models/group-admin');
 const User = require('../models/user');
+const Answer = require('../models/answer');
 const Config = require('../../config');
 const Joi = require('joi');
 const PasswordComplexity = require('joi-password-complexity');
@@ -525,28 +527,83 @@ const register = function (server, options) {
     }
   });
 
+  //to be called when either a submit or retake on quiz page happens
   server.route({
     method: 'PUT',
-    path: '/api/users/quizCompleted/{id}',
+    path: '/api/users/quizCompleted/{userId}/{moduleId}',
     options: {
       auth: {
         strategies: ['simple', 'session']
+      },
+      validate: {
+        payload: {
+          quizCompleted: Joi.boolean().required()
+        }
       }
     },
     handler: async function (request, h) {
 
-      const id = request.params.id;
-      const update = {
-        $set: {
-          quizCompleted: request.payload.quizCompleted
-        }
-      };
-
-      const user = await User.findByIdAndUpdate(id, update);
+      const userId = request.params.userId;
+      const user = await User.findById(userId);
+      let score = 0;
 
       if (!user) {
         throw Boom.notFound('Document not found.');
       }
+
+      //Compute score if a submit is happening
+      if (request.payload.quizCompleted === true) {
+        //quiz questions on the module with moduleId passed in url
+        const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
+
+        //the most recent sessionId for each question might be different.
+        const pipeline = [
+          { $match : { userId, active: true, questionId: { $in: questions.map((q) => q.id.toString()) } } },
+          { $sort:{ lastUpdated : -1 } },
+          { $group: {
+            _id: { questionId: '$questionId' },
+            answerIndex: { $first : '$answerIndex' },
+            lastUpdated: { $first : '$lastUpdated' },
+            questionId: { $first : '$questionId' }
+          } }
+        ];
+        //find most recent answers for each question
+        const mostRecentAnswers = await Answer.aggregate(pipeline);
+
+        if (mostRecentAnswers.length !== 0) {
+          //hash most recent answers with questionIds as keys and answerIndex as value
+          const hashData = {};
+          for (const answer of mostRecentAnswers) {
+            hashData[answer.questionId] = answer.answerIndex;
+          }
+
+          for (const q of questions) {
+            if (q.id in hashData) {
+              //increment score if user's answer is correct
+              if (hashData[q.id] === q.key) {
+                score += 1;
+              }
+            }
+          }
+        }
+        else {
+          score = 0;
+        }
+        //Compute precentage score
+        score = (score * 100) / questions.length;
+      }
+
+      const quizCompleted = user.quizCompleted;
+      quizCompleted[request.params.moduleId].moduleCompleted = request.payload.quizCompleted;
+      quizCompleted[request.params.moduleId].score = score;
+
+      const update = {
+        $set: {
+          quizCompleted
+        }
+      };
+
+      await User.findByIdAndUpdate(userId, update);
 
       return user;
     }

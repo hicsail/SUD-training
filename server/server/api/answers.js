@@ -34,7 +34,8 @@ const register  = function (server, options) {
       const update = {
         $set: {
           answerIndex: request.payload.answerIndex,
-          lastUpdated: new Date()
+          lastUpdated: new Date(),
+          active:true
         }
       };
 
@@ -52,7 +53,7 @@ const register  = function (server, options) {
 
   server.route({
     method: 'GET',
-    path: '/api/score',
+    path: '/api/score/{moduleId}',
     options: {
       auth: {
         strategies: ['session']
@@ -60,6 +61,7 @@ const register  = function (server, options) {
     },
     handler: async function (request, h) {
 
+      const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
       const id = request.auth.credentials.user._id.toString();
       const update = {
         $set: {
@@ -67,7 +69,7 @@ const register  = function (server, options) {
         }
       };
 
-      const user = User.findByIdAndUpdate(id, update);
+      const user = await User.findByIdAndUpdate(id, update);
 
       if (!user) {
         throw Boom.notFound('Document not found.');
@@ -75,7 +77,7 @@ const register  = function (server, options) {
 
       let score = 0;
       const pipeline = [
-        { $match : { userId : request.auth.credentials.user._id.toString() } },
+        { $match : { userId : id, active: true,  questionId: { $in: questions.map((q) => q.id.toString()) } } },
         { $sort:{ lastUpdated : -1 } },
         { $group: {
           _id: { questionId: '$questionId' },
@@ -96,6 +98,75 @@ const register  = function (server, options) {
         }
       }
       return score;
+    }
+  });
+
+  server.route({
+    method: 'PUT',
+    path: '/api/user-answer/active/{moduleId}',
+    options: {
+      auth: {
+        strategies: ['session']
+      },
+      validate: {
+        payload: {
+          active: Joi.boolean().required()
+        }
+      }
+    },
+    handler: async function (request, h) {
+
+      const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
+
+      const filter = {
+        userId: request.auth.credentials.user._id.toString(),
+        questionId: { $in: questions.map((q) => q.id.toString()) }
+      };
+      const update = {
+        $set: {
+          active: request.payload.active
+        }
+      };
+
+      const answers = await Answer.updateMany(filter, update);
+
+      if (!answers) {
+        throw Boom.notFound('Document not found.');
+      }
+      return answers;
+    }
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/api/user-answer/numQuestionAnswered/{moduleId}',
+    options: {
+      auth: {
+        strategies: ['session']
+      }
+    },
+    handler: async function (request, h) {
+
+      const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
+      const userId = request.auth.credentials.user._id.toString();
+
+      const pipeline = [
+        { $match : { userId, active: true,  questionId: { $in: questions.map((q) => q.id.toString()) } } },
+        { $group: {
+          _id: { questionId: '$questionId' }
+        }
+        }
+      ];
+
+      const answers = await Answer.aggregate(pipeline);
+
+      if (!answers) {
+        throw Boom.notFound('Document not found.');
+      }
+      return {
+        'numQuestionsAnswered': answers.length,
+        'numQuestions': questions.length
+      };
     }
   });
 };
