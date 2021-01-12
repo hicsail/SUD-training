@@ -4,17 +4,27 @@
     <div class="col-sm-9 col-md-10">
       <div style="padding: 30px">
         {{#if quizCompleted}}
-          <h2>You got {{score}} out of {{questions.length}}.</h2>
+          <h2 style="text-align: center;">
+            You got {{score}} out of {{questions.length}}.
+            {{#if passed}}
+              <span class="badge badge-pill badge-success ml-2">{{precentage}}%</span>
+            {{else}}
+              <span class="badge badge-pill badge-danger ml-2">{{precentage}}%</span>
+            {{/if}}
+          </h2>
+          <br>
           {{#if passed }}
             {{#if certificateEligible}}            
-              <h3>Congratulations {{user.name}}, You have passed the quiz for this training module. Since you have now passed the quizzes for all three modules successfully, you can now receive your certificate of completion.</h3>
+              <h3>Congratulations {{user.firstname}}, You have passed the quiz for this training module.</h3> 
+              <h3>Since you have now passed the quizzes for all three modules successfully, you can now receive your certificate of completion.</h3>
               <br>
             {{else}}            
               <h3>Congratulations {{user.name}}, You have passed the quiz for this training module. Please proceed to <a href="../training-module/{{nextModuleId}}">training module {{nextModuleId}}</a>.</h3>
               <br>
             {{/if}}            
           {{else}}
-            <h3>You must get at least 80% of questions correct to pass the quiz for this training module. Please retake the <a href="#" onclick="retake('{{user._id}}','{{moduleId}}')">quiz for training module {{moduleId}}.</a></h3>
+            <h3>You must get at least 80% of questions correct to pass the quiz for this training module.</h3>          
+            <h3>Please retake the <a href="#" onclick="retake('{{user._id}}','{{moduleId}}')">quiz for training module {{moduleId}}.</a></h3>
           {{/if}}
           <div class="row">
             <div class="col">              

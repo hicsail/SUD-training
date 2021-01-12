@@ -16,7 +16,7 @@ const register = function (server, options) {
     path: '/api/login',
     options: {
       tags: ['api','auth'],
-      description: 'Log in with username and password.',
+      description: 'Log in with email and password.',
       auth: false,
       validate: {
         payload: {
@@ -83,6 +83,7 @@ const register = function (server, options) {
       const authHeader = `Basic ${Buffer.from(credentials).toString('base64')}`;
 
       request.cookieAuth.set(request.pre.session);
+
       return ({
         user: {
           _id: request.pre.user._id,

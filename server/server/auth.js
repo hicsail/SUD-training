@@ -7,9 +7,9 @@ const User = require('./models/user');
 const register = function (server, options) {
 
   server.auth.strategy('simple', 'basic', {
-    validate: async function (request, username, password) {
+    validate: async function (request, email, password) {
 
-      const user = await User.findByCredentials(username, password);
+      const user = await User.findByCredentials(email, password);
 
       if (!user) {
         return { isValid: false };

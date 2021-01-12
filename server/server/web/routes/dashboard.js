@@ -13,8 +13,20 @@ const register = function (server, options) {
     },
     handler: function (request, h) {
 
+      const user = request.auth.credentials.user;
+      let certificateEligible = true;
+
+      //Determine if user has passed all 3 quizes successfully
+      for (const moduleId in user.quizCompleted) {
+        if (!user.quizCompleted[moduleId].moduleCompleted || user.quizCompleted[moduleId].score < 80) {
+          certificateEligible = false;
+          break;
+        }
+      }
+
       return h.view('dashboard/index', {
-        user: request.auth.credentials.user,
+        certificateEligible,
+        user,
         trainingCompleted: request.auth.credentials.user.trainingCompleted,
         projectName: Config.get('/projectName'),
         title: 'Dashboard',

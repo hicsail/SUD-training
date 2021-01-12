@@ -96,12 +96,16 @@ const register = function (server, options) {
         }
       }
 
+      let precentage = ((score / templateData.length) * 100);
+      precentage = Number.isInteger(precentage) ? precentage : precentage.toFixed(2);
+
       return h.view('quiz/index', {
         questions: templateData,
         passed,
         submitBtnDisabled,
         certificateEligible,
         score,
+        precentage,
         nextModuleId,
         moduleId: request.params.moduleId,
         quizCompleted: user.quizCompleted[request.params.moduleId].moduleCompleted,

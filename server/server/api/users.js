@@ -561,7 +561,7 @@ const register = function (server, options) {
 
       const quizCompleted = user.quizCompleted;
       quizCompleted[request.params.moduleId].moduleCompleted = request.payload.quizCompleted;
-      quizCompleted[request.params.moduleId].score = score;
+      quizCompleted[request.params.moduleId].score = score.toFixed(2);
 
       const update = {
         $set: {
