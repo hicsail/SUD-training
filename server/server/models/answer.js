@@ -2,6 +2,7 @@
 const Assert = require('assert');
 const Joi = require('joi');
 const AnchorModel = require('../anchor/anchor-model');
+const Hoek = require('hoek');
 
 class Answer extends AnchorModel {
 
@@ -40,6 +41,49 @@ Answer.schema = Joi.object({
   createdAt: Joi.date().required(),
   lastUpdated: Joi.date().required()
 });
+
+Answer.routes = Hoek.applyToDefaults(AnchorModel.routes, {
+  create: {
+    disabled: true
+  },
+  createView: {
+    disabled: true
+  },
+  update: Joi.object({
+    questionId:  Joi.number().required(),
+    answerIndex: Joi.number().required(),
+    active: Joi.boolean().required()
+  }),
+  tableView: {
+    outputDataFields: {
+      firstname: { label: 'First Name', from: 'user' },
+      lastname: { label: 'Last Name', from: 'user' },
+      email: { label: 'Email', from: 'user' },
+      questionId: { label: 'Question#' },
+      answerIndex: { label: 'Answer Index' },
+      active: { label: 'Active' },
+      createdAt: { label: 'Created At', invisible: true },
+      lastUpdated: { label: 'Last Updated', invisible: true },
+      _id: { label: 'ID', accessRoles: ['root'], invisible: true },
+      sessionId: { label: 'SessionId', accessRoles: ['root'], invisible: true }
+    }
+  },
+  editView: {
+    editSchema: Joi.object({
+      questionId:  Joi.number().required(),
+      answerIndex: Joi.number().required(),
+      active: Joi.boolean().required()
+    })
+  }
+});
+
+Answer.lookups = [{
+  from: require('./user'),
+  local: 'userId',
+  foreign: '_id',
+  as: 'user',
+  one: true
+}];
 
 Answer.indexes = [
   { key: { userId: 1, questionId: 1 } }

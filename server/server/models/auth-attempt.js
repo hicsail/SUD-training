@@ -63,23 +63,44 @@ AuthAttempt.routes = Hoek.applyToDefaults(AnchorModel.routes, {
   create: {
     disabled: true
   },
-  update: {
+  createView: {
     disabled: true
   },
+  update: Joi.object({
+    //username: Joi.string().lowercase().required(),
+    browser: Joi.string(),
+    ip: Joi.string().required(),
+    os: Joi.string().required()
+  }),
   tableView: {
     outputDataFields: {
+      //firstname: { label: 'First Name', from: 'user' },
+      //lastname: { label: 'Last Name', from: 'user' },
       email: { label: 'Email' },
       ip: { label: 'IP' },
-      createdAt: { label: 'Time' },
-      _id: { label: 'ID', accessRoles: ['admin', 'researcher','root'], invisible: true },
-      os: { label: 'OS', invisible: true },
-      browser: { label: 'browser', invisible: true }
-
+      os: { label: 'OS' },
+      browser: { label: 'Browser' },
+      createdAt: { label: 'Time', invisible: true },
+      _id: { label: 'ID', accessRoles: ['root'], invisible: true }
     }
+  },
+  editView: {
+    editSchema: Joi.object({
+      //username: Joi.string().lowercase().required(),
+      browser: Joi.string(),
+      ip: Joi.string().required(),
+      os: Joi.string().required()
+    })
   }
 });
 
-AuthAttempt.lookups = [];
+/*AuthAttempt.lookups = [{
+  from: require('./user'),
+  local: 'email',
+  foreign: 'email',
+  as: 'user',
+  one: true
+}];*/
 
 AuthAttempt.indexes = [
   { key: { ip: 1, email: 1 } },

@@ -107,49 +107,45 @@ const register = function (server, serverOptions) {
         const fields = model.routes.tableView.outputDataFields;
         const unAddedKeys = new Set();
 
-        for (const key in fields) {
-
-          if (fields.hasOwnProperty(key)){
-            const userRoles = request.auth.credentials.scope;
-            if (fields[key].accessRoles && !IsAllowed(userRoles, fields[key].accessRoles)){//Blocks column option if user role is too low
-              unAddedKeys.add(key);
-              continue;
-            }
-
-            const col = { 'label': fields[key].label };
-            if (fields[key].invisible){
-              col.invisible = true;
-            }
-
-            outputCols.push(col);
+        for (const key of Object.keys(fields)){
+          const userRoles = request.auth.credentials.scope;
+          if (fields[key].accessRoles && !IsAllowed(userRoles, fields[key].accessRoles)){//Blocks column option if user role is too low
+            unAddedKeys.add(key);
+            continue;
           }
+
+          const col = { 'label': fields[key].label };
+          if (fields[key].invisible){
+            col.invisible = true;
+          }
+
+          outputCols.push(col);
         }
 
         //modify fields to remove sensitive keys where user permission is too low.
-        for (const key in fields){
+        for (const key of Object.keys(fields)){
           if (unAddedKeys.has(key)){
             delete fields[key];
           }
         }
+
         for (const rec of outputData){
           const doc = {};
-          for (const key in fields) {
-            if (fields.hasOwnProperty(key)){
-              if ('from' in fields[key]){
-                if (fields[key].from && rec[fields[key].from]) {
-                  doc[key] = rec[fields[key].from][key];
-                }
-                else {
-                  doc[key] = 'N/A';
-                }
+          for (const key of Object.keys(fields)) {
+            if ('from' in fields[key]){
+              if (rec[fields[key].from] && rec[fields[key].from][key]) {
+                doc[key] = rec[fields[key].from][key];
               }
               else {
-                if (rec[key] === null){
-                  doc[key] = 'N/A';
-                }
-                else {
-                  doc[key] = rec[key];
-                }
+                doc[key] = 'N/A';
+              }
+            }
+            else {
+              if (rec[key] === null || typeof rec[key] === 'undefined'){
+                doc[key] = 'N/A';
+              }
+              else {
+                doc[key] = rec[key];
               }
             }
           }
@@ -161,10 +157,12 @@ const register = function (server, serverOptions) {
         if (outputData.length !== 0 ) {
           //create the column headers for the database
           const modelsName = new Set(); //all the model names joined to this one
-          model.lookups.forEach((lookup) => {//find all the secondary model joined.
+          if (model.lookups) {
+            model.lookups.forEach((lookup) => {//find all the secondary model joined.
 
-            modelsName.add(lookup.as);
-          });
+              modelsName.add(lookup.as);
+            });
+          }
 
           for (const key of Object.keys(outputData[0])) {
             if (!(modelsName.has(key))){//makes sure to not include secondary attached collection yet
@@ -172,15 +170,17 @@ const register = function (server, serverOptions) {
             }
           }
 
-          model.lookups.forEach((lookup) => {//for each model save the label, set invisible and assign where it came from
+          if (model.lookups) {
+            model.lookups.forEach((lookup) => {//for each model save the label, set invisible and assign where it came from
 
-            recursiveFindJoiKeys(lookup.from.schema).forEach((key) => {
+              recursiveFindJoiKeys(lookup.from.schema).forEach((key) => {
 
-              if (!(key in outputData[0])) {//checks that the key is not already a header.
-                outputCols.push({ label: key, invisible: true, from: lookup.as });
-              }
+                if (!(key in outputData[0])) {//checks that the key is not already a header.
+                  outputCols.push({ label: key, invisible: true, from: lookup.as });
+                }
+              });
             });
-          });
+          }
 
           //process data coming from outputData based on the column headers given above.
           const processedData = [];
@@ -198,7 +198,7 @@ const register = function (server, serverOptions) {
                 }
               }
               else {
-                if (data[col.label] === null){
+                if (data[col.label] === null || typeof data[col.label] === 'undefined'){
                   doc[col.label] = 'N/A';
                 }
                 else {
@@ -232,7 +232,8 @@ const register = function (server, serverOptions) {
         title:  capitalizeFirstLetter(request.params.collectionName),
         collectionName: request.params.collectionName,
         columns: outputCols,
-        data: outputData
+        data: outputData,
+        createBtnVisible: !request.pre.model.routes.createView.disabled
       });
     }
   });
@@ -369,7 +370,28 @@ const register = function (server, serverOptions) {
     handler: function (request, h) {
 
       const model = request.pre.model;
-      const schema = JoiToJson(model.routes.createView.createSchema);
+      const createView = model.routes.createView;
+      let schema;
+
+      if (createView.createSchema){
+        schema = JoiToJson(createView.createSchema);
+      }
+      else {
+        if (!model.routes.create.payload){
+          model.routes.create.payload = model.schema;
+          schema = JoiToJson(model.schema);
+          Object.entries(schema.properties).forEach( ([key, value]) => {
+
+            if (!value || Object.keys(value).length === 0){
+              delete schema.properties[key];
+            }
+          });
+        }
+        else {
+          schema = JoiToJson(model.routes.create.payload);
+        }
+
+      }
 
       return h.view('anchor-default-templates/create', {
         user: request.auth.credentials.user,

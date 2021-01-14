@@ -4,10 +4,10 @@ const joiToJson = function (joiSchema) {
 
   const jsonSchema = {};
   if (joiSchema._type === 'object') {
-    jsonSchema.type	= 'object';
+    jsonSchema.type = 'object';
     jsonSchema.properties = {};
     for (const child of joiSchema._inner.children) {
-      jsonSchema.properties[child.key]	= {};
+      jsonSchema.properties[child.key]  = {};
       if (child.schema._type === 'string') {
         jsonSchema.properties[child.key].type = 'string';
         jsonSchema.properties[child.key].properties = stringJoiToJSON(child.schema);
