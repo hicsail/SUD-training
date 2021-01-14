@@ -26,7 +26,12 @@ class Credentials {
       roles: { root:true, admin:true }
     }))[0];
 
-    const session = await Session.create(`${user._id}`, '127.0.0.1', 'Lab');
+    const doc = {
+      userId: `${user._id}`,
+      ip: '127.0.0.1',
+      userAgent: 'Lab'
+    };
+    const session = await Session.create(doc);
 
     return {
       user,
@@ -52,7 +57,12 @@ class Credentials {
 
     await User.findByIdAndUpdate(user._id.toString(), update);
 
-    const session = await Session.create(`${user._id}`, '127.0.0.1', 'Lab');
+    const doc = {
+      userId: `${user._id}`,
+      ip: '127.0.0.1',
+      userAgent: 'Lab'
+    };
+    const session = await Session.create(doc);
 
     return {
       user,

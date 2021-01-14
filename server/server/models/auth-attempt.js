@@ -66,12 +66,13 @@ AuthAttempt.routes = Hoek.applyToDefaults(AnchorModel.routes, {
   createView: {
     disabled: true
   },
-  update: Joi.object({
-    //username: Joi.string().lowercase().required(),
-    browser: Joi.string(),
-    ip: Joi.string().required(),
-    os: Joi.string().required()
-  }),
+  update: {
+    payload: Joi.object({
+      browser: Joi.string(),
+      ip: Joi.string().required(),
+      os: Joi.string().required()
+    })
+  },
   tableView: {
     outputDataFields: {
       //firstname: { label: 'First Name', from: 'user' },
@@ -86,7 +87,6 @@ AuthAttempt.routes = Hoek.applyToDefaults(AnchorModel.routes, {
   },
   editView: {
     editSchema: Joi.object({
-      //username: Joi.string().lowercase().required(),
       browser: Joi.string(),
       ip: Joi.string().required(),
       os: Joi.string().required()

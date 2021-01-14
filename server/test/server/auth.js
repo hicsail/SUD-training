@@ -195,7 +195,13 @@ lab.experiment('Simple Auth Strategy', () => {
 
   lab.test('it returns as invalid when the user query misses', async () => {
 
-    const session = await Session.create('000000000000000000000000', '127.0.0.1', 'Lab');
+    const doc = {
+      userId: '000000000000000000000000',
+      ip: '127.0.0.1',
+      userAgent: 'Lab'
+    };
+    const session = await Session.create(doc);
+
     const request = {
       method: 'GET',
       url: '/simple',
@@ -213,7 +219,13 @@ lab.experiment('Simple Auth Strategy', () => {
 
     const { user } = await Fixtures.Creds.createUser('Ren','321!abc','ren@stimpy.show','Stimpy', []);
 
-    const session = await Session.create(`${user._id}`, '127.0.0.1', 'Lab');
+    const doc = {
+      userId: `${user._id}`,
+      ip: '127.0.0.1',
+      userAgent: 'Lab'
+    };
+    const session = await Session.create(doc);
+
     const update = {
       $set: {
         isActive: false
@@ -240,7 +252,12 @@ lab.experiment('Simple Auth Strategy', () => {
 
     const rootUser = await Fixtures.Creds.createRootUser('321!abc','ren@stimpy.show');
 
-    //const session = await Session.create(`${rootUser.user._id}`, '127.0.0.1', 'Lab');
+    const doc = {
+      userId: `${rootUser.user._id}`,
+      ip: '127.0.0.1',
+      userAgent: 'Lab'
+    }
+    const session = await Session.create(doc);
 
     const request = {
       method: 'GET',
@@ -261,7 +278,12 @@ lab.experiment('Simple Auth Strategy', () => {
 
     const { user } = await Fixtures.Creds.createUser('Ren','321!abc','ren@stimpy.show','Stimpy', []);
 
-    const session = await Session.create(`${user._id}`, '127.0.0.1', 'Lab');
+    const doc = {
+      userId: `${user._id}`,
+      ip: '127.0.0.1',
+      userAgent: 'Lab'
+    };
+    const session = await Session.create(doc);
 
     const request = {
       method: 'GET',

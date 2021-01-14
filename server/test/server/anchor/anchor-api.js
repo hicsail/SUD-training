@@ -45,7 +45,14 @@ lab.before(async () => {
 
   authenticatedRoot = await Fixtures.Creds.createRootUser('123abs','email@email.com');
   user = await User.create('ren', 'baddog', 'ren@stimpy.show', 'ren');
-  session = await Session.create(user._id.toString(), 'test', 'test');
+
+  const doc = {
+    userId: user._id.toString(),
+    ip: 'test',
+    userAgent: 'test'
+  };
+  session = await Session.create(doc);
+
 });
 
 lab.after(async () => {
