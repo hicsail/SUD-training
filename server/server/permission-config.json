@@ -296,7 +296,6 @@
     ],
     "/events/name/{name}": [
       "analyst",
-      "clinician",
       "researcher",
       "admin",
       "root"
@@ -393,6 +392,34 @@
       "researcher",
       "admin",
       "root"
+    ],
+    "/quiz/{moduleId}": [
+      "analyst",
+      "clinician",
+      "researcher",
+      "admin",
+      "root"
+    ],
+    "/training-module/{moduleId}": [
+      "analyst",
+      "clinician",
+      "researcher",
+      "admin",
+      "root"
+    ],
+    "/api/score/{moduleId}": [
+      "analyst",
+      "clinician",
+      "researcher",
+      "admin",
+      "root"
+    ],
+    "/api/user-answer/numQuestionAnswered/{moduleId}": [
+      "analyst",
+      "clinician",
+      "researcher",
+      "admin",
+      "root"
     ]
   },
   "POST": {
@@ -480,6 +507,13 @@
       "root"
     ],
     "/api/users/scopeCheck": [
+      "analyst",
+      "clinician",
+      "researcher",
+      "admin",
+      "root"
+    ],
+    "/api/update/user-answer": [
       "analyst",
       "clinician",
       "researcher",
@@ -636,6 +670,27 @@
       "root",
       "admin",
       "researcher"
+    ],
+    "/api/user-answer/active/{moduleId}": [
+      "analyst",
+      "clinician",
+      "researcher",
+      "admin",
+      "root"
+    ],
+    "/api/users/trainingCompleted/{id}": [
+      "analyst",
+      "clinician",
+      "researcher",
+      "admin",
+      "root"
+    ],
+    "/api/users/quizCompleted/{userId}/{moduleId}": [
+      "analyst",
+      "clinician",
+      "researcher",
+      "admin",
+      "root"
     ]
   }
 }

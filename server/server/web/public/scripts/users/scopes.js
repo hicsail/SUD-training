@@ -29,8 +29,9 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){//adjusts the columns o
   $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
 });
 
-var success = false;
 function updateScope(path, method, scope) {
+
+  var scopeUpdated = false;
   $.ajax({
     async: false,
     url: '/api/users/scopes',
@@ -40,41 +41,19 @@ function updateScope(path, method, scope) {
       path: path,
       scope: scope
     },
-    success: function (result) {
-      console.log("hereeee");
-      success = true;
-      /*$.ajax({//API route for comparing the scope for configurability in the config file and in server for the specified route's scope
-        url: '/api/users/scopeCheck',
-        type: 'POST',
-        data: {
-          method: method,
-          path: path
-        },
-        success: function (result){          
-          localStorage.setItem('modalMessage', result);
-          //location.reload();
-        },
-        error: function (result){
-          console.log(result)
-          //errorAlert(result.responseJSON.message);
-        },
-        timeout: 9000000
-      });*/
+    success: function (result) {      
+      scopeUpdated = true;      
     },
     error: function (result) {
       errorAlert(result.responseJSON.message);
-    },
-    //timeout: 50000
-  });
+    }    
+  });  
 
-  
-
-  function Arezoo() {
-    console.log(success)
-  if (success) {
+  //function for comparing the scope for configurability in the config file and in server for the specified route's scope
+  function scopeCheck() {
     
-  console.log("hereeee")
-  $.ajax({//API route for comparing the scope for configurability in the config file and in server for the specified route's scope
+    if (scopeUpdated) {  
+      $.ajax({
         url: '/api/users/scopeCheck',
         type: 'POST',
         data: {
@@ -83,17 +62,16 @@ function updateScope(path, method, scope) {
         },
         async: false,
         success: function (result){ 
-        console.log("salammm")         
+               
           localStorage.setItem('modalMessage', result);
           location.reload();
         },
         error: function (result){
-          console.log(result)
-          //errorAlert(result.responseJSON.message);
+          
+          errorAlert(result.responseJSON.message);
         }        
-      })
-    
+      })    
+    }
   }
-}
-window.setTimeout(Arezoo, 1000)
+  window.setTimeout(scopeCheck, 1000)
 }

@@ -105,26 +105,12 @@ const config = {
   },
   roles:[
     {
-      name: 'analyst',
-      accessLevel: '1',
-      type: 'groupAdmin'
-    },
-    {
-      name: 'clinician',
-      accessLevel: '2',
-      type: 'groupAdmin'
-    },
-    {
-      name: 'researcher',
-      accessLevel: '3'
-    },
-    {
       name: 'admin',
-      accessLevel: '4'
+      accessLevel: '1'
     },
     {
       name: 'root',
-      accessLevel: '5'
+      accessLevel: '2'
     }
   ]
 };

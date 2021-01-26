@@ -70,9 +70,8 @@ const register = function (server, options) {
     path: '/scopes',
     options: {
       auth: {
-        strategies: ['simple', 'session']
-        //scope: ['root']
-        //scope: ScopeArrayscopes('/scopes', 'GET', DefaultScopes)
+        strategy: 'session',
+        scope: PermissionConfigTable.GET['/scopes'] || ['root']
       }
     },
     handler: function (request, h) {

@@ -51,6 +51,7 @@
     "joi-password-complexity": "2.x.x",
     "jsonwebtoken": "8.x.x",
     "lout": "10.x.x",
+    "mathjs": "^9.0.0",
     "mongo-models": "1.x.x",
     "mongodb": "2.x.x",
     "nodemailer": "4.x.x",

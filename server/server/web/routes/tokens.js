@@ -5,45 +5,6 @@ const Token = require('../../models/token');
 
 const register = function (server, options) {
 
-  /*server.route({
-    method: 'GET',
-    path: '/tokens',
-    options: {
-      auth: {
-        strategies: ['session']
-      }
-    },
-    handler: function (request, h) {
-
-      return h.view('tokens/index', {
-        user: request.auth.credentials.user,
-        projectName: Config.get('/projectName'),
-        title: 'Tokens',
-        baseUrl: Config.get('/baseUrl')
-      });
-    }
-  });*/
-
-  /*server.route({
-    method: 'GET',
-    path: '/tokens/create',
-    options: {
-      auth: {
-        strategies: ['session'],
-        scope: ['root', 'admin','researcher']
-      }
-    },
-    handler: function (request, h) {
-
-      return h.view('tokens/create', {
-        user: request.auth.credentials.user,
-        projectName: Config.get('/projectName'),
-        title: 'Tokens',
-        baseUrl: Config.get('/baseUrl')
-      });
-    }
-  });*/
-
   server.route({
     method: 'GET',
     path: '/tokens/{id}',

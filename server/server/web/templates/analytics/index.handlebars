@@ -1,0 +1,98 @@
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    {{>dashboardNav}}
+    <div class="col-sm-9 col-md-10">
+      <div style="padding: 30px">
+        <h3>Analytics</h3>
+        <hr>        
+        <br>
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col">
+                    <h4>Participation Counts Per Module</h4>
+                  </div>
+                  <div class="col">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select Module
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item btn" onclick="update('module', 1)">Module 1</a>
+                        <a class="dropdown-item btn" onclick="update('module', 2)">Module 2</a>
+                        <a class="dropdown-item btn" onclick="update('module', 3)">Module 3</a>
+                        <!--<a class="dropdown-item btn" onclick="update('total')">Total</a>-->    
+                      </div>
+                    </div> 
+                  </div>
+                </div>                
+              </div>              
+              <div style="padding: 30px" class="card-body">
+                <div class="row">
+                  <div class="col border"><h4 id="module-success"></h4></div>
+                  <div class="col border"><h4 id="module-fail"></h4></div>
+                  <div class="col border"><h4 id="module-complete"></h4></div>
+                  <div class="col border"><h4 id="module-users"></h4></div>                  
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div id="pie_chartVizModules"></div>
+                  </div>
+                </div>                          
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                <h4>Total Participation Counts</h4>
+              </div>
+              <div style="padding: 30px" class="card-body">
+                <div class="row">
+                  <div class="col border"><h4 id="total-success"></h4></div>
+                  <div class="col border"><h4 id="total-fail"></h4></div>
+                  <div class="col border"><h4 id="total-complete"></h4></div>
+                  <div class="col border"><h4 id="total-users"></h4></div>                  
+                </div>                
+                <div id="pie_chartViz"></div>            
+              </div>
+            </div>
+          </div>
+        </div>        
+        <br>
+        <div class="card">
+          <div class="card-header">
+            <h4>Scores Summary Statistics For Different Modules</h4>
+          </div>
+          <div class="row">
+            <div class="col">
+            </div>
+            <div class="col">            
+              <div style="padding: 30px">            
+                <div id="bar_chartViz"></div>            
+              </div>
+            </div>
+            <div class="col">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Color scale -->
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>     
+<script type="text/javascript" src="/public/scripts/analytics/pieChart.js"></script>
+<script type="text/javascript" src="/public/scripts/analytics/barChart.js"></script>
+<style>
+  .border {
+    padding: 15px;
+    margin: 2px;
+    border: #211F22 medium solid;   
+  }
+</style>

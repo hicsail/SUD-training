@@ -7,6 +7,7 @@ const Answer = require('../models/answer');
 const Config = require('../../config');
 const Joi = require('joi');
 const PasswordComplexity = require('joi-password-complexity');
+const Math = require('mathjs');
 
 const register = function (server, options) {
 
@@ -572,6 +573,110 @@ const register = function (server, options) {
       await User.findByIdAndUpdate(userId, update);
 
       return user;
+    }
+  });
+
+  //For calculating number of users who have passed, failed and completed a quiz
+  server.route({
+    method: 'GET',
+    path: '/api/users/quizCompleted/counts/{moduleId?}',
+    options: {
+      auth: {
+        strategies: ['simple', 'session']
+      }
+    },
+    handler: async function (request, h) {
+
+      const numUsers = await User.count({});
+      const counts = {};
+
+      if (request.params.moduleId) {
+
+        const moduleId = request.params.moduleId;
+
+        const filter = {};
+        const cond1 = 'quizCompleted.'  + moduleId + '.score';
+        const cond2 = 'quizCompleted.'  + moduleId + '.moduleCompleted';
+
+        //Calculate number of users who completed the quiz for module
+        filter[cond2] = true;
+        counts.numCompleted = await User.count(filter);
+
+        //Calculate number of users who failed the quiz for module
+        filter[cond1] = { $lt: 80 };
+        counts.numFailed = await User.count(filter);
+
+        //Calculate number of users who successfully completed the quiz for module
+        counts.numPassed = counts.numCompleted - counts.numFailed;
+        counts.numNotCompleted = numUsers - counts.numCompleted;
+        delete counts.numCompleted;
+
+      }
+      else {
+
+        const filter = {
+          'quizCompleted.1.moduleCompleted' : true,
+          'quizCompleted.2.moduleCompleted' : true,
+          'quizCompleted.3.moduleCompleted' : true
+        };
+
+        counts.numCompleted = await User.count(filter);
+
+        filter.$or = [
+          { 'quizCompleted.1.score': { $lt: 80 } },
+          { 'quizCompleted.2.score': { $lt: 80 } },
+          { 'quizCompleted.3.score': { $lt: 80 } }
+        ];
+        counts.numFailed = await User.count(filter);
+
+        counts.numPassed = counts.numCompleted - counts.numFailed;
+        counts.numNotCompleted = numUsers - counts.numCompleted;
+        delete counts.numCompleted;
+      }
+      return counts;
+    }
+  });
+
+  //For calculating number of users who have passed, failed and completed a quiz
+  server.route({
+    method: 'GET',
+    path: '/api/users/quizCompleted/summaryStatistics',
+    options: {
+      auth: {
+        strategies: ['simple', 'session']
+      }
+    },
+    handler: async function (request, h) {
+
+      const scores = [];
+      const moduleIds = ['1', '2', '3'];
+
+      for (const moduleId of moduleIds) {
+
+        const filter = {};
+        const cond = 'quizCompleted.'  + moduleId + '.moduleCompleted';
+
+        //Calculate number of users who completed the quiz for module
+        filter[cond] = true;
+        const users = await User.find(filter);
+        const scoreList = users.map((user) => user.quizCompleted[moduleId].score);
+
+        scores.push(scoreList);
+      }
+
+      const result = [
+        { 'group': 'mean', '1': 0, '2': 0, '3': 0 },
+        { 'group': 'median', '1': 0, '2': 0, '3': 0 },
+        { 'group': 'min', '1': 0, '2': 0, '3': 0 },
+        { 'group': 'max', '1': 0, '2': 0, '3': 0 }
+      ];
+      for (const i in scores) {
+        result[0][moduleIds[i]] = Math.mean(scores[i]);
+        result[1][moduleIds[i]] = Math.median(scores[i]);
+        result[2][moduleIds[i]] = Math.min(scores[i]);
+        result[3][moduleIds[i]] = Math.max(scores[i]);
+      }
+      return result;
     }
   });
 
