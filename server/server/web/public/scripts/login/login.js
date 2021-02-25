@@ -18,7 +18,10 @@ $('#login').click((event) => {
     success: function (result) {           
       location.reload();
     },
-    error: function (result) {      
+    error: function (result) {
+      if (result.responseJSON.message === 'Credentials are invalid or account is inactive.') {
+        $("#forgot-password").css("display", "inline");  
+      }           
       errorAlert(result.responseJSON.message);
     }
   });

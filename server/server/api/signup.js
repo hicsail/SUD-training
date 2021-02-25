@@ -62,7 +62,7 @@ const register = function (server, options) {
         subject: 'Your ' + Config.get('/projectName') + ' account',
         to: {
           name: request.payload.name,
-          ddress: request.payload.email
+          address: request.payload.email
         }
       };
 

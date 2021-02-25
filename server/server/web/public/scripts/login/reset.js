@@ -19,7 +19,7 @@ $('#reset').click((event) => {
     url: '/api/login/reset',
     data: values,
     success: function (result) {
-      location.reload();
+      window.location = '/login';      
     },
     error: function (result) {
       errorAlert(result.responseJSON.message);
