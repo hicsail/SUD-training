@@ -71,7 +71,15 @@ function renderBarChart(data) {
 $.ajax({
   type: "GET",
   url: '/api/users/quizCompleted/summaryStatistics',     
-  success: function(data){          
+  success: function(data){            
     renderBarChart(data);          
+  }
+});  
+
+$.ajax({
+  type: "GET",
+  url: '/api/questions/analysis',     
+  success: function(data){          
+    //console.log(data)          
   }
 });  

@@ -14,23 +14,24 @@ function joiToForm(id,schema,key='JoiFormTopLevel') {
         }
       case 'string':
       case 'number':
-      case 'date':
-        schemas[key] = schema;
+      case 'date':        
+        schemas[key.replace(' ', '').toLowerCase()] = schema;
         var data = {
-          key,
+          key: key.replace(' ', '').toLowerCase(),
           schema,
-          type: schema._type
+          type: schema._type,
+          label: key
         };
-        if (key == 'password' || key == 'confirmPassword') {
+        if (key.toLowerCase() == 'password' || key.replace(' ', '').toLowerCase() == 'confirmpassword') {
           data.type = 'password';
         }
-
         return Mustache.render(JoiToFormTemp, data);
       case 'boolean':
         var data = {
-          key,
+          key: key.replace(' ', '').toLowerCase(),
           schema,
-          type: schema._type
+          type: schema._type,
+          label: key
         };
         return Mustache.render(JoiToFormTempBoolean,data);
     }
@@ -39,9 +40,11 @@ function joiToForm(id,schema,key='JoiFormTopLevel') {
 
 const validate = function(key) {
   let schema = schemas[key];
+  
   let input = document.getElementById('JoiFormInput' + key).value
   const {error} = Joi.validate(input,schema);
-  if(error && key == 'password' || key == 'confirmPassword') {
+  
+  if(error && (key.toLowerCase() == 'password' || key == 'confirmpassword')) {
     $('#JoiFormInput' + key).addClass('is-invalid').removeClass('is-valid');
     var message = error.message.replace('"value"',camelCaseToWords(key));
     if(message.includes('Password with value')){
@@ -55,8 +58,8 @@ const validate = function(key) {
     $('#JoiFormInput' + key).addClass('is-valid').removeClass('is-invalid');
     $('#JoiFormHelp' + key).text('');
   }
-  if(key == 'confirmPassword' && !error) {
-    if($('#JoiFormInputconfirmPassword').val() !== $('#JoiFormInputpassword').val()) {
+  if(key == 'confirmpassword' && !error) {    
+    if($('#JoiFormInputconfirmpassword').val() !== $('#JoiFormInputpassword').val()) {
       $('#JoiFormInput' + key).addClass('is-invalid').removeClass('is-valid');
       $('#JoiFormHelp' + key).text('Passwords do not match');
     }
@@ -70,13 +73,13 @@ const camelCaseToWords = function(str){
 };
 
 const JoiToFormTemp = '<div class="form-group">\n' +
-    '<label for="JoiFormLabel{{key}}">{{key}}</label>\n' +
-    '<input type="{{type}}" class="form-control" id="JoiFormInput{{key}}" aria-describedby="{{key}}Help" name="{{key}}" placeholder="Enter {{key}}" onkeyup="validate(\'{{key}}\')">\n' +
+    '<label for="JoiFormLabel{{key}}">{{label}}</label>\n' +
+    '<input type="{{type}}" class="form-control" id="JoiFormInput{{key}}" aria-describedby="{{key}}Help" name="{{key}}" placeholder="Enter {{label}}" onkeyup="validate(\'{{key}}\')">\n' +
     '<small id="JoiFormHelp{{key}}" class="form-text text-danger"></small>\n' +
     '</div>\n';
 
 const JoiToFormTempBoolean = '<div class="form-check">\n' +
-  '<label class="form-check-label" for="JoiFormLabel{{key}}">' +
+  '<label class="form-check-label" for="JoiFormLabel{{label}}">' +
   '<input type="checkbox" class="form-check-input" id="JoiFormInput{{key}}" name="{{key}}" checked>\n' +
   '{{key}}</label>\n' +
   '</div>\n';

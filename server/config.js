@@ -17,7 +17,7 @@ const config = {
     production: process.env.PROJECT_NAME,
     test: 'Anchor-Test',
     local: process.env.PROJECT_NAME,
-    $default: 'Samsha'
+    $default: 'SUD Training.net'
   },
   baseUrl: {
     $filter: 'env',
@@ -37,7 +37,7 @@ const config = {
   },
   authAttempts: {
     forIp: 50,
-    forIpAndUser: 7
+    forIpAndUser: 20
   },
   authSecret: {
     $filter: 'env',
@@ -86,8 +86,8 @@ const config = {
   },
   system: {
     fromAddress: {
-      name: 'Anchor',
-      address: 'jedireza@gmail.com'
+      name: 'SUDTraining team',
+      address: 'asadeg02arezoo@gmail.com'
     },
     toAddress: {
       name: 'Anchor',

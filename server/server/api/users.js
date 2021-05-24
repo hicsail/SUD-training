@@ -523,9 +523,16 @@ const register = function (server, options) {
         //quiz questions on the module with moduleId passed in url
         const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
 
+        //grab the question ids (ignore the explanatory items)
+        let questionIds = [];
+        for (let q of questions) {
+          if (q.id)
+            questionIds.push(q.id.toString());
+        }
+
         //the most recent sessionId for each question might be different.
         const pipeline = [
-          { $match : { userId, active: true, questionId: { $in: questions.map((q) => q.id.toString()) } } },
+          { $match : { userId, active: true, questionId: { $in:  questionIds } } },
           { $sort:{ lastUpdated : -1 } },
           { $group: {
             _id: { questionId: '$questionId' },
@@ -557,7 +564,7 @@ const register = function (server, options) {
           score = 0;
         }
         //Compute precentage score
-        score = (score * 100) / questions.length;
+        score = (score * 100) / questionIds.length;
       }
 
       const quizCompleted = user.quizCompleted;
@@ -663,7 +670,7 @@ const register = function (server, options) {
 
         scores.push(scoreList);
       }
-
+      
       const result = [
         { 'group': 'mean', '1': 0, '2': 0, '3': 0 },
         { 'group': 'median', '1': 0, '2': 0, '3': 0 },
@@ -676,6 +683,7 @@ const register = function (server, options) {
         result[2][moduleIds[i]] = Math.min(scores[i]);
         result[3][moduleIds[i]] = Math.max(scores[i]);
       }
+      
       return result;
     }
   });

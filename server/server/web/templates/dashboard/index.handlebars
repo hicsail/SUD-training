@@ -1,18 +1,30 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{{#if user.roles.root}}
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        {{>dashboardNav}}
+    </div>
+</div>
+{{else}}
 <div class="container-fluid h-100">
   <div class="row h-100">
     {{>dashboardNav}}
     <div class="col-sm-9 col-md-10">
       <div style="padding: 30px">
-        <h3>Dashboard</h3>        
-        <hr>
-        <p>Please complete the training modules below in sequence, starting with training module 1. At the conclusion of each training module, you must take a quiz and score 80% or greater to be eligible for a certificate at completion of the three modules.</p>
+        <p style="font-size:50px;font-weight:bold;">Hello {{user.firstname}} {{user.lastname}}, Welcome to SUD Training!</p>        
 
-        <p>Please note that you will need to keep track of your progress. We advise you to write down your training module progress (e.g., video 2.3, 10:00 minutes) before you exit this screen. The webpage will not keep track of your progress for you.</p>
+        <p style="font-size:18px;font-weight:bold;">Welcome to the Enhanced Training for Clinical Mental Health Counselors in Substance Use Disorder Assessment and Treatment.</P>
+        </br>
 
-        <ul style="font-size:25px;">
+        <p style="font-size:18px;font-weight:bold;">Please complete the training modules below in sequence, starting with training module 1. At the conclusion of each training module, you must take a quiz and score 80% or greater to be eligible for a certificate at completion of the three modules.</p>
+        </br>
+
+        <p style="font-size:18px;font-weight:bold;">Please note that you will need to keep track of your progress. We advise you to write down your training module progress (e.g., video 2.3, 10:00 minutes) before you exit this screen. The webpage will not keep track of your progress for you.</p>
+        </br>
+
+        <ul style="font-size:25px;font-weight:bold;">
         	<li>
-        		<a href="../training-module/1">Training Module 1: Screening, Brief Intervention, and Referral to Treatment Strategies</a>
+        		<a class="dark-blue" href="../training-module/1">Module 1: Screening, Brief Intervention, and Referral to Treatment Strategies</a>
                 {{#if user.quizCompleted.1.moduleCompleted}}
                     {{#iff user.quizCompleted.1.score '>=' 80}}
                         <i class="fa fa-check" aria-hidden="true" style="color:green">{{../user.quizCompleted.1.score}}%</i>
@@ -22,7 +34,7 @@
                 {{/if}}
         	</li>
         	<li>
-        		<a href="../training-module/2">Training Module 2: Assessment of Substance Use</a>
+        		<a class="dark-blue" href="../training-module/2">Module 2: Assessment of Substance Use</a>
                 {{#if user.quizCompleted.2.moduleCompleted}}
                     {{#iff user.quizCompleted.2.score '>=' 80}}
                         <i class="fa fa-check" aria-hidden="true" style="color:green">{{../user.quizCompleted.2.score}}%</i>
@@ -32,7 +44,7 @@
                 {{/if}}
         	</li>
         	<li>
-        		<a href="../training-module/3">Training Module 3: SUD Treatment Principles and Application for Alcohol, Marijuana, Stimulant, and Opioid Use</a>
+        		<a class="dark-blue" href="../training-module/3">Module 3: SUD Treatment Principles and Application for Alcohol, Marijuana, Stimulant, and Opioid Use</a>
                 {{#if user.quizCompleted.3.moduleCompleted}}
                     {{#iff user.quizCompleted.3.score '>=' 80}}
                         <i class="fa fa-check" aria-hidden="true" style="color:green">{{../user.quizCompleted.3.score}}%</i>
@@ -42,7 +54,27 @@
                 {{/if}}
         	</li>
         </ul>
+        </br>
+        <p style="font-size:40px;font-weight:bold;">About</p>
+        </br>
+        <p style="font-size:18px;font-weight:bold;">
+            This training was supported by a SAMSHA grant (Expansion of Practitioner Education; FG-20-001). It was developed by faculty in the Department of Psychiatry at the Boston University School of Medicine in consultation with the American Mental Health Counselors Association.
+        </p>
+        
+        <p style="font-size:18px;font-weight:bold;">
+            This training series was developed by faculty in the Boston University School of Medicine’s Mental Health Counseling and Behavioral Medicine program (BU MHCBM) in consultation with leaders of the American Mental Health Counselors Association (AMHCA). In this series, you will learn about SUD screening, brief intervention, and referral to treatment, with a specific focus on alcohol, marijuana, stimulants, and opioids. You will learn core skills in clinical assessment of SUDs and treatment approaches that include motivational interviewing and cognitive behavior therapy. At the conclusion of the training, once you have passed the quizzes for each of the three modules, you will receive a certificate of completion.
+        </p>
       </div>
     </div>
   </div>
 </div>
+{{/if}}
+<style>
+    .dark-blue {
+        color: #128094; 
+    }
+    .bold {
+        font-weight: bold;
+    }
+</style>
+
