@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-md" style="background-color:#76BDCF;">  
+  <a id="projectname" class="navbar-brand col-sm-3 col-md-2 d-none d-sm-block" href="../">{{projectName}}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+          aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">    
+    {{#if user}}
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link nav-link-color nav-link-padding" href="../">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-color nav-link-padding" href="../account">My Account</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-color nav-link-padding" href="../logout">Logout</a>
+        </li>        
+      </ul>
+    {{else}}
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link nav-link-color nav-link-padding" href="../login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-color nav-link-padding" href="../signup">Create Acount</a>
+        </li>
+      </ul>
+    {{/if}}
+  </div>
+</nav>
+
+<style> 
+  .navbar {
+    padding: 0;
+  } 
+  .nav-link {            
+    font-size: 22px;    
+    font-weight: bold;    
+  }
+  .nav-link-color {
+    color: rgba(0,0,0,0.5);
+  }
+  .nav-link-padding {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+  .nav-link:hover{  
+    text-decoration: underline;
+  }
+
+  .nav-link.active {
+    background-color: #128094 !important; 
+    color:white !important;
+  } 
+
+  #projectname { 
+    font-size: 1.5vw;
+    color: white;       
+    font-weight: bold;
+    background-color: #128094;    
+    padding-top: 1rem;
+    padding-bottom: 1rem;     
+  }  
+</style>

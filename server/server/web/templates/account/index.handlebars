@@ -1,0 +1,57 @@
+<div class="container" style="padding-top: 60px">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">
+        {{user.firstname}} {{user.lastname}}       
+      </h2>
+      <h6 class="card-subtitle mb-2 text-muted"><b>Joined On: </b>{{user.timeCreated}}</h6>     
+      {{#if user.roles.clinician}}
+        <span class="badge badge-primary">Clinician</span>
+      {{/if}}
+      {{#if user.roles.analyst}}
+        <span class="badge badge-secondary">Analyst</span>
+      {{/if}}
+      {{#if user.roles.researcher}}
+        <span class="badge badge-info">Researcher</span>
+      {{/if}}
+      {{#if user.roles.admin}}
+        <span class="badge badge-warning">Admin</span>
+      {{/if}}
+      {{#if user.roles.root}}
+        <span class="badge badge-dark">Root</span>
+      {{/if}}
+      <p class="card-text">
+      <form id="form">
+        <div id="formFields"></div>
+      <button type="submit" id="update" class="btn btn-primary">Update</button>
+      </form>
+    </div>
+  </div>
+  {{> logos}}
+</div>
+
+<style>  
+  #update {
+    background-color: #008080; 
+    color: white;
+    font-weight:bold;
+  }
+  #logos {      
+      margin-top: 32%;
+    }
+  .form-control {
+    background-color: #D3F0F5 !important;
+    border: 1px solid #3B5F68 !important;    
+  }
+  label {
+    color: #808080;
+    font-weight: bold;
+  }
+</style>
+
+<script type="text/javascript" src="/public/scripts/account.js"></script>
+<script>
+  joiFormValue('firstname', '{{user.firstname}}');
+  joiFormValue('lastname', '{{user.lastname}}');
+  joiFormValue('email', '{{user.email}}');  
+</script>

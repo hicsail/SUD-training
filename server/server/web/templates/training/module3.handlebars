@@ -1,0 +1,27 @@
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    {{>dashboardNav}}
+    <div class="col-sm-9 col-md-10">
+      <div style="padding: 30px">
+      <h3>Training Module 3: SUD Treatment Principles and Application for Alcohol, Marijuana, Stimulant, and Opioid Use</h3>
+      <hr>
+      <h4>Intro blurb</h4>
+      <p>In the third and last module, you will learn intervention strategies for reducing substance use. You will learn a brief treatment manual in motivational interviewing (MI) and cognitive behavior therapy (CBT) to overcome addiction, including indications for drug-specific (i.e., alcohol, marijuana, stimulants, opioids) reward mechanisms and cravings. You will receive instruction and guided practice in topics that include using the OARS to elicit intrinsic reasons for change; developing skills of hearing a wide variety of change talk; recognizing the difference between contemplative vs. mobilizing change talk; developing skills for responding to sustain talk and discord; using strategies (e.g., change ruler) for consolidating commitment to change; and coping skills training for cravings and urges to prevent relapse.</p>
+
+      <h4>User Guidance:</h4>
+      <p>Please note that you will need to keep track of your progress. We advise you to write down your training module progress (e.g., video 3.3, 10:00 minutes) before you exit this screen. The webpage will not keep track of your progress for you.</p>				
+
+	   <h4>content:</h4>
+	   <p><iframe width="420" height="315" src="https://www.youtube.com/embed/MnOITHXlW6U" frameborder="0"></iframe></p>
+
+	  	<button class="btn btn-primary" onclick="startQuiz('{{user._id}}', '{{moduleId}}')">Start Quiz</button>
+
+      <!-- {{#if user.quizCompleted}}
+      {{else}}
+          <button class="btn btn-primary" onclick="startQuiz('{{user._id}}', '{{moduleId}}')">Start Quiz</button>
+      {{/if}} -->         
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="/public/scripts/training.js"></script>
