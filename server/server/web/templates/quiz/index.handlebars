@@ -2,70 +2,105 @@
   <div class="row h-100">
     {{>dashboardNav}}
     <div class="col-sm-9 col-md-10">
-      <div style="padding: 30px">
+      <div style="padding: 30px;">        
         {{#if quizCompleted}}
-          <h2 style="text-align: center;">
-            You got {{score}} out of {{questions.length}}.
+          <br><br>
+          <h2 style="text-align: center;" class="text-bold">
+            Quiz Result: You got {{score}} out of {{numQuestions}}.
             {{#if passed}}
               <span class="badge badge-pill badge-success ml-2">{{precentage}}%</span>
             {{else}}
               <span class="badge badge-pill badge-danger ml-2">{{precentage}}%</span>
             {{/if}}
           </h2>
-          <br>
+          <br>      
           {{#if passed }}
             {{#if certificateEligible}}            
-              <h3>Congratulations {{user.firstname}}, You have passed the quiz for this training module.</h3> 
-              <h3>Since you have now passed the quizzes for all three modules successfully, you can now receive your certificate of completion.</h3>
+              <h3 style="text-align:center;" class="text-bold">Congratulations {{user.firstname}}, You have passed the quiz for this training module.</h3>
+              <br> 
+              <h3 style="text-align:center;" class="text-bold">Since you have now passed the quizzes for all three modules successfully, you can now receive your certificate of completion on side dashboard.</h3>
               <br>
             {{else}}            
-              <h3>Congratulations {{user.name}}, You have passed the quiz for this training module. Please proceed to <a href="../training-module/{{nextModuleId}}">training module {{nextModuleId}}</a>.</h3>
+              <h3 style="text-align:center;" class="text-bold">Congratulations {{user.name}}, You have passed the quiz for this training module!</h3>
+              <h3 style="text-align:center;" class="text-bold">Please proceed to <a href="../training-module/{{nextModuleId}}">training module {{nextModuleId}}</a>.</h3>
               <br>
             {{/if}}            
-          {{else}}
-            <h3>You must get at least 80% of questions correct to pass the quiz for this training module.</h3>          
-            <h3>Please retake the <a href="#" onclick="retake('{{user._id}}','{{moduleId}}')">quiz for training module {{moduleId}}.</a></h3>
-          {{/if}}
+          {{else}}                       
+            <h3 style="text-align:center;" class="text-bold">Passing Score: You must get at least 80% of questions correct to pass the quiz for this training module.</h3>
+            <br>          
+            <h3 style="text-align:center;" class="text-bold">Please retake the <a href="#" onclick="retake('{{user._id}}','{{moduleId}}')">quiz for training module {{moduleId}}.</a></h3>
+            <br>
+          {{/if}}                    
           <div class="row">
-            <div class="col">              
-              <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#details">View your score details</button>             
-              {{#if certificateEligible}}              
-                <button type="button" class="btn btn-info" onclick="downloadCertificate('{{user.firstname}}', '{{user.lastname}}')">Download certificate of completion.</button>              
-              {{/if}}       
-            </div>           
+            <div class="col-md-3"></div>
+            <div class="col-md-6">              
+              <button type="button" class="btn btn-lg" data-toggle="collapse" data-target="#details" style="width:100%;background-color:#128094;color:white;">View your score details for this module below</button>             
+            </div> 
+            <div class="col-md-3"></div>          
           </div>
           <div id="details" class="collapse">                
             {{#each questions as |q|}}
+              {{#if q.id}}
               <div class="card" id={{q.id}} style="margin-bottom:10px;">
                 <div class="card-body">
-                  <h4>{{q.id}}.{{q.text}}</h4>
+                  <h4 class="text-bold">{{q.id}}.{{q.text}}</h4>
                   <br>
                   {{#each q.choices as |choice|}}                  
                     <div class="form-check" style="margin-left:20px;">
                       <input type="checkbox" class="form=check-input" disabled {{checkRadioBtn @index q.answer}}>                                        
-                      <label class='{{radioBtnClass ../../passed @index q.answer q.keyIndex}}'>{{choice}}</label>
+                      <label class='{{radioBtnClass ../../passed @index q.answer q.keyIndex}}' style="font-size:20px;">{{choice}}</label>
                     </div>
                   {{/each}}
                 </div>
-              </div>                      
+              </div>
+              {{else}}
+                <br>
+                <h3 class="text-bold">{{q.exp}}</h3>
+                <br>
+                <h4>{{q.subexp}}</h4>
+                <br>                
+                <ul style="list-style-type:none;">
+                  {{#each q.choices as |choice|}}                  
+                    <li><h4 class="text-bold">{{choice}}</h4></li>
+                  {{/each}}
+                </ul>               
+                <br>                 
+              {{/if}}                     
             {{/each}}
           </div>
         {{else}}       
-          <h3>Quiz</h3>        
+          <h2 class="text-bold">{{title}}</h2> 
+          <br>       
           {{#each questions as |q|}}
-            <div class="card" id={{q.id}} style="margin-bottom:10px;">
-              <div class="card-body">
-                <h4>{{q.id}}.{{q.text}}</h4>
-                <br>
-                {{#each q.choices as |choice|}}                  
-                  <div class="form-check" style="margin-left:20px;">
-                    <input type="radio" class="form-check-input" name={{q.id}} onchange="updateAnswer({{q.id}}, {{@index}}, {{../../moduleId}})" {{checkRadioBtn @index q.answer}}>
-                    <label class="form-check-label">{{choice}}</label>
-                  </div>
-                {{/each}}
+            {{#if q.id}}
+              <div class="card" id={{q.id}} style="margin-bottom:10px;">
+                <div class="card-body">
+                  <h4 class="text-bold">{{q.id}}.{{q.text}}</h4>
+                  <br>
+                  {{#each q.choices as |choice|}}                  
+                    <div class="form-check" style="margin-left:20px;">
+                      <input type="radio" class="form-check-input" name={{q.id}} onchange="updateAnswer({{q.id}}, {{@index}}, {{../../moduleId}})" {{checkRadioBtn @index q.answer}}>
+                      <label class="form-check-label" style="font-size:20px;">{{choice}}</label>
+                    </div>
+                  {{/each}}
+                </div>
               </div>
-            </div>                      
+            {{else}}
+              <br>
+              <h3 class="text-bold">{{q.exp}}</h3>
+              <br>
+              <h4>{{q.subexp}}</h4>
+              <br>              
+              <ul style="list-style-type:none;">
+                {{#each q.choices as |choice|}}                  
+                  <li><h4 class="text-bold">{{choice}}</h4></li>
+                {{/each}}
+              </ul>
+             
+              <br> 
+            {{/if}}                                
           {{/each}}
+
           <div class="row">
             <div class="col">
               <button class="btn btn-primary" onclick="submit('{{user._id}}', '{{moduleId}}')" {{#if submitBtnDisabled}} disabled {{/if}} id="submit">Submit and see your test results</button>
@@ -89,5 +124,8 @@
 .right {  
   text-decoration: underline;
   text-decoration-color: green;    
+}
+.text-bold {
+  font-weight:bold;
 }
 </style>

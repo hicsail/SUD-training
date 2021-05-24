@@ -3,6 +3,7 @@
 const questions = [
   {
     'trainingModuleId':1,
+    'title':'Module 1: Screening, Brief Intervention, and Referral to Treatment Strategies',
     'questions': [
       {
         'id': 1,
@@ -74,6 +75,7 @@ const questions = [
   },
   {
     'trainingModuleId':2,
+    'title': 'Module 2: Assessment of Substance Use',
     'questions':[
       {
         'id': 12,
@@ -127,12 +129,17 @@ const questions = [
   },
   {
     'trainingModuleId':3,
+    'title':'Module 3: SUD Treatment Principles and Application for Alcohol, Marijuana, Stimulant, and Opioid Use',
     'questions':[
       {
         'id': 20,
         'text': ' The MI approach is',
         'choices': ['Completely non-directive', 'Highly authoritarian', 'Directive but client-centered', 'Primarily educational', 'All of the above'],
         'key': '2'
+      },
+      {
+        'exp':'For the following 5 questions, categorize each statement using this key:',
+        'choices':['A – Contemplative change talk', 'B – Mobilizing change talk', 'C – Sustain talk','D – Ambivalence']
       },
       {
         'id': 21,
@@ -169,6 +176,10 @@ const questions = [
         'text': ' According to Miller & Rollnick, resistance can be seen as',
         'choices': ['A trait of difficult clients', 'A healthy assertion of independence', 'A function of a mismatch between the client’s stage of change and the therapist’s strategies', 'An indicator of poor prognosis, which, if persistent, indicates that the client should be dropped from counseling.', 'None of the above'],
         'key': '2'
+      },
+      {
+        'exp':'Using the following dialogue, determine what type of response the counselor is giving in each of the next 4 questions:',
+        'subexp':'"I just don\'t know what else I can do to reassure my family that I don\'t want to keep using cocaine…I know that they have a hard time trusting me after the last few times I picked up, but I\'m really trying hard to do this and it not easy when they question me suspiciously about how I spent my money, where I have been, and who I have been with.”'
       },
       {
         'id': 27,
@@ -288,7 +299,7 @@ const questions = [
         'id': 46,
         'text': ' A client you are working with has recently lapsed to using opioids after a 6-month period of abstinence.  While debriefing the lapse she says “It’s pretty clear from my behavior this weekend that I’m never going to be able to stay sober.”  Which of the following cognitive errors most likely underlies this belief:',
         'choices': ['Mind reading', 'Should and Oughts', 'Filtering', 'Overgeneralizing', 'Catastrophizing'],
-        'key': '1'
+        'key': '3'
       }
     ]
   }

@@ -71,11 +71,7 @@ function renderBarChart(data) {
 $.ajax({
   type: "GET",
   url: '/api/users/quizCompleted/summaryStatistics',     
-  success: function(data){
-    let result = {'1': [], '2': [], '': [], 'max': []};    
-    for (let d of data) {
-      result[d[group]].push(d)
-    }         
+  success: function(data){            
     renderBarChart(data);          
   }
 });  

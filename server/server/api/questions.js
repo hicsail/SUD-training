@@ -18,15 +18,24 @@ const register  = function (server, options) {
       const response = {};
       for (let moduleId = 1; moduleId <= 3; ++moduleId) {
 
-        const questions =  Questions[moduleId - 1].questions;
+        const questions =  Questions[moduleId - 1].questions;          
+        
         const field = 'quizCompleted.' + moduleId + '.moduleCompleted';
         const filter = {};
         filter[field] = true;
         const users = await User.find(filter);
         //create list of userId who have completed quiz for module Id
         const userIds = users.map( (user) => user._id.toString() );
+
+        //grab list of questions (ignore the explanatory items in array)        
+        let qs = []
+        for (let q of questions) {
+          if (q.id)
+            qs.push(q)
+        }
+
         //create list of questionsId
-        const questionIds = questions.map((q) => q.id.toString());
+        const questionIds = qs.map((q) => q.id.toString());
 
         //the most recent sessionId for each question might be different.
         const pipeline = [
@@ -48,15 +57,15 @@ const register  = function (server, options) {
 
           if (qId in dict) {
             dict[qId].userCounts += 1;
-            const index = questions.findIndex((q) => q.id.toString() === qId);
-            if (answerIndex.toString() === questions[index].key) {
+            const index = qs.findIndex((q) => q.id.toString() === qId);
+            if (answerIndex.toString() === qs[index].key) {
               dict[qId].correctAnswers += 1;
             }
           }
           else {
             dict[qId] = { 'userCounts': 1, 'correctAnswers': 0 };
-            const index = questions.findIndex((q) => q.id.toString() === qId);
-            if (answerIndex.toString() === questions[index].key) {
+            const index = qs.findIndex((q) => q.id.toString() === qId);
+            if (answerIndex.toString() === qs[index].key) {
               dict[qId].correctAnswers += 1;
             }
           }
@@ -69,8 +78,7 @@ const register  = function (server, options) {
           result.push(rec);
         }
         response[moduleId] = result;
-      }
-      console.log(response);
+      }      
       return (response);
     }
   });

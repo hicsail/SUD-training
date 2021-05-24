@@ -17,13 +17,18 @@ const register = function (server, options) {
       description: 'Sign up for a new user account.',
       auth: false,
       validate: {
-        payload: User.payload
+        payload: Joi.object({
+          'password': Joi.string().required(),
+          'emailaddress': Joi.string().email().lowercase().required(),
+          'firstname': Joi.string().required(),
+          'lastname': Joi.string().required()
+        })
       },
       pre: [{
         assign: 'emailCheck',
         method: async function (request, h) {
 
-          const user = await User.findByEmail(request.payload.email);
+          const user = await User.findByEmail(request.payload.emailaddress);
 
           if (user) {
 
@@ -52,7 +57,7 @@ const register = function (server, options) {
     handler: async function (request, h) {
 
       const password = request.payload.password;
-      const email = request.payload.email;
+      const email = request.payload.emailaddress;
       const firstname = request.payload.firstname;
       const lastname = request.payload.lastname;
 
@@ -61,8 +66,8 @@ const register = function (server, options) {
       const emailOptions = {
         subject: 'Your ' + Config.get('/projectName') + ' account',
         to: {
-          name: request.payload.name,
-          address: request.payload.email
+          name: request.payload.firstname + request.payload.lastname,
+          address: request.payload.emailaddress
         }
       };
 

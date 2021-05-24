@@ -17,13 +17,27 @@ const register = function (server, options) {
     },
     handler: function (request, h) {
 
+      let certificateEligible = false;
       let user = null;
+      let view = 'index/index';
+
       if (request.auth.isAuthenticated) {
         user = request.auth.credentials.user;
+        view = 'dashboard/index';
+        
+        //Determine if user has passed all 3 quizes successfully
+        certificateEligible = true;
+        for (const moduleId in user.quizCompleted) {
+          if (!user.quizCompleted[moduleId].moduleCompleted || user.quizCompleted[moduleId].score < 80) {
+            certificateEligible = false;
+            break;
+          }
+        }
       }
 
-      return h.view('index/index', {
+      return h.view(view, {
         user,
+        certificateEligible,
         projectName: Config.get('/projectName'),
         title: 'Home',
         baseUrl: Config.get('/baseUrl')

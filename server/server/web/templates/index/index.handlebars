@@ -1,18 +1,35 @@
-<div class="container" style="padding-top: 60px">
-  <p>
-  	Welcome to the training series, “Enhanced Training for Clinical Mental Health Counselors in Substance Use Disorder Assessment and Treatment.” This training series was developed by faculty in the Boston University School of Medicine’s Mental Health Counseling and Behavioral Medicine program (BU MHCBM) in consultation with leaders of the American Mental Health Counselors Association (AMHCA). In this series, you will learn about SUD screening, brief intervention, and referral to treatment, with a specific focus on alcohol, marijuana, stimulants, and opioids. You will learn core skills in clinical assessment of SUDs and treatment approaches that include motivational interviewing and cognitive behavior therapy. At the conclusion of the training, once you have passed the quizzes for each of the three modules, you will receive a certificate of completion.
+<div class="container" style="padding-top: 100px;">
+  <p style="font-size:50px;font-weight:bold;"">Welcome to SUD Training!</p>
+  <br>
+  <p style="font-size:18px;font-weight:bold;">Welcome to the Enhanced Training for Clinical Mental Health Counselors in Substance Use Disorder Assessment and Treatment.</P>
+  <br>
+  <p style="font-size:18px;font-weight:bold;">
+    This training was supported by a SAMSHA grant (Expansion of Practitioner Education; FG-20-001). It was developed by faculty in the Department of Psychiatry at the Boston University School of Medicine in consultation with the American Mental Health Counselors Association.
   </p>
 
-  <p>
-	[Note: we may be offering continuing education as part of this training. If so, we would state number of hours in continuing education language, e.g., “This training was approved for XX hours of continuing education by the National Board of Certified Counselors, #xxxx”]
+  <p style="font-size:18px;font-weight:bold;">
+  	This training series was developed by faculty in the Boston University School of Medicine’s Mental Health Counseling and Behavioral Medicine program (BU MHCBM) in consultation with leaders of the American Mental Health Counselors Association (AMHCA). In this series, you will learn about SUD screening, brief intervention, and referral to treatment, with a specific focus on alcohol, marijuana, stimulants, and opioids. You will learn core skills in clinical assessment of SUDs and treatment approaches that include motivational interviewing and cognitive behavior therapy. At the conclusion of the training, once you have passed the quizzes for each of the three modules, you will receive a certificate of completion.
   </p>
-
+  <br>
   {{#if user}}
   {{else}}
-  	<p>
-  		To begin or continue your training journey, please <a href="../login">login</a> first.
+  	<p style="font-size:18px;font-weight:bold;">
+  		To begin please <a class="dark-blue" href="../signup">create an acount</a> . Otherwise, please <a class="dark-blue" href="../login">login</a> to continue.
   	</p>
   {{/if}}
-  
+
+{{> logos}} 
 </div>
 
+
+<style>
+  #logos {
+    margin-top:30%;
+  }
+  .blue {
+    color: #215a85;
+  }
+  .dark-blue {
+        color: #008080; 
+  }
+</style>

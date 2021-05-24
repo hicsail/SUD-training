@@ -420,6 +420,22 @@
       "researcher",
       "admin",
       "root"
+    ],
+    "/analytics": [
+      "admin",
+      "root"
+    ],
+    "/api/questions/analysis": [
+      "admin",
+      "root"
+    ],
+    "/api/users/quizCompleted/summaryStatistics": [
+      "admin",
+      "root"
+    ],
+    "/api/users/quizCompleted/counts/{moduleId?}": [
+      "admin",
+      "root"
     ]
   },
   "POST": {

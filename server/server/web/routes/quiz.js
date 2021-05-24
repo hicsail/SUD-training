@@ -19,6 +19,7 @@ const register = function (server, options) {
 
       //quiz questions on the module with moduleId passed in url
       const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
+      const title = Questions[parseInt(request.params.moduleId) - 1].title;
       const numModules = 3;
       const maxIteration = numModules - 1;
       let score = 0;
@@ -27,14 +28,22 @@ const register = function (server, options) {
       let certificateEligible = true;
       let templateData = [];//metadata containing info about questions to be passed to template
       const userId = request.auth.credentials.user._id.toString();
-      const user = await User.findById(userId);
+      const user = await User.findById(userId);      
 
       if (!user) {
         throw Boom.notFound('Document not found.');
       }
+      
+      let qs = [];
+      for (let q of questions) {
+        if (q.id)
+          qs.push(q.id.toString());
+      }
+
+      const numQuestions = qs.length;
       //the most recent sessionId for each question might be different.
       const pipeline = [
-        { $match : { userId, active: true, questionId: { $in: questions.map((q) => q.id.toString()) } } },
+        { $match : { userId, active: true, questionId: { $in:  qs} } },
         { $sort:{ lastUpdated : -1 } },
         { $group: {
           _id: { questionId: '$questionId' },
@@ -47,11 +56,7 @@ const register = function (server, options) {
       const mostRecentAnswers = await Answer.aggregate(pipeline);
 
       if (mostRecentAnswers.length !== 0) {
-
-        //Enable submit button if all questions are answered
-        if (mostRecentAnswers.length === questions.length) {
-          submitBtnDisabled = false;
-        }
+        
         //hash most recent answers with questionIds as keys and answerIndex as value
         const hashData = {};
         for (const answer of mostRecentAnswers) {
@@ -59,7 +64,9 @@ const register = function (server, options) {
         }
 
         for (const q of questions) {
-          const question = { 'id': q.id, 'text': q.text, 'choices': q.choices };
+
+          const question = {'id': q.id, 'text': q.text, 'choices': q.choices, 'exp': q.exp, 'subexp': q['subexp']};
+                
           if (q.id in hashData) {
             question.answer = hashData[q.id];
             //increment score if user's answer is correct
@@ -73,6 +80,11 @@ const register = function (server, options) {
           }
           templateData.push(question);
         }
+
+        //Enable submit button if all questions for this module are answered
+        if (mostRecentAnswers.length === numQuestions) {
+          submitBtnDisabled = false;
+        }
       }
       else {
         templateData = questions;
@@ -82,36 +94,37 @@ const register = function (server, options) {
         score = null;
       }
 
-      if ((score * 100) / questions.length >= 80 ) {
+      if ((score * 100) / numQuestions >= 80 ) {
         passed = true;
       }
 
       const nextModuleId = getNextModuleId(user, parseInt(request.params.moduleId), numModules, maxIteration);
 
       //Determine if user has passed all 3 quizes successfully
-      for (const moduleId in user.quizCompleted) {
+      for (const moduleId in user.quizCompleted) {        
         if (!user.quizCompleted[moduleId].moduleCompleted || user.quizCompleted[moduleId].score < 80) {
           certificateEligible = false;
           break;
         }
       }
 
-      let precentage = ((score / templateData.length) * 100);
+      let precentage = ((score / numQuestions) * 100);
       precentage = Number.isInteger(precentage) ? precentage : precentage.toFixed(2);
-
+      
       return h.view('quiz/index', {
         questions: templateData,
         passed,
         submitBtnDisabled,
         certificateEligible,
         score,
+        numQuestions,
         precentage,
         nextModuleId,
         moduleId: request.params.moduleId,
         quizCompleted: user.quizCompleted[request.params.moduleId].moduleCompleted,
         user: request.auth.credentials.user,
         projectName: Config.get('/projectName'),
-        title: 'Quiz',
+        title: title,
         baseUrl: null
       });
     }

@@ -75,9 +75,14 @@ const register  = function (server, options) {
         throw Boom.notFound('Document not found.');
       }
 
-      let score = 0;
+      let score = 0;      
+      let qs = [];
+      for (let q of questions) {
+        if (q.id)
+          qs.push(q.id.toString());
+      }
       const pipeline = [
-        { $match : { userId : id, active: true,  questionId: { $in: questions.map((q) => q.id.toString()) } } },
+        { $match : { userId : id, active: true,  questionId: { $in: qs } } },
         { $sort:{ lastUpdated : -1 } },
         { $group: {
           _id: { questionId: '$questionId' },
@@ -117,10 +122,14 @@ const register  = function (server, options) {
     handler: async function (request, h) {
 
       const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
-
+      let qs = [];
+      for (let q of questions) {
+        if (q.id)
+          qs.push(q.id.toString());
+      }
       const filter = {
         userId: request.auth.credentials.user._id.toString(),
-        questionId: { $in: questions.map((q) => q.id.toString()) }
+        questionId: { $in: qs }
       };
       const update = {
         $set: {
@@ -149,9 +158,14 @@ const register  = function (server, options) {
 
       const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
       const userId = request.auth.credentials.user._id.toString();
+      let qs = [];
+      for (let q of questions) {
+        if (q.id)
+          qs.push(q.id.toString());
+      }
 
       const pipeline = [
-        { $match : { userId, active: true,  questionId: { $in: questions.map((q) => q.id.toString()) } } },
+        { $match : { userId, active: true,  questionId: { $in: qs } } },
         { $group: {
           _id: { questionId: '$questionId' }
         }
@@ -165,7 +179,7 @@ const register  = function (server, options) {
       }
       return {
         'numQuestionsAnswered': answers.length,
-        'numQuestions': questions.length
+        'numQuestions': qs.length
       };
     }
   });
