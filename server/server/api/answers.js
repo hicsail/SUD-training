@@ -23,31 +23,21 @@ const register  = function (server, options) {
     },
     handler: async function (request, h) {
 
-      let answer = null;
+      //let user = null;
 
-      const filter = {
-        userId: request.auth.credentials.user._id.toString(),
-        sessionId: request.auth.credentials.session._id.toString(),
-        questionId: request.payload.questionId
-      };
+      const userId = request.auth.credentials.user._id.toString();
+      let updatedAnswers = request.auth.credentials.user.answers;
+      updatedAnswers[request.payload.questionId] = request.payload.answerIndex;
 
       const update = {
         $set: {
-          answerIndex: request.payload.answerIndex,
-          lastUpdated: new Date(),
-          active:true
+          answers: updatedAnswers
         }
       };
 
-      answer = await Answer.findOneAndUpdate(filter, update);
+      const user = await User.findByIdAndUpdate(userId, update);
 
-      request.payload.sessionId = request.auth.credentials.session._id.toString();
-      request.payload.userId = request.auth.credentials.user._id.toString();
-      if (!answer) {
-        answer = await Answer.create(request.payload);
-      }
-
-      return answer;
+      return user;
     }
   });
 
@@ -75,7 +65,7 @@ const register  = function (server, options) {
         throw Boom.notFound('Document not found.');
       }
 
-      let score = 0;      
+      let score = 0;
       let qs = [];
       for (let q of questions) {
         if (q.id)
@@ -164,19 +154,15 @@ const register  = function (server, options) {
           qs.push(q.id.toString());
       }
 
-      const pipeline = [
-        { $match : { userId, active: true,  questionId: { $in: qs } } },
-        { $group: {
-          _id: { questionId: '$questionId' }
-        }
-        }
-      ];
+      const user = await User.findById(userId);
 
-      const answers = await Answer.aggregate(pipeline);
-
-      if (!answers) {
+      if (!user) {
         throw Boom.notFound('Document not found.');
       }
+
+      const userAnswers = Object.keys(user.answers);
+      const answers = userAnswers.filter(key => { return qs.indexOf(key) !== -1 });
+
       return {
         'numQuestionsAnswered': answers.length,
         'numQuestions': qs.length

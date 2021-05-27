@@ -56,6 +56,7 @@ class User extends AnchorModel {
         '2': { moduleCompleted:false, score: 0 },
         '3': { moduleCompleted:false, score: 0 }
       },
+      answers: {},
       timeCreated: new Date()
     });
 
@@ -177,6 +178,7 @@ User.schema = Joi.object({
     token: Joi.string().required(),
     expires: Joi.date().required()
   }),
+  answers: Joi.object().pattern(/^[1-9][0-9]*$/, [Joi.string()]),
   timeCreated: Joi.date()
 });
 
