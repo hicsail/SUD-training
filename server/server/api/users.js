@@ -3,7 +3,6 @@ const Questions = require('../questions');
 const Boom = require('boom');
 const GroupAdmin = require('../models/group-admin');
 const User = require('../models/user');
-const Answer = require('../models/answer');
 const Config = require('../../config');
 const Joi = require('joi');
 const PasswordComplexity = require('joi-password-complexity');
@@ -653,11 +652,14 @@ const register = function (server, options) {
         { 'group': 'min', '1': 0, '2': 0, '3': 0 },
         { 'group': 'max', '1': 0, '2': 0, '3': 0 }
       ];
+
       for (const i in scores) {
-        result[0][moduleIds[i]] = Math.mean(scores[i]);
-        result[1][moduleIds[i]] = Math.median(scores[i]);
-        result[2][moduleIds[i]] = Math.min(scores[i]);
-        result[3][moduleIds[i]] = Math.max(scores[i]);
+        if (scores[i].length !== 0) {
+          result[0][moduleIds[i]] = Math.mean(scores[i]);
+          result[1][moduleIds[i]] = Math.median(scores[i]);
+          result[2][moduleIds[i]] = Math.min(scores[i]);
+          result[3][moduleIds[i]] = Math.max(scores[i]);
+        }
       }
 
       return result;

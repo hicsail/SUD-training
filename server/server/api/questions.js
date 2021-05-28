@@ -1,5 +1,4 @@
 'use strict';
-const Answer = require('../models/answer');
 const User = require('../models/user');
 const Questions = require('../questions');
 
@@ -14,12 +13,11 @@ const register  = function (server, options) {
       }
     },
     handler: async function (request, h) {
-
       const response = {};
       for (let moduleId = 1; moduleId <= 3; ++moduleId) {
 
-        const questions =  Questions[moduleId - 1].questions;          
-        
+        const questions =  Questions[moduleId - 1].questions;
+
         const field = 'quizCompleted.' + moduleId + '.moduleCompleted';
         const filter = {};
         filter[field] = true;
@@ -27,7 +25,7 @@ const register  = function (server, options) {
         //create list of userId who have completed quiz for module Id
         const userIds = users.map( (user) => user._id.toString() );
 
-        //grab list of questions (ignore the explanatory items in array)        
+        //grab list of questions (ignore the explanatory items in array)
         let qs = []
         for (let q of questions) {
           if (q.id)
@@ -36,41 +34,32 @@ const register  = function (server, options) {
 
         //create list of questionsId
         const questionIds = qs.map((q) => q.id.toString());
-
-        //the most recent sessionId for each question might be different.
-        const pipeline = [
-          { $match : { active: true, userId: { $in: userIds }, questionId: { $in: questionIds } } },
-          { $sort:{ lastUpdated : -1 } },
-          { $group: {
-            _id: { questionId: '$questionId', userId: '$userId' },
-            answerIndex: { $first : '$answerIndex' }
-          } }
-        ];
-        //find most recent answers for each question
-        const mostRecentAnswers = await Answer.aggregate(pipeline);
-
+        let answerList = [];
+        for (const user of users) {
+          answerList.push(user.answers);
+        }
         const dict = {};
-        for (const answer of mostRecentAnswers) {
+        for (const answers of answerList) {
+          for (const answer of Object.keys(answers)) {
 
-          const qId = answer._id.questionId;
-          const answerIndex = answer.answerIndex;
+            const qId = answer;
+            const answerIndex = answers[qId];
 
-          if (qId in dict) {
-            dict[qId].userCounts += 1;
-            const index = qs.findIndex((q) => q.id.toString() === qId);
-            if (answerIndex.toString() === qs[index].key) {
-              dict[qId].correctAnswers += 1;
-            }
-          }
-          else {
-            dict[qId] = { 'userCounts': 1, 'correctAnswers': 0 };
-            const index = qs.findIndex((q) => q.id.toString() === qId);
-            if (answerIndex.toString() === qs[index].key) {
-              dict[qId].correctAnswers += 1;
+            if (qId in dict) {
+              dict[qId].userCounts += 1;
+              const index = qs.findIndex((q) => q.id.toString() === qId);
+              if (answerIndex.toString() === qs[index].key) {
+                dict[qId].correctAnswers += 1;
+              }
+            } else {
+              dict[qId] = {'userCounts': 1, 'correctAnswers': 0};
+              const index = qs.findIndex((q) => q.id.toString() === qId);
+              if (index !== -1 && answerIndex.toString() === qs[index].key) {
+                dict[qId].correctAnswers += 1;
+              }
             }
           }
         }
-
         const result = [];
         for (const key in dict) {
           //let rec = [key, dict[key]['userCounts'], dict[key]['correctAnswers']];
@@ -78,7 +67,7 @@ const register  = function (server, options) {
           result.push(rec);
         }
         response[moduleId] = result;
-      }      
+      }
       return (response);
     }
   });

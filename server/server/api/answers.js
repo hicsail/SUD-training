@@ -1,7 +1,6 @@
 'use strict';
 const Joi = require('joi');
 const Boom = require('boom');
-const Answer = require('../models/answer');
 const User = require('../models/user');
 const Questions = require('../questions');
 
@@ -73,46 +72,6 @@ const register  = function (server, options) {
         }
       }
       return score;
-    }
-  });
-
-  server.route({
-    method: 'PUT',
-    path: '/api/user-answer/active/{moduleId}',
-    options: {
-      auth: {
-        strategies: ['session']
-      },
-      validate: {
-        payload: {
-          active: Joi.boolean().required()
-        }
-      }
-    },
-    handler: async function (request, h) {
-
-      const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
-      let qs = [];
-      for (let q of questions) {
-        if (q.id)
-          qs.push(q.id.toString());
-      }
-      const filter = {
-        userId: request.auth.credentials.user._id.toString(),
-        questionId: { $in: qs }
-      };
-      const update = {
-        $set: {
-          active: request.payload.active
-        }
-      };
-
-      const answers = await Answer.updateMany(filter, update);
-
-      if (!answers) {
-        throw Boom.notFound('Document not found.');
-      }
-      return answers;
     }
   });
 

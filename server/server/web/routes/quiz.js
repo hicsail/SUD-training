@@ -1,7 +1,6 @@
 'use strict';
 const Config = require('../../../config');
 const Questions = require('../../questions');
-const Answer = require('../../models/answer');
 const User = require('../../models/user');
 const Boom = require('boom');
 
@@ -133,35 +132,6 @@ const getNextModuleId = function (user, currentModuleId, numModules, maxIteratio
   }
 
   return -1;
-
-  /*//Compute id of next module whose quiz should be taken by user
-  let nextModuleId = ( currentModuleId % numModules ) + 1;
-  let nextModuleFound = false;
-
-  //not completed quized are high priority
-  for (let i = 0; i < maxIteration; i++) {
-    if (!user.quizCompleted[nextModuleId]['moduleCompleted']) {
-      nextModuleFound = true;
-      break;
-    }
-    else {
-      nextModuleId = ( nextModuleId  % numModules) + 1;
-    }
-  }
-
-  if (!nextModuleFound) {
-    for (let i = 0;i < maxIteration; i++) {
-      //Next module must be a failed one
-      if (user.quizCompleted[nextModuleId]['score'] < 80 ) {
-        nextModuleFound = true;
-        break;
-      }
-      else {
-        nextModuleId = ( nextModuleId  % numModules) + 1;
-      }
-    }
-  }
-  return nextModuleId; */
 };
 
 module.exports = {
