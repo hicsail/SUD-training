@@ -530,38 +530,14 @@ const register = function (server, options) {
             questionIds.push(q.id.toString());
         }
 
-        //the most recent sessionId for each question might be different.
-        const pipeline = [
-          { $match : { userId, active: true, questionId: { $in:  questionIds } } },
-          { $sort:{ lastUpdated : -1 } },
-          { $group: {
-            _id: { questionId: '$questionId' },
-            answerIndex: { $first : '$answerIndex' },
-            lastUpdated: { $first : '$lastUpdated' },
-            questionId: { $first : '$questionId' }
-          } }
-        ];
-        //find most recent answers for each question
-        const mostRecentAnswers = await Answer.aggregate(pipeline);
-
-        if (mostRecentAnswers.length !== 0) {
-          //hash most recent answers with questionIds as keys and answerIndex as value
-          const hashData = {};
-          for (const answer of mostRecentAnswers) {
-            hashData[answer.questionId] = answer.answerIndex;
-          }
-
-          for (const q of questions) {
-            if (q.id in hashData) {
-              //increment score if user's answer is correct
-              if (hashData[q.id] === q.key) {
-                score += 1;
-              }
+        const answers = user.answers;
+        for (const q of questions) {
+          if (q.id in answers) {
+            //increment score if user's answer is correct
+            if (answers[q.id] === q.key) {
+              score += 1;
             }
           }
-        }
-        else {
-          score = 0;
         }
         //Compute precentage score
         score = (score * 100) / questionIds.length;
@@ -670,7 +646,7 @@ const register = function (server, options) {
 
         scores.push(scoreList);
       }
-      
+
       const result = [
         { 'group': 'mean', '1': 0, '2': 0, '3': 0 },
         { 'group': 'median', '1': 0, '2': 0, '3': 0 },
@@ -683,7 +659,7 @@ const register = function (server, options) {
         result[2][moduleIds[i]] = Math.min(scores[i]);
         result[3][moduleIds[i]] = Math.max(scores[i]);
       }
-      
+
       return result;
     }
   });

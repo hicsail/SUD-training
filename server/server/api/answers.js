@@ -66,29 +66,9 @@ const register  = function (server, options) {
       }
 
       let score = 0;
-      let qs = [];
-      for (let q of questions) {
-        if (q.id)
-          qs.push(q.id.toString());
-      }
-      const pipeline = [
-        { $match : { userId : id, active: true,  questionId: { $in: qs } } },
-        { $sort:{ lastUpdated : -1 } },
-        { $group: {
-          _id: { questionId: '$questionId' },
-          answerIndex: { $first : '$answerIndex' },
-          questionId: { $first : '$questionId' }
-        } }
-      ];
-      const mostRecentAnswers = await Answer.aggregate(pipeline);
-
-      const hashData = {};
-      for (const answer of mostRecentAnswers) {
-        hashData[answer.questionId] = answer.answerIndex;
-      }
-
+      const answers = user.answers;
       for (const q of Questions) {
-        if (q.id in hashData && hashData[q.id] === q.key) {
+        if (q.id in answers && answers[q.id] === q.key) {
           score += 1;
         }
       }
