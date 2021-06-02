@@ -54,7 +54,7 @@ const register = function (server, options) {
 
       return h.view('analytics/index', {
         user: request.auth.credentials.user,
-        projectName: Config.get('/projectName'),
+        projectnName: Config.get('/projectName'),
         title: 'Analytics',
         baseUrl: Config.get('/baseUrl'),
         counts

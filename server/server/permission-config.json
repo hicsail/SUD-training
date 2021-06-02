@@ -102,6 +102,10 @@
       "admin",
       "root"
     ],
+    "/scoreDetails/{id}": [
+      "admin",
+      "root"
+    ],
     "/sessions": [
       "analyst",
       "clinician",
@@ -434,6 +438,10 @@
       "root"
     ],
     "/api/users/quizCompleted/counts/{moduleId?}": [
+      "admin",
+      "root"
+    ],
+    "/scoreDetails/{id}/{quizId}": [
       "admin",
       "root"
     ]

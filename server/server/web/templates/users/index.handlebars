@@ -19,8 +19,8 @@
                 <th>Module 1 Score</th>
                 <th>Module 2 Score</th>
                 <th>Module 3 Score</th>
-                <th>Joined Study</th>                              
-                {{#role user 'admin'}}                  
+                <th>Joined Study</th>
+                {{#role user 'admin'}}
                   <th>ID</th>
                   <th>Update Password</th>
                   <th>Edit</th>
@@ -38,7 +38,7 @@
 <script>
   var table;
   $(document).ready(function () {
-    table = $('#userTable').DataTable({      
+    table = $('#userTable').DataTable({
       scrollX: true,
       scrollY: '500px',
       scrollCollapse: true,
@@ -65,54 +65,54 @@
         {
           data: "email",
           defaultContent: ""
-        }, 
+        },
         {
           data: "quizCompleted.1",
           render: function (data, type, row) {
             if (data && data.moduleCompleted) {
-              if (data.score > 80) 
-                return '<h4><span class="badge badge-success badge-pill">' + data.score + '%</span></h4>';
-              else 
+              if (data.score > 80)
+                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=1" class="badge badge-success">' + data.score + '</a></h4>';
+              else
                return '<h4><span class="badge badge-danger badge-pill">' + data.score + '%</span></h4>';
-            }              
-            else 
-              return 'Not Completed';            
+            }
+            else
+              return 'Not Completed';
           }
         },
         {
           data: "quizCompleted.2",
           render: function (data, type, row) {
             if (data && data.moduleCompleted) {
-              if (data.score > 80) 
-                return '<h4><span class="badge badge-success badge-pill">' + data.score + '%</span></h4>';
-              else 
+              if (data.score > 80)
+                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=2" class="badge badge-success">' + data.score + '</a></h4>';
+              else
                return '<h4><span class="badge badge-danger badge-pill">' + data.score + '%</span></h4>';
-            }              
-            else 
-              return 'Not Completed'            
+            }
+            else
+              return 'Not Completed'
           }
         },
         {
           data: "quizCompleted.3",
           render: function (data, type, row) {
             if (data && data.moduleCompleted) {
-              if (data.score > 80) 
-                return '<h4><span class="badge badge-success badge-pill">' + data.score + '%</span></h4>';
-              else 
+              if (data.score > 80)
+                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=3" class="badge badge-success">' + data.score + '</a></h4>';
+              else
                return '<h4><span class="badge badge-danger badge-pill">' + data.score + '%</span></h4>';
-            }              
-            else 
-              return 'Not Completed'            
+            }
+            else
+              return 'Not Completed'
           }
-        },        
+        },
         {
           data: "timeCreated",
           render: function (data, type, row) {
             var date = new Date(row.timeCreated);
             return date.toDateString() + ' ' + date.toLocaleTimeString('en-us');
           }
-        },        
-        {{#role user 'admin'}}          
+        },
+        {{#role user 'admin'}}
           {
             data: "_id",
             defaultContent: "",
