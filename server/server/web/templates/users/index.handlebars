@@ -16,9 +16,9 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
-                <th>Module 1 Score</th>
-                <th>Module 2 Score</th>
-                <th>Module 3 Score</th>
+                <th>Module 1 Score & Link</th>
+                <th>Module 2 Score & Link</th>
+                <th>Module 3 Score & Link</th>
                 <th>Joined Study</th>
                 {{#role user 'admin'}}
                   <th>ID</th>
@@ -71,9 +71,9 @@
           render: function (data, type, row) {
             if (data && data.moduleCompleted) {
               if (data.score > 80)
-                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=1" class="badge badge-success">' + data.score + '</a></h4>';
+                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=1" class="badge badge-success badge-pill">' + data.score + '%</a></h4>';
               else
-               return '<h4><span class="badge badge-danger badge-pill">' + data.score + '%</span></h4>';
+                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=1" class="badge badge-danger badge-pill">' + data.score + '%</a></h4>';
             }
             else
               return 'Not Completed';
@@ -84,9 +84,9 @@
           render: function (data, type, row) {
             if (data && data.moduleCompleted) {
               if (data.score > 80)
-                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=2" class="badge badge-success">' + data.score + '</a></h4>';
+                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=2" class="badge badge-success badge-pill">' + data.score + '</a></h4>';
               else
-               return '<h4><span class="badge badge-danger badge-pill">' + data.score + '%</span></h4>';
+                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=2" class="badge badge-danger badge-pill">' + data.score + '%</a></h4>';
             }
             else
               return 'Not Completed'
@@ -97,9 +97,9 @@
           render: function (data, type, row) {
             if (data && data.moduleCompleted) {
               if (data.score > 80)
-                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=3" class="badge badge-success">' + data.score + '</a></h4>';
+                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=3" class="badge badge-success badge-pill">' + data.score + '</a></h4>';
               else
-               return '<h4><span class="badge badge-danger badge-pill">' + data.score + '%</span></h4>';
+                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=3" class="badge badge-danger badge-pill">' + data.score + '%</a></h4>';
             }
             else
               return 'Not Completed'
