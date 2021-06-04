@@ -36,19 +36,23 @@ const register  = function (server, options) {
         const questionIds = qs.map((q) => q.id.toString());
         let answerList = [];
         for (const user of users) {
-          answerList.push(user.answers);
+          const moduleUserAnswers = Object.keys(user.answers)
+            .filter(key => questionIds.includes(key))
+            .reduce((obj, key) => {
+              obj[key] = user.answers[key];
+              return obj;
+            }, {});
+          answerList.push(moduleUserAnswers);
         }
         const dict = {};
         for (const answers of answerList) {
-          for (const answer of Object.keys(answers)) {
-
-            const qId = answer;
+          for (const qId of Object.keys(answers)) {
             const answerIndex = answers[qId];
 
             if (qId in dict) {
               dict[qId].userCounts += 1;
               const index = qs.findIndex((q) => q.id.toString() === qId);
-              if (answerIndex.toString() === qs[index].key) {
+              if (qs[index] && answerIndex.toString() === qs[index].key) {
                 dict[qId].correctAnswers += 1;
               }
             } else {
