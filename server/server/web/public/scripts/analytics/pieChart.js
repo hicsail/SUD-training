@@ -37,7 +37,7 @@ let arcGenerator = d3.arc()
   .outerRadius(radius)
 
 // A function that create / renderData the plot for a given variable:
-function renderData(data, svgSelType) { 
+function renderData(data, svgSelType) {
 
   let svgObj;
   if (svgSelType === 'module') {
@@ -48,7 +48,7 @@ function renderData(data, svgSelType) {
   }
   // Compute the position of each group on the pie:
   let pie = d3.pie()
-    .value(function(d) {return d.value; })    
+    .value(function(d) {return d.value; })
     .sort(function(a, b) { return d3.ascending(a.key, b.key);} ) // This make sure that group order remains the same in the pie chart
 
   let data_ready = pie(d3.entries(data))
@@ -77,7 +77,7 @@ function renderData(data, svgSelType) {
     .style("opacity", 1)
 
   // Now add the annotation. Use the centroid method to get the best coordinates
-  u    
+  u
   .enter()
   .append('text')
   .text(function(d){ return d.data.value})
@@ -85,11 +85,11 @@ function renderData(data, svgSelType) {
   .style("text-anchor", "middle")
   .style("font-size", 15)
 
-  text  
+  text
   .text(function(d){ return d.data.value})
   .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
   .style("text-anchor", "middle")
-  .style("font-size", 15)  
+  .style("font-size", 15)
 
 }
 
@@ -97,15 +97,15 @@ function renderData(data, svgSelType) {
 update('total', null);
 update('module', 1);
 
-function update(svgSelType, moduleId=null) {   
-  
+function update(svgSelType, moduleId=null) {
+
   let url = '/api/users/quizCompleted/counts/';
   if (moduleId) {
     url += moduleId;
   }
   $.ajax({
      type: "GET",
-     url: url,     
+     url: url,
      success: function(data){
 
       if (moduleId) {
@@ -118,10 +118,10 @@ function update(svgSelType, moduleId=null) {
         $('#total-success').empty().append( data['numPassed'] + ' pass');
         $('#total-users').empty().append(data['numPassed'] + data['numFailed'] + data['numNotCompleted'] + ' users');
         $('#total-fail').empty().append(data['numFailed'] + ' fail');
-        $('#total-complete').empty().append((data['numPassed'] + data['numFailed']) + ' complete');  
-      }      
-      renderData(data, svgSelType);           
+        $('#total-complete').empty().append((data['numPassed'] + data['numFailed']) + ' complete');
+      }
+      renderData(data, svgSelType);
      }
-  });  
+  });
 }
 
