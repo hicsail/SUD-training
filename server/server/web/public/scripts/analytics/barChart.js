@@ -1,7 +1,7 @@
 
 // set the dimensions and margins of the graph
-let margin = {top: 10, right: 30, bottom: 20, left: 50},
-    width = 460 - margin.left - margin.right,
+let margin = {top: 10, right: 60, bottom: 20, left: 50},
+    width = 500 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
@@ -11,7 +11,41 @@ let svg1 = d3.select("#bar_chartViz")
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+          "translate(" + margin.left + "," + margin.top + ")")
+
+const legendColors = [["module 1", "#e41a1d"], ["module 2", "#377eb8"], ["module 3", "#4daf4a"]]
+
+let legend = svg1.append("g")
+  .attr("class", "legend")
+  .attr("height", 100)
+  .attr("width", 100)
+  .attr("transform", "translate(-20, 50)");
+
+let legendRect = legend.selectAll("rect").data(legendColors);
+
+legendRect.enter()
+  .append("rect")
+  .attr("x", width)
+  .attr("width", 10)
+  .attr("height", 10)
+  .attr("y", function(d, i) {
+    return i * 20;
+  })
+  .style("fill", function(d) {
+    return d[1];
+  });
+
+let legendText = legend.selectAll("text").data(legendColors);
+
+legendText.enter()
+  .append("text")
+  .attr("x", width + 12)
+  .attr("y", function(d, i) {
+    return i * 20 + 9;
+  })
+  .text(function(d) {
+    return d[0];
+  });
 
 // Parse the Data
 function renderBarChart(data) {
