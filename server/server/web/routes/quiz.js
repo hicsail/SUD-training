@@ -1,7 +1,6 @@
 'use strict';
 const Config = require('../../../config');
 const Questions = require('../../questions');
-const Answer = require('../../models/answer');
 const User = require('../../models/user');
 const Boom = require('boom');
 
@@ -23,17 +22,18 @@ const register = function (server, options) {
       const numModules = 3;
       const maxIteration = numModules - 1;
       let score = 0;
+      let questionsAnswered = 0;
       let passed = false;
       let submitBtnDisabled = true;
       let certificateEligible = true;
       let templateData = [];//metadata containing info about questions to be passed to template
       const userId = request.auth.credentials.user._id.toString();
-      const user = await User.findById(userId);      
+      const user = await User.findById(userId);
 
       if (!user) {
         throw Boom.notFound('Document not found.');
       }
-      
+
       let qs = [];
       for (let q of questions) {
         if (q.id)
@@ -41,36 +41,21 @@ const register = function (server, options) {
       }
 
       const numQuestions = qs.length;
-      //the most recent sessionId for each question might be different.
-      const pipeline = [
-        { $match : { userId, active: true, questionId: { $in:  qs} } },
-        { $sort:{ lastUpdated : -1 } },
-        { $group: {
-          _id: { questionId: '$questionId' },
-          answerIndex: { $first : '$answerIndex' },
-          lastUpdated: { $first : '$lastUpdated' },
-          questionId: { $first : '$questionId' }
-        } }
-      ];
-      //find most recent answers for each question
-      const mostRecentAnswers = await Answer.aggregate(pipeline);
 
-      if (mostRecentAnswers.length !== 0) {
-        
-        //hash most recent answers with questionIds as keys and answerIndex as value
-        const hashData = {};
-        for (const answer of mostRecentAnswers) {
-          hashData[answer.questionId] = answer.answerIndex;
-        }
+      //find most recent answers for each question
+      const answers = user.answers;
+
+      if (answers) {
 
         for (const q of questions) {
 
           const question = {'id': q.id, 'text': q.text, 'choices': q.choices, 'exp': q.exp, 'subexp': q['subexp']};
-                
-          if (q.id in hashData) {
-            question.answer = hashData[q.id];
+
+          if (q.id in answers) {
+            question.answer = answers[q.id];
+            questionsAnswered += 1;
             //increment score if user's answer is correct
-            if (hashData[q.id] === q.key) {
+            if (answers[q.id] === q.key) {
               score += 1;
             }
           }
@@ -82,7 +67,7 @@ const register = function (server, options) {
         }
 
         //Enable submit button if all questions for this module are answered
-        if (mostRecentAnswers.length === numQuestions) {
+        if (questionsAnswered === numQuestions) {
           submitBtnDisabled = false;
         }
       }
@@ -101,7 +86,7 @@ const register = function (server, options) {
       const nextModuleId = getNextModuleId(user, parseInt(request.params.moduleId), numModules, maxIteration);
 
       //Determine if user has passed all 3 quizes successfully
-      for (const moduleId in user.quizCompleted) {        
+      for (const moduleId in user.quizCompleted) {
         if (!user.quizCompleted[moduleId].moduleCompleted || user.quizCompleted[moduleId].score < 80) {
           certificateEligible = false;
           break;
@@ -110,7 +95,7 @@ const register = function (server, options) {
 
       let precentage = ((score / numQuestions) * 100);
       precentage = Number.isInteger(precentage) ? precentage : precentage.toFixed(2);
-      
+
       return h.view('quiz/index', {
         questions: templateData,
         passed,
@@ -147,35 +132,6 @@ const getNextModuleId = function (user, currentModuleId, numModules, maxIteratio
   }
 
   return -1;
-
-  /*//Compute id of next module whose quiz should be taken by user
-  let nextModuleId = ( currentModuleId % numModules ) + 1;
-  let nextModuleFound = false;
-
-  //not completed quized are high priority
-  for (let i = 0; i < maxIteration; i++) {
-    if (!user.quizCompleted[nextModuleId]['moduleCompleted']) {
-      nextModuleFound = true;
-      break;
-    }
-    else {
-      nextModuleId = ( nextModuleId  % numModules) + 1;
-    }
-  }
-
-  if (!nextModuleFound) {
-    for (let i = 0;i < maxIteration; i++) {
-      //Next module must be a failed one
-      if (user.quizCompleted[nextModuleId]['score'] < 80 ) {
-        nextModuleFound = true;
-        break;
-      }
-      else {
-        nextModuleId = ( nextModuleId  % numModules) + 1;
-      }
-    }
-  }
-  return nextModuleId; */
 };
 
 module.exports = {

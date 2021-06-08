@@ -3,7 +3,6 @@ const Questions = require('../questions');
 const Boom = require('boom');
 const GroupAdmin = require('../models/group-admin');
 const User = require('../models/user');
-const Answer = require('../models/answer');
 const Config = require('../../config');
 const Joi = require('joi');
 const PasswordComplexity = require('joi-password-complexity');
@@ -518,53 +517,36 @@ const register = function (server, options) {
         throw Boom.notFound('Document not found.');
       }
 
+      //quiz questions on the module with moduleId passed in url
+      const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
+
+      //grab the question ids (ignore the explanatory items)
+      let questionIds = [];
+      for (let q of questions) {
+        if (q.id)
+          questionIds.push(q.id.toString());
+      }
+
+      const answers = user.answers;
       //Compute score if a submit is happening
       if (request.payload.quizCompleted === true) {
-        //quiz questions on the module with moduleId passed in url
-        const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
-
-        //grab the question ids (ignore the explanatory items)
-        let questionIds = [];
-        for (let q of questions) {
-          if (q.id)
-            questionIds.push(q.id.toString());
-        }
-
-        //the most recent sessionId for each question might be different.
-        const pipeline = [
-          { $match : { userId, active: true, questionId: { $in:  questionIds } } },
-          { $sort:{ lastUpdated : -1 } },
-          { $group: {
-            _id: { questionId: '$questionId' },
-            answerIndex: { $first : '$answerIndex' },
-            lastUpdated: { $first : '$lastUpdated' },
-            questionId: { $first : '$questionId' }
-          } }
-        ];
-        //find most recent answers for each question
-        const mostRecentAnswers = await Answer.aggregate(pipeline);
-
-        if (mostRecentAnswers.length !== 0) {
-          //hash most recent answers with questionIds as keys and answerIndex as value
-          const hashData = {};
-          for (const answer of mostRecentAnswers) {
-            hashData[answer.questionId] = answer.answerIndex;
-          }
-
-          for (const q of questions) {
-            if (q.id in hashData) {
-              //increment score if user's answer is correct
-              if (hashData[q.id] === q.key) {
-                score += 1;
-              }
+        for (const q of questions) {
+          if (q.id in answers) {
+            //increment score if user's answer is correct
+            if (answers[q.id] === q.key) {
+              score += 1;
             }
           }
         }
-        else {
-          score = 0;
-        }
         //Compute precentage score
         score = (score * 100) / questionIds.length;
+      }
+      else {
+        for (const qId of questionIds) {
+          if (Object.keys(answers).includes(qId)) {
+            delete answers[qId];
+          }
+        }
       }
 
       const quizCompleted = user.quizCompleted;
@@ -573,7 +555,8 @@ const register = function (server, options) {
 
       const update = {
         $set: {
-          quizCompleted
+          quizCompleted,
+          answers
         }
       };
 
@@ -595,6 +578,7 @@ const register = function (server, options) {
     handler: async function (request, h) {
 
       const numUsers = await User.count({});
+      console.log("numUsers:" + numUsers);
       const counts = {};
 
       if (request.params.moduleId) {
@@ -602,16 +586,21 @@ const register = function (server, options) {
         const moduleId = request.params.moduleId;
 
         const filter = {};
-        const cond1 = 'quizCompleted.'  + moduleId + '.score';
         const cond2 = 'quizCompleted.'  + moduleId + '.moduleCompleted';
-
         //Calculate number of users who completed the quiz for module
         filter[cond2] = true;
-        counts.numCompleted = await User.count(filter);
+        const completedUsers = await User.find(filter);
+        counts.numCompleted = completedUsers.length;
 
         //Calculate number of users who failed the quiz for module
-        filter[cond1] = { $lt: 80 };
-        counts.numFailed = await User.count(filter);
+        let failCount = 0;
+
+        for (const user of completedUsers) {
+          if (user.quizCompleted[moduleId].score < 80) {
+            failCount += 1;
+          }
+        }
+        counts.numFailed = failCount;
 
         //Calculate number of users who successfully completed the quiz for module
         counts.numPassed = counts.numCompleted - counts.numFailed;
@@ -640,6 +629,7 @@ const register = function (server, options) {
         counts.numNotCompleted = numUsers - counts.numCompleted;
         delete counts.numCompleted;
       }
+      //console.log(counts)
       return counts;
     }
   });
@@ -670,20 +660,23 @@ const register = function (server, options) {
 
         scores.push(scoreList);
       }
-      
+
       const result = [
         { 'group': 'mean', '1': 0, '2': 0, '3': 0 },
         { 'group': 'median', '1': 0, '2': 0, '3': 0 },
         { 'group': 'min', '1': 0, '2': 0, '3': 0 },
         { 'group': 'max', '1': 0, '2': 0, '3': 0 }
       ];
+
       for (const i in scores) {
-        result[0][moduleIds[i]] = Math.mean(scores[i]);
-        result[1][moduleIds[i]] = Math.median(scores[i]);
-        result[2][moduleIds[i]] = Math.min(scores[i]);
-        result[3][moduleIds[i]] = Math.max(scores[i]);
+        if (scores[i].length !== 0) {
+          result[0][moduleIds[i]] = Math.mean(scores[i]);
+          result[1][moduleIds[i]] = Math.median(scores[i]);
+          result[2][moduleIds[i]] = Math.min(scores[i]);
+          result[3][moduleIds[i]] = Math.max(scores[i]);
+        }
       }
-      
+
       return result;
     }
   });
