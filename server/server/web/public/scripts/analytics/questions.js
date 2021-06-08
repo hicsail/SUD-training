@@ -6,8 +6,8 @@
     'columns': [{title: 'questionId'}, {title: 'total'}, {title: 'correct'}],
     'paging': true,
     'searching':true,
-    'info':true,        
-    'ordering':false        
+    'info':true,
+    'ordering':false
   });
 }
 
@@ -15,27 +15,27 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){//adjusts the columns o
   $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
 });*/
 
-for (let i=1; i<=3; ++i) { 
+for (let i=1; i<=3; ++i) {
   const id = "module-" + i;
   $('#' + id).click((event) => {
-    event.preventDefault();  
+    event.preventDefault();
     $.ajax({
       type: "GET",
-      url: '/api/questions/analysis',     
-      success: function(data){     
-        updateBarChart(data[i]);           
+      url: '/api/questions/analysis',
+      success: function(data){
+        updateBarChart(data[i]);
       }
-    });  
-  }); 
+    });
+  });
 }
 
 $.ajax({
   type: "GET",
-  url: '/api/questions/analysis',     
-  success: function(data){     
-    updateBarChart(data['1']);        
+  url: '/api/questions/analysis',
+  success: function(data){
+    updateBarChart(data['1']);
   }
-}); 
+});
 
 // set the dimensions and margins of the graph
 var margin1 = {top: 30, right: 30, bottom: 70, left: 60},
@@ -67,7 +67,6 @@ var yAxis = svg2.append("g")
 
 // A function that create / update the plot for a given variable:
 function updateBarChart(data) {
-
     // X axis
     x.domain(data.map(function(d) { return d.group; }))
     xAxis.transition().duration(1000).call(d3.axisBottom(x))
@@ -87,11 +86,34 @@ function updateBarChart(data) {
       .enter()
       .append("rect")
       .merge(u)
+      .on('mouseover', function (d, i) {
+        d3.select(this).transition()
+          .duration(50)
+          .attr('opacity', '.85');
+        tooltip.html("question " + d.group + " correctly answered " + d.value + " times")
+          .style("left", (d3.event.pageX - 85) + "px")
+          .style("top", (d3.event.pageY - 40) + "px");
+        tooltip.transition()
+          .duration(50)
+          .style("opacity", 1);
+      })
+      .on("mousemove", function (d, i) {
+        tooltip.style("left", (d3.event.pageX - 85) + "px")
+          .style("top", (d3.event.pageY - 40) + "px");
+      })
+      .on('mouseout', function (d, i) {
+        d3.select(this).transition()
+          .duration(50)
+          .attr('opacity', '1');
+        tooltip.transition()
+          .duration(50)
+          .style("opacity", 0)
+      })
       .transition()
       .duration(100)
         .attr("x", function(d) { return x(d.group); })
         .attr("y", function(d) { return y(d['value']); })
         .attr("width", x.bandwidth())
         .attr("height", function(d) { return height1 - y(d['value']); })
-        .attr("fill", "#69b3a2")
+        .attr("fill", "#69b3a2");
 }
