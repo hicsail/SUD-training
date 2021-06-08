@@ -1,20 +1,21 @@
 <nav class="col-sm-3 col-md-2 d-none d-sm-block sidebar" style="background-color: #D3F0F5; padding-top: 40px">
   <ul class="nav nav-pills flex-column">
     {{#if user.roles.root}}
-      <h6 class="text-dark">Your Roles
+    <h6 class="text-dark">Your Roles
       <span class="badge badge-dark">Root</span>
     {{/if}}
-    </h6>
+  </h6>
   </ul>
   {{#if user.roles.root}}
     <ul class="nav nav-pills flex-column" style="padding-top: 20px">
-    <h6 class="text-dark">Collections</h6>
+      <h6 class="text-dark">Collections</h6>
       <li class="nav-item">
         <a class="nav-link dashboard-nav-link-color" href="../authAttempts">Auth Attempts</a>
         <!-- <a class="nav-link" href="../group-admins">User Group Admins</a>
         <a class="nav-link dashboard-nav-link-color" href="../events">Events</a>
         <a class="nav-link dashboard-nav-link-color" href="../feedback">Feedback</a>
         <a class="nav-link dashboard-nav-link-color" href="../invite">Invites</a> -->
+        <a class="nav-link dashboard-nav-link-color" href="../answers">Answers</a>
         <a class="nav-link dashboard-nav-link-color" href="../sessions">Sessions</a>
         <a class="nav-link dashboard-nav-link-color" href="../users">Users</a>
       </li>
@@ -48,73 +49,73 @@
     </ul>
   {{else}}
     <div class="sticky-header col-sm-3 col-md-2">
-    <ul class="nav nav-pills flex-column" style="padding-top: 20px;">
-    <h5 class="text-muted fs-14">Training Module 1</h5>
-      <li class="nav-item">
-        <a class="nav-link fs-16 dashboard-nav-link-color" href="../training-module/1">Screening, Brief Intervention...</a>
-        <a class="nav-link fs-16 dashboard-nav-link-color" href="../quiz/1">
-          Module 1 Quiz
-          {{#if user.quizCompleted.1.moduleCompleted}}
-            {{#iff user.quizCompleted.1.score '>=' 80}}
-              <span class="badge badge-pill badge-success ml-2">{{../user.quizCompleted.1.score}}%</span>
-            {{else}}
-              <span class="badge badge-pill badge-danger ml-2">{{../user.quizCompleted.1.score}}%</span>
-            {{/iff}}
-          {{/if}}
-        </a>
-      </li>
-    </ul>
-    <ul class="nav nav-pills flex-column" style="padding-top: 20px">
-    <h5 class="text-muted fs-14">Training Module 2</h5>
-      <li class="nav-item">
-        <a class="nav-link fs-16 dashboard-nav-link-color" href="../training-module/2">Assessment of Substance Use</a>
-        <a class="nav-link fs-16 dashboard-nav-link-color" href="../quiz/2">
-          Module 2 Quiz
-          {{#if user.quizCompleted.2.moduleCompleted}}
-            {{#iff user.quizCompleted.2.score '>=' 80}}
-              <span class="badge badge-pill badge-success ml-2">{{../user.quizCompleted.2.score}}%</span>
-            {{else}}
-              <span class="badge badge-pill badge-danger ml-2">{{../user.quizCompleted.2.score}}%</span>
-            {{/iff}}
-          {{/if}}
-        </a>
-      </li>
-    </ul>
-    <ul class="nav nav-pills flex-column" style="padding-top: 20px">
-    <h5 class="text-muted fs-14">Training Module 3</h5>
-      <li class="nav-item">
-        <a class="nav-link fs-16 dashboard-nav-link-color" href="../training-module/3">SUD Treatment Principles...</a>
-        <a class="nav-link fs-16 dashboard-nav-link-color" href="../quiz/3">
-          Module 3 Quiz
-          {{#if user.quizCompleted.3.moduleCompleted}}
-            {{#iff user.quizCompleted.3.score '>=' 80}}
-              <span class="badge badge-pill badge-success ml-2">{{../user.quizCompleted.3.score}}%</span>
-            {{else}}
-              <span class="badge badge-pill badge-danger ml-2">{{../user.quizCompleted.3.score}}%</span>
-            {{/iff}}
-          {{/if}}
-        </a>
-      </li>
-    </ul>
-    <a class="clicked nav-link fs-16 dashboard-nav-link-color pad-left0" style="margin-top: 30px" onclick="certificate('{{user.firstname}}', '{{user.lastname}}', {{certificateEligible}})">Certificate of Completion</a>
-    <a class="clicked nav-link fs-16 dashboard-nav-link-color pad-left0" style="margin-top: 10px">Terms of Service</a>
+      <ul class="nav nav-pills flex-column" style="padding-top: 20px;">
+        <h5 class="text-muted fs-14">Training Module 1</h5>
+        <li class="nav-item">
+          <a class="nav-link fs-16 dashboard-nav-link-color" href="../training-module/1">Screening, Brief Intervention...</a>
+          <a class="nav-link fs-16 dashboard-nav-link-color" href="../quiz/1">
+            Module 1 Quiz
+            {{#if user.quizCompleted.1.moduleCompleted}}
+              {{#iff user.quizCompleted.1.score '>=' 80}}
+                <span class="badge badge-pill badge-success ml-2">{{../user.quizCompleted.1.score}}%</span>
+              {{else}}
+                <span class="badge badge-pill badge-danger ml-2">{{../user.quizCompleted.1.score}}%</span>
+              {{/iff}}
+            {{/if}}
+          </a>
+        </li>
+      </ul>
+      <ul class="nav nav-pills flex-column" style="padding-top: 20px">
+        <h5 class="text-muted fs-14">Training Module 2</h5>
+        <li class="nav-item">
+          <a class="nav-link fs-16 dashboard-nav-link-color" href="../training-module/2">Assessment of Substance Use</a>
+          <a class="nav-link fs-16 dashboard-nav-link-color" href="../quiz/2">
+            Module 2 Quiz
+            {{#if user.quizCompleted.2.moduleCompleted}}
+              {{#iff user.quizCompleted.2.score '>=' 80}}
+                <span class="badge badge-pill badge-success ml-2">{{../user.quizCompleted.2.score}}%</span>
+              {{else}}
+                <span class="badge badge-pill badge-danger ml-2">{{../user.quizCompleted.2.score}}%</span>
+              {{/iff}}
+            {{/if}}
+          </a>
+        </li>
+      </ul>
+      <ul class="nav nav-pills flex-column" style="padding-top: 20px">
+        <h5 class="text-muted fs-14">Training Module 3</h5>
+        <li class="nav-item">
+          <a class="nav-link fs-16 dashboard-nav-link-color" href="../training-module/3">SUD Treatment Principles...</a>
+          <a class="nav-link fs-16 dashboard-nav-link-color" href="../quiz/3">
+            Module 3 Quiz
+            {{#if user.quizCompleted.3.moduleCompleted}}
+              {{#iff user.quizCompleted.3.score '>=' 80}}
+                <span class="badge badge-pill badge-success ml-2">{{../user.quizCompleted.3.score}}%</span>
+              {{else}}
+                <span class="badge badge-pill badge-danger ml-2">{{../user.quizCompleted.3.score}}%</span>
+              {{/iff}}
+            {{/if}}
+          </a>
+        </li>
+      </ul>
+      <a class="clicked nav-link fs-16 dashboard-nav-link-color pad-left0" style="margin-top: 30px" onclick="certificate('{{user.firstname}}', '{{user.lastname}}', {{certificateEligible}})">Certificate of Completion</a>
+      <a class="clicked nav-link fs-16 dashboard-nav-link-color pad-left0" style="margin-top: 10px">Terms of Service</a>
     </div>
   {{/if}}
 
   <div id="logos" class="col-sm-3 col-md-2 sticky-footer">
-  <div class="row mr-0">
-    <div class="col">
-      <img src="../public/images/samsha-logo.png" class="responsive">
+    <div class="row mr-0">
+      <div class="col">
+        <img src="../public/images/samsha-logo.png" class="responsive">
+      </div>
+      <div class="col">
+        <img src="../public/images/bu-logo.png" class="responsive">
+      </div>
     </div>
-    <div class="col">
-      <img src="../public/images/bu-logo.png" class="responsive">
+    <div class="row mr-0">
+      <div class="col">
+        <img src="../public/images/lab-logo.png" class="responsive">
+      </div>
     </div>
-  </div>
-  <div class="row mr-0">
-    <div class="col">
-      <img src="../public/images/lab-logo.png" class="responsive">
-    </div>
-  </div>
   </div>
 </nav>
 
@@ -122,11 +123,9 @@
   .fs-16 {
     font-size: 16px;
   }
-
   .fs-14 {
     font-size: 14px;
   }
-
   .dashboard-nav-link-color {
     color: black !important;
   }
@@ -157,6 +156,5 @@
     text-decoration: underline !important;
     cursor: pointer;
   }
-
 </style>
 <script type="text/javascript" src="/public/scripts/dashboard.js"></script>

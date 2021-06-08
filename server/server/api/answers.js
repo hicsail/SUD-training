@@ -21,9 +21,7 @@ const register  = function (server, options) {
       }
     },
     handler: async function (request, h) {
-
-      //let user = null;
-
+      
       const userId = request.auth.credentials.user._id.toString();
       let updatedAnswers = request.auth.credentials.user.answers;
       updatedAnswers[request.payload.questionId] = request.payload.answerIndex;
@@ -34,46 +32,12 @@ const register  = function (server, options) {
         }
       };
 
-      const user = await User.findByIdAndUpdate(userId, update);
+      await User.findByIdAndUpdate(userId, update);
 
-      return user;
+      return updatedAnswers;
     }
   });
 
-  server.route({
-    method: 'GET',
-    path: '/api/score/{moduleId}',
-    options: {
-      auth: {
-        strategies: ['session']
-      }
-    },
-    handler: async function (request, h) {
-
-      const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
-      const id = request.auth.credentials.user._id.toString();
-      const update = {
-        $set: {
-          quizCompleted: true
-        }
-      };
-
-      const user = await User.findByIdAndUpdate(id, update);
-
-      if (!user) {
-        throw Boom.notFound('Document not found.');
-      }
-
-      let score = 0;
-      const answers = user.answers;
-      for (const q of Questions) {
-        if (q.id in answers && answers[q.id] === q.key) {
-          score += 1;
-        }
-      }
-      return score;
-    }
-  });
 
   server.route({
     method: 'GET',

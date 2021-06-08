@@ -517,19 +517,19 @@ const register = function (server, options) {
         throw Boom.notFound('Document not found.');
       }
 
+      //quiz questions on the module with moduleId passed in url
+      const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
+
+      //grab the question ids (ignore the explanatory items)
+      let questionIds = [];
+      for (let q of questions) {
+        if (q.id)
+          questionIds.push(q.id.toString());
+      }
+
+      const answers = user.answers;
       //Compute score if a submit is happening
       if (request.payload.quizCompleted === true) {
-        //quiz questions on the module with moduleId passed in url
-        const questions =  Questions[parseInt(request.params.moduleId) - 1].questions;
-
-        //grab the question ids (ignore the explanatory items)
-        let questionIds = [];
-        for (let q of questions) {
-          if (q.id)
-            questionIds.push(q.id.toString());
-        }
-
-        const answers = user.answers;
         for (const q of questions) {
           if (q.id in answers) {
             //increment score if user's answer is correct
@@ -541,6 +541,13 @@ const register = function (server, options) {
         //Compute precentage score
         score = (score * 100) / questionIds.length;
       }
+      else {
+        for (const qId of questionIds) {
+          if (Object.keys(answers).includes(qId)) {
+            delete answers[qId];
+          }
+        }
+      }
 
       const quizCompleted = user.quizCompleted;
       quizCompleted[request.params.moduleId].moduleCompleted = request.payload.quizCompleted;
@@ -548,7 +555,8 @@ const register = function (server, options) {
 
       const update = {
         $set: {
-          quizCompleted
+          quizCompleted,
+          answers
         }
       };
 
@@ -570,6 +578,7 @@ const register = function (server, options) {
     handler: async function (request, h) {
 
       const numUsers = await User.count({});
+      console.log("numUsers:" + numUsers);
       const counts = {};
 
       if (request.params.moduleId) {
@@ -577,16 +586,21 @@ const register = function (server, options) {
         const moduleId = request.params.moduleId;
 
         const filter = {};
-        const cond1 = 'quizCompleted.'  + moduleId + '.score';
         const cond2 = 'quizCompleted.'  + moduleId + '.moduleCompleted';
-
         //Calculate number of users who completed the quiz for module
         filter[cond2] = true;
-        counts.numCompleted = await User.count(filter);
+        const completedUsers = await User.find(filter);
+        counts.numCompleted = completedUsers.length;
 
         //Calculate number of users who failed the quiz for module
-        filter[cond1] = { $lt: 80 };
-        counts.numFailed = await User.count(filter);
+        let failCount = 0;
+
+        for (const user of completedUsers) {
+          if (user.quizCompleted[moduleId].score < 80) {
+            failCount += 1;
+          }
+        }
+        counts.numFailed = failCount;
 
         //Calculate number of users who successfully completed the quiz for module
         counts.numPassed = counts.numCompleted - counts.numFailed;
@@ -615,6 +629,7 @@ const register = function (server, options) {
         counts.numNotCompleted = numUsers - counts.numCompleted;
         delete counts.numCompleted;
       }
+      //console.log(counts)
       return counts;
     }
   });
