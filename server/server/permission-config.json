@@ -444,6 +444,10 @@
     "/scoreDetails/{id}/{quizId}": [
       "admin",
       "root"
+    ],
+    "/scoreDetails/": [
+      "admin",
+      "root"
     ]
   },
   "POST": {
