@@ -15,7 +15,7 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){//adjusts the columns o
   $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
 });*/
 
-for (let i=1; i<=3; ++i) {
+/*for (let i=1; i<=3; ++i) {
   const id = "module-" + i;
   $('#' + id).click((event) => {
     event.preventDefault();
@@ -35,6 +35,10 @@ $.ajax({
   success: function(data){
     updateBarChart(data['1']);
   }
+});*/
+
+$('.dropdown-menu a').click(function(){
+  $('#questions-module-button').text($(this).text());
 });
 
 // set the dimensions and margins of the graph
@@ -64,9 +68,26 @@ var y = d3.scaleLinear()
 var yAxis = svg2.append("g")
   .attr("class", "myYaxis")
 
+svg2.append("text")
+  .attr("class", "y-label")
+  .attr("text-anchor", "middle")
+  .attr("x", width1/2)
+  .attr("y", height1+40)
+  .text("question number");
+
+
+svg2.append("text")
+  .attr("class", "y-label")
+  .attr("text-anchor", "middle")
+  .attr("x", -height1/2)
+  .attr("y", -40)
+  .attr("transform", "rotate(-90)")
+  .text("total correct answers");
+
 
 // A function that create / update the plot for a given variable:
-function updateBarChart(data) {
+function renderQuestions(data) {
+
     // X axis
     x.domain(data.map(function(d) { return d.group; }))
     xAxis.transition().duration(1000).call(d3.axisBottom(x))
@@ -116,4 +137,16 @@ function updateBarChart(data) {
         .attr("width", x.bandwidth())
         .attr("height", function(d) { return height1 - y(d['value']); })
         .attr("fill", "#69b3a2");
+}
+
+updateQuestions(1);
+
+function updateQuestions(moduleId) {
+  $.ajax({
+    type: "GET",
+    url: '/api/questions/analysis',
+    success: function(data){
+      renderQuestions(data[moduleId]);
+    }
+  });
 }

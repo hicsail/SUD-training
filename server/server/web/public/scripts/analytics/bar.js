@@ -8,7 +8,7 @@ let winMargin = {top: 10, right: 30, bottom: 20, left: 50},
   winWidth = 500 - winMargin.left - winMargin.right,
   winHeight = 200 - winMargin.top - winMargin.bottom;
 
-const barHeight = 100,
+const barHeight = 45,
   halfBarHeight = barHeight / 2,
   colors = ['#15d100', '#eb1300'];
 
@@ -36,7 +36,9 @@ let tooltip = d3.select("body").append("div")
   .style("padding", ".5rem")
   .style("background", "#FFFFFF")
   .style("color", "#313639")
-  .style("border", "1px solid")
+  .style("font-weight", "bold")
+  .style("font-size", "18px")
+  .style("border", "2px solid")
   .style("border-radius", "8px")
   .style("pointer-events", "none");
 
@@ -98,8 +100,7 @@ function renderBar(data, svgSelType) {
       d3.select(this).transition()
         .duration(50)
         .attr('opacity', '.85');
-      let num = (Math.round((d.value / total) * 100)).toString() + '%';
-      tooltip.html(d.label + ": " + num)
+      tooltip.html(d.label + ": " + d.value.toString())
         .style("left", (d3.event.pageX - 85) + "px")
         .style("top", (d3.event.pageY - 40) + "px");
       tooltip.transition()
@@ -118,6 +119,7 @@ function renderBar(data, svgSelType) {
         .duration(50)
         .style("opacity", 0)
     });
+
 }
 
 // initialize visualizations

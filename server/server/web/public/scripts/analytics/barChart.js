@@ -47,8 +47,30 @@ legendText.enter()
     return d[0];
   });
 
+
+
 // Parse the Data
 function renderBarChart(data) {
+
+  let tableData = [{moduleId: 1}, {moduleId: 2}, {moduleId: 3}];
+
+  for (const stat of data) {
+    for (const module of tableData) {
+      module[stat.group] = stat[module.moduleId];
+    }
+  }
+  let tableHTML = "";
+  for (const module of tableData) {
+    tableHTML += "<tr><td>" + module.moduleId + "</td>";
+    tableHTML += "<td>" + module.mean + "</td>";
+    tableHTML += "<td>" + module.median + "</td>";
+    tableHTML += "<td>" + module.min + "</td>";
+    tableHTML += "<td>" + module.max + "</td></tr>";
+  }
+  document.getElementById("stat-rows").innerHTML = tableHTML;
+
+  // $("#stat-rows").html({ array: tableData});
+
   // List of subgroups = header of the csv files = soil condition here
   let subgroups = ['1', '2', '3'];
 
@@ -102,7 +124,7 @@ function renderBarChart(data) {
       d3.select(this).transition()
         .duration(50)
         .attr('opacity', '.85');
-      tooltip.html(d.group + " of module " + d.key + ": " + Math.round(d.value).toString())
+      tooltip.html(d.group + " of module " + d.key + ": " + d.value)
         .style("left", (d3.event.pageX - 85) + "px")
         .style("top", (d3.event.pageY - 40) + "px");
       tooltip.transition()
@@ -121,6 +143,15 @@ function renderBarChart(data) {
         .duration(50)
         .style("opacity", 0)
     });
+
+  svg1.append("text")
+    .attr("class", "y-label")
+    .attr("text-anchor", "middle")
+    .attr("x", -height/2)
+    .attr("y", -40)
+    // .attr("dy", ".75em")
+    .attr("transform", "rotate(-90)")
+    .text("score");
 
 
 }
