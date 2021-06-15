@@ -50,11 +50,9 @@ const register = function (server, options) {
 
       counts.total.numPassed = counts.total.numCompleted - counts.total.numFailed;
 
-      //console.log(counts)
-
       return h.view('analytics/index', {
         user: request.auth.credentials.user,
-        projectnName: Config.get('/projectName'),
+        projectName: Config.get('/projectName'),
         title: 'Analytics',
         baseUrl: Config.get('/baseUrl'),
         counts

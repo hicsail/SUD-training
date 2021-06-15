@@ -102,7 +102,7 @@
       "admin",
       "root"
     ],
-    "/scoreDetails/{id}": [
+    "/scoreDetails/{userId}/{moduleId}": [
       "admin",
       "root"
     ],
@@ -438,14 +438,6 @@
       "root"
     ],
     "/api/users/quizCompleted/counts/{moduleId?}": [
-      "admin",
-      "root"
-    ],
-    "/scoreDetails/{id}/{quizId}": [
-      "admin",
-      "root"
-    ],
-    "/scoreDetails/": [
       "admin",
       "root"
     ]
