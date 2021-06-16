@@ -70,7 +70,7 @@ lab.experiment('POST /api/update/user-answer', () => {
   });
 
   lab.afterEach(() => {
-    const update = { answers: {} };
+    const update = { answers: { '1': '0', '2': '3', '10': '1' } };
     User.findByIdAndUpdate(testUser._id, update);
   });
 
@@ -109,7 +109,15 @@ lab.experiment('GET /api/user-answer/numQuestionAnswered/{moduleId}', () => {
     request.url = '/api/user-answer/numQuestionAnswered/1';
     const response = await server.inject(request);
     Code.expect(response.statusCode).to.equal(200);
-    Code.expect(response.result.numQuestionsAnswered).to.equal(0);
+    Code.expect(response.result.numQuestionsAnswered).to.equal(3);
     Code.expect(response.result.numQuestions).to.equal(11);
+  });
+
+  lab.test('it returns HTTP 404 when User.findById misses', async () => {
+    request.url = '/api/user-answer/numQuestionAnswered/1';
+    request.credentials = { user: { _id: '555555555555555555555555' } };
+    const response = await server.inject(request);
+    Code.expect(response.statusCode).to.equal(404);
+    Code.expect(response.result.message).to.match(/not found/);
   });
 });
