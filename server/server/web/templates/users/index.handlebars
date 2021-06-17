@@ -71,9 +71,9 @@
           render: function (data, type, row) {
             if (data && data.moduleCompleted) {
               if (data.score > 80)
-                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=1" class="badge badge-success badge-pill">' + data.score + '%</a></h4>';
+                return '<h4><a title="Click here for score details" href="scoreDetails/' + row._id + '/1" class="badge badge-success badge-pill">' + data.score + '%</a></h4>';
               else
-                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=1" class="badge badge-danger badge-pill">' + data.score + '%</a></h4>';
+                return '<h4><a title="Click here for score details" href="scoreDetails/' + row._id + '/1" class="badge badge-danger badge-pill">' + data.score + '%</a></h4>';
             }
             else
               return 'Not Completed';
@@ -84,9 +84,9 @@
           render: function (data, type, row) {
             if (data && data.moduleCompleted) {
               if (data.score > 80)
-                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=2" class="badge badge-success badge-pill">' + data.score + '%</a></h4>';
+                return '<h4><a title="Click here for score details" href="scoreDetails/' + row._id + '/2" class="badge badge-success badge-pill">' + data.score + '%</a></h4>';
               else
-                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=2" class="badge badge-danger badge-pill">' + data.score + '%</a></h4>';
+                return '<h4><a title="Click here for score details" href="scoreDetails/' + row._id + '/2" class="badge badge-danger badge-pill">' + data.score + '%</a></h4>';
             }
             else
               return 'Not Completed'
@@ -97,11 +97,10 @@
           render: function (data, type, row) {
             if (data && data.moduleCompleted) {
               if (data.score > 80)
-                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=3" class="badge badge-success badge-pill">' + data.score + '%</a></h4>';
+                return '<h4><a title="Click here for score details" href="scoreDetails/' + row._id + '/3" class="badge badge-success badge-pill">' + data.score + '%</a></h4>';
               else
-                return '<h4><a href="scoreDetails/?id=' + row._id + '&quiz=3" class="badge badge-danger badge-pill">' + data.score + '%</a></h4>';
-            }
-            else
+                return '<h4><a title="Click here for score details" href="scoreDetails/' + row._id + '/3" class="badge badge-danger badge-pill">' + data.score + '%</a></h4>';
+            } else
               return 'Not Completed'
           }
         },
