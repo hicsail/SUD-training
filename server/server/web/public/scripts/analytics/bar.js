@@ -10,7 +10,7 @@ let winMargin = {top: 10, right: 30, bottom: 20, left: 50},
 
 const barHeight = 45,
   halfBarHeight = barHeight / 2,
-  colors = ['#15d100', '#eb1300'];
+  colors = ['#4daf4a', '#e41a1d', '#313639'];
 
 // create module specific bar
 let svgBarModules = d3.select("#barVizModules")
@@ -95,12 +95,13 @@ function renderBar(data, svgSelType) {
     .attr("y", winHeight / 2 - halfBarHeight)
     .attr("height", barHeight)
     .attr("width", d => xScale(d.value))
-    .style('fill', (d, i) => colors[i])
+    .style('fill', d => (d.label === "pass") ? colors[0] : colors[1])
     .on('mouseover', function (d, i) {
       d3.select(this).transition()
         .duration(50)
         .attr('opacity', '.85');
       tooltip.html(d.label + ": " + d.value.toString())
+        .style('color', (d.label === "pass") ? colors[0] : colors[1])
         .style("left", (d3.event.pageX - 85) + "px")
         .style("top", (d3.event.pageY - 40) + "px");
       tooltip.transition()
@@ -118,6 +119,7 @@ function renderBar(data, svgSelType) {
       tooltip.transition()
         .duration(50)
         .style("opacity", 0)
+        .style("color", colors[3])
     });
 
 }

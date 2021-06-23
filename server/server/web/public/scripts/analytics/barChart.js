@@ -48,28 +48,8 @@ legendText.enter()
   });
 
 
-
 // Parse the Data
 function renderBarChart(data) {
-
-  let tableData = [{moduleId: 1}, {moduleId: 2}, {moduleId: 3}];
-
-  for (const stat of data) {
-    for (const module of tableData) {
-      module[stat.group] = stat[module.moduleId];
-    }
-  }
-  let tableHTML = "";
-  for (const module of tableData) {
-    tableHTML += "<tr><td>" + module.moduleId + "</td>";
-    tableHTML += "<td>" + module.mean + "</td>";
-    tableHTML += "<td>" + module.median + "</td>";
-    tableHTML += "<td>" + module.min + "</td>";
-    tableHTML += "<td>" + module.max + "</td></tr>";
-  }
-  document.getElementById("stat-rows").innerHTML = tableHTML;
-
-  // $("#stat-rows").html({ array: tableData});
 
   // List of subgroups = header of the csv files = soil condition here
   let subgroups = ['1', '2', '3'];
@@ -151,9 +131,34 @@ function renderBarChart(data) {
     .attr("y", -40)
     // .attr("dy", ".75em")
     .attr("transform", "rotate(-90)")
-    .text("score");
+    .text("score (percentage)");
 
 
+}
+
+function createTable(data) {
+  let tableData = [{moduleId: 1}, {moduleId: 2}, {moduleId: 3}];
+
+  for (const stat of data) {
+    for (const module of tableData) {
+      module[stat.group] = stat[module.moduleId];
+    }
+  }
+
+  $(document).ready(function () {
+    $('#statistics-table').DataTable({
+      data: tableData,
+      columns: [
+        { data: 'moduleId' },
+        { data: 'mean' },
+        { data: 'median' },
+        { data: 'min' },
+        { data: 'max' }
+      ],
+      lengthChange: false,
+      bPaginate: false
+    });
+  });
 }
 
 $.ajax({
@@ -161,6 +166,7 @@ $.ajax({
   url: '/api/users/quizCompleted/summaryStatistics',
   success: function(data){
     renderBarChart(data);
+    createTable(data);
   }
 });
 

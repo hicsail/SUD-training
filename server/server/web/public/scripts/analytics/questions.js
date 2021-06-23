@@ -82,7 +82,7 @@ svg2.append("text")
   .attr("x", -height1/2)
   .attr("y", -40)
   .attr("transform", "rotate(-90)")
-  .text("total correct answers");
+  .text("# of users who answered correctly");
 
 
 // A function that create / update the plot for a given variable:
@@ -111,7 +111,7 @@ function renderQuestions(data) {
         d3.select(this).transition()
           .duration(50)
           .attr('opacity', '.85');
-        tooltip.html("question " + d.group + " correctly answered " + d.value + " times")
+        tooltip.html(d.value + " users answered question " + d.group + " correctly")
           .style("left", (d3.event.pageX - 85) + "px")
           .style("top", (d3.event.pageY - 40) + "px");
         tooltip.transition()
@@ -139,6 +139,29 @@ function renderQuestions(data) {
         .attr("fill", "#69b3a2");
 }
 
+function createQuestionTable(data) {
+  if ($.fn.dataTable.isDataTable('#question-table')) {
+    let table = $('#question-table').DataTable();
+    table.clear();
+    table.rows.add(data).draw();
+  }
+  else {
+    $(document).ready(function () {
+      $('#question-table').DataTable({
+        data: data,
+        columns: [
+          {data: 'group'},
+          {data: 'value'}
+        ],
+        lengthChange: false,
+        paging: false,
+        scrollY: '400px',
+        scrollCollapse: true
+      });
+    });
+  }
+}
+
 updateQuestions(1);
 
 function updateQuestions(moduleId) {
@@ -147,6 +170,7 @@ function updateQuestions(moduleId) {
     url: '/api/questions/analysis',
     success: function(data){
       renderQuestions(data[moduleId]);
+      createQuestionTable(data[moduleId]);
     }
   });
 }
