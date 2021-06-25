@@ -16,61 +16,61 @@
                   <div class="col">
                     <div class="btn-group">
                       <button id="bar-module" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
-                              aria-haspopup="true" aria-expanded="false">
-                        Module 1
-                      </button>
-                      <div class="dropdown-menu">
-                        <a class="dropdown-item btn" onclick="updateBar('module', 1)">Module 1</a>
-                        <a class="dropdown-item btn" onclick="updateBar('module', 2)">Module 2</a>
-                        <a class="dropdown-item btn" onclick="updateBar('module', 3)">Module 3</a>
-                        <!--<a class="dropdown-item btn" onclick="update('total')">Total</a>-->
-                      </div>
+                      aria-haspopup="true" aria-expanded="false">
+                      Module 1
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item btn" onclick="updateBar('module', 1)">Module 1</a>
+                      <a class="dropdown-item btn" onclick="updateBar('module', 2)">Module 2</a>
+                      <a class="dropdown-item btn" onclick="updateBar('module', 3)">Module 3</a>
+                      <!--<a class="dropdown-item btn" onclick="update('total')">Total</a>-->
                     </div>
                   </div>
                 </div>
               </div>
-              <div style="padding: 30px" class="card-body">
-                <div class="row">
-                  <div class="col border"><h5 id="module-success" style="font-weight:bold; color:#4daf4a"></h5></div>
-                  <div class="col border"><h5 id="module-fail" style="font-weight:bold; color:#e41a1d"></h5></div>
-                  <div class="col border"><h5 id="module-complete" style="font-weight:bold;"></h5></div>
-                  <div class="col border"><h5 id="module-users" style="font-weight:bold;"></h5></div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div id="barVizModules"></div>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-          <div class="col">
-            <div class="card">
-              <div class="card-header">
-                <h4 style="font-weight:bold;">Total Counts</h4>
+            <div style="padding: 30px" class="card-body">
+              <div class="row">
+                <div class="col border"><h5 id="module-success" style="font-weight:bold; color:#4daf4a"></h5></div>
+                <div class="col border"><h5 id="module-fail" style="font-weight:bold; color:#e41a1d"></h5></div>
+                <div class="col border"><h5 id="module-complete" style="font-weight:bold;"></h5></div>
+                <div class="col border"><h5 id="module-users" style="font-weight:bold;"></h5></div>
               </div>
-              <div style="padding: 30px" class="card-body">
-                <div class="row">
-                  <div class="col border"><h5 style="font-weight:bold; color:#4daf4a" id="total-success"></h5></div>
-                  <div class="col border"><h5 style="font-weight:bold; color:#e41a1d" id="total-fail"></h5></div>
-                  <div class="col border"><h5 style="font-weight:bold;" id="total-complete"></h5></div>
-                  <div class="col border"><h5 style="font-weight:bold;" id="total-users"></h5></div>
+              <div class="row">
+                <div class="col">
+                  <div id="barVizModules"></div>
                 </div>
-                <div id="barViz"></div>
               </div>
             </div>
           </div>
         </div>
-        <br>
-        <div class="card">
-          <div class="card-header">
-            <h4 style="font-weight:bold;">Scores Summary Statistics For Different Modules</h4>
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h4 style="font-weight:bold;">Total Counts</h4>
+            </div>
+            <div style="padding: 30px" class="card-body">
+              <div class="row">
+                <div class="col border"><h5 style="font-weight:bold; color:#4daf4a" id="total-success"></h5></div>
+                <div class="col border"><h5 style="font-weight:bold; color:#e41a1d" id="total-fail"></h5></div>
+                <div class="col border"><h5 style="font-weight:bold;" id="total-complete"></h5></div>
+                <div class="col border"><h5 style="font-weight:bold;" id="total-users"></h5></div>
+              </div>
+              <div id="barViz"></div>
+            </div>
           </div>
-          <div class="row">
-            <div class="col">
-              <div style="position:relative; padding: 30px">
-                <table id="statistics-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                  <thead>
+        </div>
+      </div>
+      <br>
+      <div class="card">
+        <div class="card-header">
+          <h4 style="font-weight:bold;">Scores Summary Statistics For Different Modules</h4>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div style="position:relative; padding: 30px">
+              <table id="statistics-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
                   <tr>
                     <th>module</th>
                     <th>mean</th>
@@ -78,84 +78,86 @@
                     <th>min</th>
                     <th>max</th>
                   </tr>
-                  </thead>
+                </thead>
                   <!--<tbody id="stat-rows">
                   </tbody>-->
                 </table>
                 <style>
-                  #statistics-table {
-                    border-collapse: collapse;
-                    position: relative;
-                    top: 50%;
-                    display: inline-block;
-                  }
+                #statistics-table {
+                  border-collapse: collapse;
+                  position: relative;
+                  top: 50%;
+                  display: inline-block;
+                }
 
-                  #statistics-table td, #statistics-table th {
-                    font-size: 20px;
-                  }
-                </style>
-              </div>
+                #statistics-table td, #statistics-table th {
+                  font-size: 20px;
+                }
+              </style>
             </div>
-            <div class="col">
-              <div style="padding: 30px">
-                <div id="bar_chartViz"></div>
+          </div>
+          <div class="col">
+            <div style="padding: 30px">
+              <div id="bar_chartViz"></div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-md-6">
+                <h4 style="font-weight:bold;">Questions Analysis</h4>
+              </div>
+              <div class="col-md-6">
+                <div class="btn-group">
+                  <button id="questions-module-button" type="button" class="btn btn-info dropdown-toggle"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Module 1
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item btn" onclick="updateQuestions(1)">Module 1</a>
+                  <a class="dropdown-item btn" onclick="updateQuestions(2)">Module 2</a>
+                  <a class="dropdown-item btn" onclick="updateQuestions(3)">Module 3</a>
+                  <!--<a class="dropdown-item btn" onclick="update('total')">Total</a>-->
+                </div>
               </div>
             </div>
           </div>
-          <br>
-          <div class="card">
-            <div class="card-header">
-              <div class="row">
-                <div class="col-md-6">
-                  <h4 style="font-weight:bold;">Questions Analysis</h4>
-                </div>
-                <div class="col-md-6">
-                  <div class="btn-group">
-                    <button id="questions-module-button" type="button" class="btn btn-info dropdown-toggle"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Module 1
-                    </button>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item btn" onclick="updateQuestions(1)">Module 1</a>
-                      <a class="dropdown-item btn" onclick="updateQuestions(2)">Module 2</a>
-                      <a class="dropdown-item btn" onclick="updateQuestions(3)">Module 3</a>
-                      <!--<a class="dropdown-item btn" onclick="update('total')">Total</a>-->
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div style="position:relative; padding: 30px">
-                      <table id="question-table" class="table table-striped table-bordered" cellspacing="0"
-                             width="100%">
-                        <thead>
-                        <tr>
-                          <th>question number</th>
-                          <th># of users who answered correctly</th>
-                        </tr>
-                        </thead>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div style="position:relative; padding: 30px">
+              <table id="question-table" class="table table-striped table-bordered" cellspacing="0"
+              width="100%">
+              <thead>
+                <tr>
+                  <th>question number</th>
+                  <th># of users who answered correctly</th>
+                </tr>
+              </thead>
                         <!--<tbody id="stat-rows">
                         </tbody>-->
                       </table>
                       <style>
-                        #question-table {
-                          border-collapse: collapse;
-                          position: relative;
-                          top: 50%;
-                          display: inline-block;
-                        }
+                      #question-table {
+                        border-collapse: collapse;
+                        position: relative;
+                        top: 50%;
+                        display: inline-block;
+                      }
 
-                        #question-table td, #question-table th {
-                          font-size: 18px;
-                        }
-                      </style>
-                    </div>
+                      #question-table td, #question-table th {
+                        font-size: 18px;
+                      }
+                    </style>
                   </div>
-                  <div class="col">
-                    <div style="position:relative; padding: 30px">
-<!--                      <div class="card-body">-->
-                        <div id="my_dataviz"></div>
-<!--                      </div>-->
+                </div>
+                <div class="col">
+                  <div style="position:relative; padding: 30px">
+                    <!--                      <div class="card-body">-->
+                      <div id="my_dataviz"></div>
+                      <!--                      </div>-->
                     </div>
                   </div>
                 </div>
@@ -165,24 +167,22 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.js"></script>
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
 
-<!-- Load jQuery DataTables -->
-<script src="public/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="public/js/datatables/jquery.dataTables.min.js"></script>
+    <!-- Load jQuery DataTables -->
+    <script src="public/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="public/js/datatables/jquery.dataTables.min.js"></script>
 
-<!-- Color scale -->
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script type="text/javascript" src="/public/scripts/analytics/bar.js"></script>
-<script type="text/javascript" src="/public/scripts/analytics/barChart.js"></script>
-<script type="text/javascript" src="/public/scripts/analytics/questions.js"></script>
-<style>
-  .border {
-    padding: 15px;
-    margin: 2px;
-    border: #211F22 medium solid;
-  }
-</style>
+    <!-- Color scale -->
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script type="text/javascript" src="/public/scripts/analytics/bar.js"></script>
+    <script type="text/javascript" src="/public/scripts/analytics/barChart.js"></script>
+    <script type="text/javascript" src="/public/scripts/analytics/questions.js"></script>
+    <style>
+    .border {
+      padding: 15px;
+      margin: 2px;
+      border: #211F22 medium solid;
+    }
+  </style>

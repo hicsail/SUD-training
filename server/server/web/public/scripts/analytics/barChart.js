@@ -156,7 +156,9 @@ function createTable(data) {
         { data: 'max' }
       ],
       lengthChange: false,
-      bPaginate: false
+      bPaginate: false,
+      searching: false,
+      info: false
     });
   });
 }

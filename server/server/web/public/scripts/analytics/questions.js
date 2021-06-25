@@ -156,7 +156,9 @@ function createQuestionTable(data) {
         lengthChange: false,
         paging: false,
         scrollY: '400px',
-        scrollCollapse: true
+        scrollCollapse: true,
+        searching: false,
+        info: false
       });
     });
   }
