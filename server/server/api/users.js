@@ -578,7 +578,6 @@ const register = function (server, options) {
     handler: async function (request, h) {
 
       const numUsers = await User.count({});
-      console.log("numUsers:" + numUsers);
       const counts = {};
 
       if (request.params.moduleId) {
