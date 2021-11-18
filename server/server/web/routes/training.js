@@ -1,6 +1,7 @@
 'use strict';
 const Config = require('../../../config');
 const Questions = require('../../questions');
+const Sources = require('../../training');
 
 const register = function (server, options) {
 
@@ -19,6 +20,7 @@ const register = function (server, options) {
         user: request.auth.credentials.user,
         trainingCompleted: request.auth.credentials.user.trainingCompleted,
         moduleTitles: {'1': Questions[0]['title'], '2': Questions[1]['title'], '3': Questions[2]['title']},
+        sources: Sources[parseInt(request.params.moduleId)-1]['sources'],
         moduleId: request.params.moduleId,
         projectName: Config.get('/projectName'),
         title: 'Training Module',
