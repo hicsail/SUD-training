@@ -1,5 +1,6 @@
 'use strict';
 const Config = require('../../../config');
+const Questions = require('../../questions');
 //const PermissionConfigTable = require('../../permission-config.json');
 //const DefaultScopes = require('../../helper/getRoleNames');
 
@@ -17,28 +18,18 @@ const register = function (server, options) {
     },
     handler: function (request, h) {
 
-      let certificateEligible = false;
       let user = null;
       let view = 'index/index';
 
       if (request.auth.isAuthenticated) {
         user = request.auth.credentials.user;
-        view = 'dashboard/index';
-        
-        //Determine if user has passed all 3 quizes successfully
-        certificateEligible = true;
-        for (const moduleId in user.quizCompleted) {
-          if (!user.quizCompleted[moduleId].moduleCompleted || user.quizCompleted[moduleId].score < 80) {
-            certificateEligible = false;
-            break;
-          }
-        }
+        view = 'dashboard/index';        
       }
 
       return h.view(view, {
-        user,
-        certificateEligible,
+        user,        
         projectName: Config.get('/projectName'),
+        moduleTitles: {'1': Questions[0]['title'], '2': Questions[1]['title'], '3': Questions[2]['title']},
         title: 'Home',
         baseUrl: Config.get('/baseUrl')
       });

@@ -11,7 +11,7 @@ const PasswordComplexity = require('joi-password-complexity');
 const main = async function () {
 
   const options = {
-    default: 'mongodb://localhost:27017/anchor'
+    default: 'mongodb://localhost:27017/samsha'
   };
   const mongodbUri = await Promptly.prompt(`MongoDB URI: (${options.default})`, options);
 
@@ -26,7 +26,7 @@ const main = async function () {
 
 
   console.log(mongodbUri);
-  const connection = { 'uri': mongodbUri, 'db': 'anchor' };
+  const connection = { 'uri': mongodbUri, 'db': 'samsha' };
   await AnchorModels.connect(connection, {});
   const rootUser = await User.findOne({ username: 'root' });
 

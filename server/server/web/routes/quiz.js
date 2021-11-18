@@ -24,8 +24,8 @@ const register = function (server, options) {
       let score = 0;
       let questionsAnswered = 0;
       let passed = false;
-      let submitBtnDisabled = true;
-      let certificateEligible = true;
+      let submitBtnDisabled = true;      
+         
       let templateData = [];//metadata containing info about questions to be passed to template
       const userId = request.auth.credentials.user._id.toString();
       const user = await User.findById(userId);
@@ -83,30 +83,22 @@ const register = function (server, options) {
         passed = true;
       }
 
-      const nextModuleId = getNextModuleId(user, parseInt(request.params.moduleId), numModules, maxIteration);
-
-      //Determine if user has passed all 3 quizes successfully
-      for (const moduleId in user.quizCompleted) {
-        if (!user.quizCompleted[moduleId].moduleCompleted || user.quizCompleted[moduleId].score < 80) {
-          certificateEligible = false;
-          break;
-        }
-      }
-
+      const nextModuleId = getNextModuleId(user, parseInt(request.params.moduleId), numModules, maxIteration);      
+      
       let precentage = ((score / numQuestions) * 100);
       precentage = Number.isInteger(precentage) ? precentage : precentage.toFixed(2);
-
+      
       return h.view('quiz/index', {
         questions: templateData,
         passed,
-        submitBtnDisabled,
-        certificateEligible,
+        submitBtnDisabled,        
         score,
         numQuestions,
         precentage,
         nextModuleId,
         moduleId: request.params.moduleId,
         quizCompleted: user.quizCompleted[request.params.moduleId].moduleCompleted,
+        moduleTitles: {'1': Questions[0]['title'], '2': Questions[1]['title'], '3': Questions[2]['title']},
         user: request.auth.credentials.user,
         projectName: Config.get('/projectName'),
         title: title,

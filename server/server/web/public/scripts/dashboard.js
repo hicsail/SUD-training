@@ -1,14 +1,14 @@
-function certificate(firstname, lastname, certificateEligible) {
+function certificateEligibility(firstname, lastname, quizCompleted, moduleTitles, moduleId) {
 	
-	if (certificateEligible) {
-		downloadCertificate(firstname, lastname);	
+	if (quizCompleted.moduleCompleted && quizCompleted.score >= 80) {
+		downloadCertificate(firstname, lastname, moduleTitles[moduleId]);	
 	}
 	else {
-		errorAlert('You are not eligible for receiving certificate yet! You need to pass quizes for all 3 modules!')
-	}
+		errorAlert('You are not eligible for receiving a certificate for this module yet! You need to get at least 80% of questions correct!')
+	} 
 }
 
-function downloadCertificate(firstname, lastname) {
+function downloadCertificate(firstname, lastname, moduleTitle) {
   
   let docDefinition = {
     content: [
@@ -20,7 +20,7 @@ function downloadCertificate(firstname, lastname) {
       { text: "This is to specify that\n\n", style: ["gray", "size", "center", "italics", "bold"] },    
       { text: Ucfirst(firstname) + " " + Ucfirst(lastname) + "\n\n", style: ["name", "center", "italics"] },       
       { text: "has successfully completed\n\n", style: ["gray", "size", "center", "italics", "bold"] },      
-      { text: "Enhanced Training for Clinical Mental Health Counselors in Substance Use Disorder Assessment and Treatment\n\n", style: ["title", "center", "italics"] },
+      { text: "Enhanced Training " + moduleTitle + "\n\n", style: ["title", "center", "italics"] },
       { text: new Date().toDateString(), style: ["center", "italics", "date", "gray"] }
 
     ],

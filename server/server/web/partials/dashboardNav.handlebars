@@ -96,9 +96,16 @@
             {{/if}}
           </a>
         </li>
-      </ul>
-      <a class="clicked nav-link fs-16 dashboard-nav-link-color pad-left0" style="margin-top: 30px" onclick="certificate('{{user.firstname}}', '{{user.lastname}}', {{certificateEligible}})">Certificate of Completion</a>
-      <a class="clicked nav-link fs-16 dashboard-nav-link-color pad-left0" style="margin-top: 10px">Terms of Service</a>
+      </ul>      
+      <ul class="nav nav-pills flex-column" style="padding-top: 20px">
+      <h5 class="text-muted fs-14">Download Certificate of Completion</h5>
+        {{#each user.quizCompleted}}
+          <li class="nav-item">            
+            <a class="nav-link fs-16 dashboard-nav-link-color" onclick="certificateEligibility('{{../user.firstname}}', '{{../user.lastname}}', {{json this}}, {{json ../moduleTitles}}, {{@key}})">Module {{@key}}</a>           
+          </li>
+        {{/each}}
+      </ul>      
+      <a class="clicked nav-link fs-16 dashboard-nav-link-color pad-left0" style="margin-top: 10px">Terms of Service</a>      
     </div>
   {{/if}}
 
@@ -153,6 +160,10 @@
     text-decoration: none !important;
   }
   .clicked:hover {
+    text-decoration: underline !important;
+    cursor: pointer;
+  }
+  a:hover {
     text-decoration: underline !important;
     cursor: pointer;
   }
