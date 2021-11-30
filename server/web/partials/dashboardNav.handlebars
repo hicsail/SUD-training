@@ -1,4 +1,4 @@
-<nav class="col-sm-3 col-md-2 d-none d-sm-block sidebar" style="background-color: #D3F0F5; padding-top: 40px">
+<nav class="col-sm-4 col-md-3 d-none d-sm-block sidebar" style="background-color: #D3F0F5; padding-top: 40px">
   <ul class="nav nav-pills flex-column">
     {{#if user.roles.root}}
     <h6 class="text-dark">Your Roles
@@ -48,11 +48,11 @@
       </li>
     </ul>
   {{else}}
-    <div class="sticky-header col-sm-3 col-md-2">
+    <div class="sticky-header col-sm-4 col-md-3">
       <ul class="nav nav-pills flex-column" style="padding-top: 20px;">
         <h5 class="text-muted fs-14">Training Module 1</h5>
         <li class="nav-item">
-          <a class="nav-link fs-16 dashboard-nav-link-color" href="../training-module/1">Screening, Brief Intervention...</a>
+          <a class="nav-link fs-16 dashboard-nav-link-color" href="../training-module/1">Screening, Brief Intervention and Refferal to ...</a>
           <a class="nav-link fs-16 dashboard-nav-link-color" href="../quiz/1">
             Module 1 Quiz
             {{#if user.quizCompleted.1.moduleCompleted}}
@@ -84,7 +84,7 @@
       <ul class="nav nav-pills flex-column" style="padding-top: 20px">
         <h5 class="text-muted fs-14">Training Module 3</h5>
         <li class="nav-item">
-          <a class="nav-link fs-16 dashboard-nav-link-color" href="../training-module/3">SUD Treatment Principles...</a>
+          <a class="nav-link fs-16 dashboard-nav-link-color" href="../training-module/3">SUD Treatment Principles and Application for ...</a>
           <a class="nav-link fs-16 dashboard-nav-link-color" href="../quiz/3">
             Module 3 Quiz
             {{#if user.quizCompleted.3.moduleCompleted}}
@@ -109,18 +109,10 @@
     </div>
   {{/if}}
 
-  <div id="logos" class="col-sm-3 col-md-2 sticky-footer">
-    <div class="row mr-0">
-      <div class="col">
-        <img src="../public/images/samsha-logo.png" class="responsive">
-      </div>
-      <div class="col">
-        <img src="../public/images/bu-logo.png" class="responsive">
-      </div>
-    </div>
-    <div class="row mr-0">
-      <div class="col">
-        <img src="../public/images/lab-logo.png" class="responsive">
+  <div id="logos" class="col-sm-4 col-md-3 sticky-footer mb-4" style="height:4%">    
+    <div class="row h-100">
+      <div class="col pr-0 pl-0">
+        <img src="../public/images/Plate_MED_SAIL.png" class="responsive">
       </div>
     </div>
   </div>
