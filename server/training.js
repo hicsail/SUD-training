@@ -7,7 +7,19 @@ const sources = [
     'sources': [
       {                
         '1.1': 'https://www.youtube.com/embed/s7WhsuU0Ht4'       
-      }      
+      },
+      {                
+        '1.2': 'https://www.youtube.com/embed/6YoEgIOIayo'       
+      },
+      {                
+        '1.3': 'https://www.youtube.com/embed/zDBgw628kvU'       
+      },
+      {                
+        '1.4': 'https://www.youtube.com/embed/1Wz3oKYWdDY'       
+      },
+      {                
+        '1.5': 'https://www.youtube.com/embed/3hvYXoXupGc'       
+      }       
     ]
   },
   {

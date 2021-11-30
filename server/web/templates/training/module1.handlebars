@@ -3,18 +3,19 @@
     {{>dashboardNav}}
     <div class="col-sm-9 col-md-10">
       <div style="padding: 30px">
-      <h3>Training Module 1: Screening, Brief Intervention, and Referral to Treatment Strategies</h3>        
+      <h2 style="text-align: center;" class="font-weight-bold">Training Module 1: Screening, Brief Intervention, and Referral to Treatment Strategies</h2>        
       <hr>
-      <h4>Intro blurb</h4>
-      <p>In the first module, you will learn how to comprehensively implement the SBIRT model. You will learn to identify substance use in outpatient settings, use universal screening strategies, provide brief intervention using motivational interviewing to enhance readiness for change, and refer a client to SUD treatment that addresses needs on the continuum of care.</p>
+      <!--<h4>Intro blurb</h4>-->
+      <h3>In the first module, you will learn how to comprehensively implement the SBIRT model. You will learn to identify substance use in outpatient settings, use universal screening strategies, provide brief intervention using motivational interviewing to enhance readiness for change, and refer a client to SUD treatment that addresses needs on the continuum of care.</h3>
 
-      <h4>User Guidance:</h4>
-      <p>Please note that you will need to keep track of your progress. We advise you to write down your training module progress (e.g., video 1.3, 10:00 minutes) before you exit this screen. The webpage will not keep track of your progress for you.</p>				
-
+      <!--<h4>User Guidance:</h4>-->
+      <br>
+      <h3>Please note that you will need to keep track of your progress. We advise you to write down your training module progress (e.g., video 1.3, 10:00 minutes) before you exit this screen. The webpage will not keep track of your progress for you.</h3>				
+      <br>
       {{#each sources}}
         {{#each this}}
-          <h4>Module {{@key}}</h4>
-          <p><iframe width="420" height="315" src="{{this}}" frameborder="0"></iframe></p>
+          <h4 class="font-weight-bold">Module {{@key}}</h4>
+          <p><iframe width="420" height="315" src="{{this}}" frameborder="0" allowfullscreen></iframe></p>
         {{/each}}
       {{/each}}	  
 
