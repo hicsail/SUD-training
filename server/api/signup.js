@@ -92,7 +92,7 @@ const register = function (server, options) {
       const credentials = session._id + ':' + session.key;
       const authHeader = 'Basic ' + new Buffer(credentials).toString('base64');
 
-      //request.cookieAuth.set(session);
+      request.cookieAuth.set(session);
       const result = {
         user: {
           _id: user._id,
