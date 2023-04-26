@@ -45,8 +45,47 @@
       lengthChange: false,
       dom: 'Bfrtip',
       buttons: [
-        'copy', 'csv', 'excel', 'pdf', 'print','colvis'
-      ],
+        {
+          extend: 'print',
+          exportOptions: {
+            columns: ':visible'
+          },
+          text: '<i class="fa fa-print"></i> Print',              
+          footer: true,
+          autoPrint: true,
+          orientation : 'landscape',
+          paperSize : 'A3',         
+        },
+        {
+          extend: 'copyHtml5',
+          exportOptions: {
+            columns: ':visible'
+          }
+        },
+        {
+          extend: 'excelHtml5',
+          exportOptions: {
+            columns: ':visible'
+          }
+        },
+        {
+          extend: 'pdfHtml5',
+          exportOptions: {
+            columns: ':visible'
+          },
+          orientation : 'landscape',
+          pageSize : 'A3',
+          text : '<i class="fa fa-file-pdf-o"> PDF</i>',
+          titleAttr : 'PDF'
+        },
+        {
+          extend: 'csvHtml5',
+          exportOptions: {
+            columns: ':visible'
+          }
+        },
+        'colvis'     
+      ],      
       ajax: {
         url: "/api/table/users",
         data: function (d) {
