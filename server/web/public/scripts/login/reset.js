@@ -13,7 +13,7 @@ $('#reset').click((event) => {
   $.each($('#form').serializeArray(), (i, field) => {
     values[field.name] = field.value;
   });
-  delete values.confirmPassword;
+  delete values.confirmpassword;  
   $.ajax({
     type: 'POST',
     url: '/api/login/reset',

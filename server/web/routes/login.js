@@ -68,7 +68,9 @@ const register  = function (server, options) {
       if (request.auth.isAuthenticated) {
         return h.redirect('/');
       }
-      return h.view('login/forgot');
+      return h.view('login/forgot', {
+        projectName: Config.get('/projectName')
+      });
 
     }
   });
@@ -87,7 +89,9 @@ const register  = function (server, options) {
       if (request.auth.isAuthenticated) {
         return h.redirect('/');
       }
-      return h.view('login/reset');
+      return h.view('login/reset', {
+        projectName: Config.get('/projectName')
+      });
 
     }
   });
