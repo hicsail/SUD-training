@@ -1,7 +1,9 @@
 function certificateEligibility(firstname, lastname, quizCompleted, moduleTitles, moduleId) {
 	
 	if (quizCompleted.moduleCompleted && quizCompleted.score >= 80) {
-		downloadCertificate(firstname, lastname, moduleTitles[moduleId]);	
+		//downloadCertificate(firstname, lastname, moduleTitles[moduleId]);	
+    const url = "https://cme.bu.edu/content/sud-module-" + moduleId;
+    window.open(url, "_blank");
 	}
 	else {
 		errorAlert('You are not eligible for receiving a certificate for this module yet! You need to get at least 80% of questions correct!')
