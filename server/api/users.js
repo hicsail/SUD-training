@@ -63,22 +63,6 @@ const register = function (server, options) {
       },
       pre: [
         {
-          assign: 'usernameCheck',
-          method: async function (request, h) {
-
-            const conditions = {
-              username: request.payload.username
-            };
-
-            const user = await User.findOne(conditions);
-
-            if (user) {
-              throw Boom.conflict('Username already in use.');
-            }
-
-            return h.continue;
-          }
-        }, {
           assign: 'emailCheck',
           method: async function (request, h) {
 
@@ -113,13 +97,12 @@ const register = function (server, options) {
     },
     handler: async function (request, h) {
 
-      const username = request.payload.username;
       const password = request.payload.password;
-      const email = request.payload.email;
-      const name = request.payload.name;
-
-      const user = await User.create(username, password, email, name);
-
+      const email = request.payload.emailaddress;
+      const firstname = request.payload.firstname;
+      const lastname = request.payload.lastname;
+      
+      const user = await User.create(firstname, lastname, email, password);
       return user;
     }
   });

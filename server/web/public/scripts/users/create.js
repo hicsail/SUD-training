@@ -1,11 +1,11 @@
 'use strict';
 
 const schema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().lowercase().required(),
-  username: Joi.string().token().lowercase().invalid('root').required(),
-  password: Joi.string().required().min(8).regex(/^[A-Z]+[a-z]+[0-9]+$/, '1 Uppercase, 1 lowercase, 1 number'),
-  confirmPassword: Joi.string().required().min(8).regex(/^[A-Z]+[a-z]+[0-9]+$/, '1 Uppercase, 1 lowercase, 1 number')
+  'First Name': Joi.string().required(),
+  'Last Name': Joi.string().required(),  
+  'Email Address': Joi.string().email().required(),
+  'Password': Joi.string().required().min(8).regex(/^[A-Z]+[a-z]+[0-9]+$/, '1 Uppercase, 1 lowercase, 1 number'),
+  'Confirm Password': Joi.string().required().min(8).regex(/^[A-Z]+[a-z]+[0-9]+$/, '1 Uppercase, 1 lowercase, 1 number')
 });
 joiToForm('formFields',schema);
 
@@ -15,8 +15,9 @@ $('#create').click((event) => {
   $.each($('#form').serializeArray(), (i, field) => {
     values[field.name] = field.value;
   });
-  if(values['password'] === values['confirmPassword']) {
-    delete values['confirmPassword'];
+  console.log(values['password'], values['confirmpassword'])
+  if(values['password'] === values['confirmpassword']) {
+    delete values['confirmpassword'];
     $.ajax({
       type: 'POST',
       url: '/api/users',

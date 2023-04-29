@@ -184,7 +184,7 @@ User.schema = Joi.object({
 
 User.payload = Joi.object({
   password: Joi.string().required(),
-  email: Joi.string().email().lowercase().required(),
+  emailaddress: Joi.string().email().lowercase().required(),
   firstname: Joi.string().required(),
   lastname: Joi.string().required()
 });
