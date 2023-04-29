@@ -11,18 +11,15 @@
     {{>dashboardNav}}
     <div class="col-sm-8 col-md-9">
       <div style="padding: 30px">
-        <p style="font-size:50px;font-weight:bold;">Hello {{user.firstname}} {{user.lastname}}, Welcome to SUD Training!</p>        
+        <p style="font-size:45px;font-weight:bold;" class="text-success">Hello {{user.firstname}} {{user.lastname}}, Welcome to SUD Training!</p>        
 
-        <p style="font-size:18px;font-weight:bold;">Welcome to the Enhanced Training for Clinical Mental Health Counselors in Substance Use Disorder Assessment and Treatment.</P>
-        </br>
+        <p style="font-size:18px;">Welcome to the Enhanced Training for Clinical Mental Health Counselors in Substance Use Disorder Assessment and Treatment.</P>        
 
-        <p style="font-size:18px;font-weight:bold;">Please complete the training modules below in sequence, starting with training module 1. At the conclusion of each training module, you must take a quiz and score 80% or greater to be eligible for a certificate for that module.</p>
-        </br>
+        <p style="font-size:18px;">Please complete the training modules below in sequence, starting with training module 1. At the conclusion of each training module, you must take a quiz and score 80% or greater to be eligible for a certificate for that module.</p>        
 
-        <p style="font-size:18px;font-weight:bold;">Please note that you will need to keep track of your progress. We advise you to write down your training module progress (e.g., video 2.3, 10:00 minutes) before you exit this screen. The webpage will not keep track of your progress for you.</p>
-        </br>
+        <p style="font-size:18px;">Please note that you will need to keep track of your progress. We advise you to write down your training module progress (e.g., video 2.3, 10:00 minutes) before you exit this screen. The webpage will not keep track of your progress for you.</p>        
 
-        <ul style="font-size:25px;font-weight:bold;">
+        <ul style="font-size:22px;font-weight:bold;">
         	<li>
         		<a class="dark-blue" href="../training-module/1">Module 1: Screening, Brief Intervention, and Referral to Treatment Strategies</a>
                 {{#if user.quizCompleted.1.moduleCompleted}}
@@ -55,15 +52,48 @@
         	</li>
         </ul>
         </br>
-        <p style="font-size:40px;font-weight:bold;">About</p>
-        </br>
-        <p style="font-size:18px;font-weight:bold;">
+        <p style="font-size:35px;font-weight:bold;" class="card-header">Accreditation Information</p>
+        <div class="p-4">       
+            <p style="font-size:18px;"><strong style="font-size:22px;">Target Audience:</strong> Social workers and other clinicians focusing on mental health</p>
+            <hr>
+            <p style="font-size:22px;font-weight:bold;">Disclosure Policy</p>        
+            <p style="font-size:18px;">Boston University Chobanian & Avedisian School of Medicine asks all individuals involved in the development and presentation of Accredited Continuing Education activities to disclose all financial relationships with ineligible companies. This information is disclosed to all activity participants prior to the start of the educational activity. Boston University Chobanian & Avedisian School of Medicine has procedures to mitigate all relevant financial relationships with ineligible companies. In addition, faculty members are asked to disclose when any unapproved use of pharmaceuticals and devices is being discussed.</p>
+            <p style="font-size:18px;">In accordance with the Standards for Integrity and Independence in Accredited Continuing Education, all relevant financial relationships with ineligible companies that faculty, planners, authors and anyone who may be in control of content have been mitigated.</p>
+            <hr>
+            <p style="font-size:22px;font-weight:bold;">Faculty/Planning Committee</p>
+
+            <p style="font-size:18px;"><strong>Stephen Brady, PhD | Course Director</strong><br>
+            Associate Professor of Psychiatry<br> Boston University Chobanian & Avedisian School of Medicine<br>Planner has no relevant financial relationships to disclose.</p>
+
+            <p style="font-size:18px;"><strong>Eric Devine, Ph.D.</strong><br>
+            director of the Clinical Studies Unit in the Department of Psychiatry at Boston Medical Center. Dr. Devine serves as Vice-Chair for the Boston Medical Center and Boston University Medical Campus Institutional Review Board, and he is the Director of the IRB Internship training program.Speaker has no relevant financial relationships to disclose. Speaker does not plan on discussing unlabeled/investigational uses of a commercial product</p>
+
+            <p style="font-size:18px;"><strong>Janice Furlong, MSW</strong><br>
+            Social Work Advisor<br>Clinical Associate Professor Emeritus, Boston University School of Social Work<br>Planner has no relevant financial relationships to disclose.</p>
+
+            <p style="font-size:18px;"><strong>Claire Grimble</strong><br>
+            Conference Operations Manager, Boston University Chobanian & Avedisian School of Medicine.
+            <br>Manager has no relevant financial relationships to disclose.</p>
+
+            <p tyle="font-size:18px;">Date of Release: May 1, 2023<br>Date of Expiration: April 30, 2024</p>
+            <hr>
+            <p style="font-size:22px;font-weight:bold;">Disclaimer</p>
+            <p style="font-size:18px;">THIS CONTINUING MEDICAL EDUCATION PROGRAM IS INTENDED SOLELY FOR EDUCATIONAL PURPOSES FOR QUALIFIED HEALTH CARE PROFESSIONALS. IN NO EVENT SHALL BOSTON UNIVERSITY BE LIABLE FOR ANY DECISION MADE OR ACTION TAKEN IN RELIANCE ON THE INFORMATION CONTAINED IN THE PROGRAM. IN NO EVENT SHOULD THE INFORMATION CONTAINED IN THE PROGRAM BE USED AS A SUBSTITUTE FOR PROFESSIONAL CARE. NO PHYSICIAN-PATIENT RELATIONSHIP IS BEING ESTABLISHED.</p>
+
+            <p style="font-size:18px;">Credit information for each Module can be found on the individual program pages.</p>
+        </div>
+        <br>
+
+        <p style="font-size:35px;font-weight:bold;" class="card-header">About</p>
+        <div class="p-4">        
+            <p style="font-size:18px;">
             This training was supported by a SAMSHA grant (Expansion of Practitioner Education; FG-20-001). It was developed by faculty in the Department of Psychiatry at the Boston University School of Medicine in consultation with the American Mental Health Counselors Association.
-        </p>
+            </p>
         
-        <p style="font-size:18px;font-weight:bold;">
-            This training series was developed by faculty in the Boston University School of Medicine’s Mental Health Counseling and Behavioral Medicine program (BU MHCBM) in consultation with leaders of the American Mental Health Counselors Association (AMHCA). In this series, you will learn about SUD screening, brief intervention, and referral to treatment, with a specific focus on alcohol, marijuana, stimulants, and opioids. You will learn core skills in clinical assessment of SUDs and treatment approaches that include motivational interviewing and cognitive behavior therapy. At the conclusion of the training, once you have passed the quizzes for each of the three modules, you will receive a certificate of completion.
-        </p>
+            <p style="font-size:18px;">
+                This training series was developed by faculty in the Boston University School of Medicine’s Mental Health Counseling and Behavioral Medicine program (BU MHCBM) in consultation with leaders of the American Mental Health Counselors Association (AMHCA). In this series, you will learn about SUD screening, brief intervention, and referral to treatment, with a specific focus on alcohol, marijuana, stimulants, and opioids. You will learn core skills in clinical assessment of SUDs and treatment approaches that include motivational interviewing and cognitive behavior therapy. At the conclusion of the training, once you have passed the quizzes for each of the three modules, you will receive a certificate of completion.
+            </p>
+        </div>
       </div>
     </div>
   </div>
