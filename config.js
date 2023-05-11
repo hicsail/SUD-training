@@ -84,10 +84,16 @@ const config = {
       pass: process.env.SMTP_PASSWORD
     }
   },
+  mailgunTransport: {
+    auth: {
+      apiKey: process.env.MAILGUN_APIKEY,
+      domain: process.env.MAILGUN_DOMAIN      
+    }  
+  },
   system: {
     fromAddress: {
       name: 'SUDTraining team',
-      address: 'asadeg02arezoo@gmail.com'
+      address: 'no-reply@sud-training.sail.codes'
     },
     toAddress: {
       name: 'Anchor',
