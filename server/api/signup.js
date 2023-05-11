@@ -72,7 +72,7 @@ const register = function (server, options) {
       };
 
       try {
-        await Mailer.sendEmail(emailOptions, 'welcome', request.payload);
+        await Mailer.sendEmail(emailOptions, 'welcome', {email: request.payload.emailaddress});
       }
       catch (err) {
         request.log(['mailer', 'error'], err);
