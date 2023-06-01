@@ -257,7 +257,7 @@ const questions = [
         'id': 39,
         'text': ' Two strategies for assertive refusal of social pressure that were discussed in this training were:',
         'choices': ['Escalating Response and Deescalating Responses', 'Escalating Response and Broken Record', 'Deescalating Response and Broken Record'],
-        'key': '2'
+        'key': '1'
       },
       {
         'id': 40,
